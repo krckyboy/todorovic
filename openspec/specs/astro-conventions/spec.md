@@ -57,43 +57,15 @@ const classes = [styles.container, isActive && styles.active].filter(Boolean).jo
 
 ## CSS Modules
 
-### File Structure
+See [styling spec](../styling/spec.md) for complete CSS conventions.
 
-```css
-/* ComponentName.module.css */
+### Quick Reference
 
-/* Base component styles */
-.container {
-  /* Use CSS custom properties */
-  padding: var(--spacing-md);
-  background: var(--color-background);
-}
-
-/* State variations */
-.active {
-  border-color: var(--color-primary);
-}
-
-/* Child elements */
-.title {
-  font-size: var(--font-size-lg);
-}
-
-/* Responsive (mobile-first) */
-@media (min-width: 768px) {
-  .container {
-    padding: var(--spacing-lg);
-  }
-}
-```
-
-### Guidelines
-
-1. **Use CSS custom properties** from `global.css`
-2. **Mobile-first** responsive design
-3. **No nesting** (flat selectors)
-4. **Descriptive class names** (`.container`, `.title`, `.active`)
-5. **No global styles** in modules
+- Use CSS custom properties from `global.css`
+- Nest pseudo-selectors (`:hover`, `:focus`, `&.active`)
+- Nest media queries inside classes
+- Mobile-first responsive design
+- Always include `:focus-visible` for accessibility
 
 ## Pages
 

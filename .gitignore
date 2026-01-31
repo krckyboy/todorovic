@@ -23,3 +23,6 @@ pnpm-debug.log*
 # IDE settings
 .idea/
 .vscode/
+
+# Claude Code runtime state (local only)
+.claude/state/

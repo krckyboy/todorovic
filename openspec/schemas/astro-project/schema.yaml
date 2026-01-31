@@ -2,45 +2,39 @@ name: astro-project
 version: 1
 description: Master schema for Astro project setup and migration
 
+specs:
+  - openspec/specs/astro-conventions/spec.md
+  - openspec/specs/styling/spec.md
+
 artifacts:
   - id: vision
     generates: vision.md
     description: Project vision and goals
     template: vision.md
-    instruction: |
-      Define the project's purpose, target audience, and success criteria.
 
   - id: architecture
     generates: architecture.md
     description: Technical architecture decisions
     template: architecture.md
     requires: [vision]
-    instruction: |
-      Define tech stack, folder structure, conventions.
-      Reference sub-schemas for specific workflows.
 
   - id: migration-plan
     generates: migration-plan.md
-    description: Step-by-step migration from old to new
+    description: Step-by-step migration tasks
     template: migration-plan.md
     requires: [architecture]
-    instruction: |
-      List all migration tasks with dependencies.
-      Each task references its sub-schema if applicable.
 
   - id: ai-workflow
     generates: ai-workflow.md
-    description: AI agent architecture and communication patterns
+    description: AI agent architecture (optional)
     template: ai-workflow.md
     requires: [architecture]
-    instruction: |
-      Define orchestrator, subagents, dependency graph, feedback loop.
 
   - id: verification
     generates: verification.md
     description: Final verification checklist
     template: verification.md
-    requires: [migration-plan, ai-workflow]
+    requires: [migration-plan]
 
 apply:
   requires: [migration-plan]

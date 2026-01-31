@@ -2,6 +2,10 @@ name: astro-component
 version: 1
 description: Workflow for creating Astro components
 
+specs:
+  - openspec/specs/astro-conventions/spec.md#components
+  - openspec/specs/styling/spec.md
+
 artifacts:
   - id: spec
     generates: spec.md

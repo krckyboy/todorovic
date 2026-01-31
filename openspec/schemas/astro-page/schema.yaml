@@ -2,6 +2,11 @@ name: astro-page
 version: 1
 description: Workflow for creating Astro pages
 
+specs:
+  - openspec/specs/astro-conventions/spec.md#pages
+  - openspec/specs/astro-conventions/spec.md#layouts
+  - openspec/specs/styling/spec.md
+
 artifacts:
   - id: spec
     generates: spec.md
