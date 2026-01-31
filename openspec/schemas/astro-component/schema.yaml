@@ -1,0 +1,28 @@
+name: astro-component
+version: 1
+description: Workflow for creating Astro components
+
+artifacts:
+  - id: spec
+    generates: spec.md
+    description: Component specification (props, behavior, accessibility)
+    template: spec.md
+
+  - id: implementation
+    generates: tasks.md
+    description: Implementation checklist
+    template: tasks.md
+    requires: [spec]
+    instruction: |
+      Files to create:
+      - src/components/<Name>.astro
+      - src/components/<Name>.module.css
+
+      Verification:
+      - Build passes
+      - Accessibility checked
+      - Visual review
+
+apply:
+  requires: [implementation]
+  tracks: tasks.md

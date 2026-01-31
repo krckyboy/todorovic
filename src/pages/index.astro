@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogPostItem from '../components/BlogPostItem.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const recentPosts = posts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const title = 'Dušan Todorović - Software Developer';
+const description = 'Personal portfolio and blog of Dušan Todorović. Software developer focused on web technologies.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="container">
+    <div class="hero">
+      <h1>Hi, I'm Dušan</h1>
+      <p class="intro">
+        Software developer passionate about building great web experiences.
+        I write about web development, programming, and technology.
+      </p>
+      <div class="cta">
+        <a href="/about" class="button primary">About Me</a>
+        <a href="/blog" class="button secondary">Read Blog</a>
+      </div>
+    </div>
+
+    {recentPosts.length > 0 && (
+      <section class="recent-posts">
+        <h2>Recent Posts</h2>
+        <div class="posts-list">
+          {recentPosts.map((post) => (
+            <BlogPostItem post={post} />
+          ))}
+        </div>
+        <a href="/blog" class="view-all">View all posts &rarr;</a>
+      </section>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: var(--spacing-3xl);
+    text-align: center;
+  }
+
+  h1 {
+    font-size: var(--font-size-4xl);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .intro {
+    max-width: 600px;
+    margin-inline: auto;
+    margin-bottom: var(--spacing-xl);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-lg);
+    line-height: 1.6;
+  }
+
+  .cta {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+  }
+
+  .button {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .button.primary {
+    background-color: var(--color-primary);
+    color: white;
+  }
+
+  .button.primary:hover {
+    background-color: var(--color-primary-hover);
+  }
+
+  .button.secondary {
+    background-color: var(--color-background-alt);
+    color: var(--color-text);
+  }
+
+  .button.secondary:hover {
+    background-color: var(--color-border);
+  }
+
+  .recent-posts {
+    padding-block: var(--spacing-2xl);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .recent-posts h2 {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .view-all {
+    display: inline-block;
+    margin-top: var(--spacing-lg);
+    color: var(--color-primary);
+  }
+
+  .view-all:hover {
+    color: var(--color-primary-hover);
+  }
+</style>

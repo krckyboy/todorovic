@@ -1,0 +1,36 @@
+---
+import styles from './BlogPostItem.module.css';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, tags } = post.data;
+
+const formattedDate = pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class={styles.article}>
+  <a href={`/blog/${post.slug}`} class={styles.link}>
+    <h2 class={styles.title}>{title}</h2>
+  </a>
+  <p class={styles.description}>{description}</p>
+  <div class={styles.meta}>
+    <time datetime={pubDate.toISOString()} class={styles.date}>
+      {formattedDate}
+    </time>
+    {tags.length > 0 && (
+      <ul class={styles.tags}>
+        {tags.map((tag) => (
+          <li class={styles.tag}>{tag}</li>
+        ))}
+      </ul>
+    )}
+  </div>
+</article>

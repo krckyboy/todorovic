@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'About - Dušan Todorović';
+const description = 'Learn more about Dušan Todorović, a software developer passionate about web technologies.';
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="container content">
+    <h1>About Me</h1>
+
+    <section class="bio">
+      <p>
+        I'm a software developer with a passion for building great web experiences.
+        I focus on creating clean, accessible, and performant applications.
+      </p>
+
+      <p>
+        My journey in software development started with a curiosity about how things work
+        on the web. That curiosity has evolved into a career where I get to solve
+        interesting problems every day.
+      </p>
+    </section>
+
+    <section class="what-i-do">
+      <h2>What I Do</h2>
+      <ul>
+        <li>Build web applications with modern frameworks</li>
+        <li>Create responsive and accessible user interfaces</li>
+        <li>Write clean, maintainable code</li>
+        <li>Collaborate with teams to deliver great products</li>
+      </ul>
+    </section>
+
+    <section class="contact">
+      <h2>Get in Touch</h2>
+      <p>
+        Interested in working together? Feel free to reach out through any of
+        the social links in the footer.
+      </p>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--spacing-xl);
+    padding-top: var(--spacing-2xl);
+  }
+
+  section {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  h2 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-md);
+  }
+
+  p {
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text-muted);
+    line-height: 1.7;
+  }
+
+  ul {
+    padding-left: var(--spacing-lg);
+    color: var(--color-text-muted);
+    line-height: 1.7;
+  }
+
+  li {
+    margin-bottom: var(--spacing-sm);
+  }
+</style>

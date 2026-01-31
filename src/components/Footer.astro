@@ -1,0 +1,17 @@
+---
+import styles from './Footer.module.css';
+import SocialIcons from './SocialIcons.astro';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class={styles.footer}>
+  <div class={styles.container}>
+    <div class={styles.content}>
+      <p class={styles.copyright}>
+        &copy; {currentYear} Dušan Todorović. All rights reserved.
+      </p>
+      <SocialIcons />
+    </div>
+  </div>
+</footer>

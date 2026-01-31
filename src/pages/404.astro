@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = '404 - Page Not Found';
+const description = 'The page you are looking for could not be found.';
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="container error-page">
+    <h1>404</h1>
+    <p>Page not found</p>
+    <p class="message">
+      The page you're looking for doesn't exist or has been moved.
+    </p>
+    <a href="/" class="button">Go Home</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .error-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 6rem;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  p {
+    font-size: var(--font-size-xl);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .message {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-base);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .button {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: var(--border-radius-md);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color var(--transition-fast);
+  }
+
+  .button:hover {
+    background-color: var(--color-primary-hover);
+    color: white;
+  }
+</style>

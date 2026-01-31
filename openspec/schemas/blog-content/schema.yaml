@@ -1,0 +1,25 @@
+name: blog-content
+version: 1
+description: Workflow for blog post creation
+
+artifacts:
+  - id: outline
+    generates: outline.md
+    description: Post outline and key points
+    template: outline.md
+
+  - id: draft
+    generates: draft.md
+    description: Blog post draft content
+    template: draft.md
+    requires: [outline]
+
+  - id: review
+    generates: review.md
+    description: Editorial review notes
+    template: review.md
+    requires: [draft]
+
+apply:
+  requires: [draft]
+  tracks: draft.md

@@ -1,0 +1,35 @@
+schema: spec-driven
+
+context: |
+  # Project: todorovic
+  Personal portfolio and blog for Dušan Todorović.
+
+  ## Tech Stack
+  - Framework: Astro 5.x (static site generation)
+  - Styling: CSS Modules + CSS Custom Properties
+  - Content: Astro Content Collections (Markdown)
+  - Search: Pagefind (client-side search)
+
+  ## Conventions
+  - Components: PascalCase, CSS Modules, TypeScript Props interface
+  - Pages: kebab-case, BaseLayout wrapper, unique title/description
+  - Blog: Markdown with frontmatter, draft flag for WIP
+  - Styling: CSS custom properties from global.css, mobile-first
+
+  ## Key Files
+  - Coding standards: openspec/specs/astro-conventions/spec.md
+  - Global styles: src/styles/global.css
+  - Content config: src/content/config.ts
+
+  ## Custom Schemas
+  - astro-component: For creating new Astro components
+  - astro-page: For creating new pages
+  - blog-content: For creating blog posts
+
+rules:
+  proposal:
+    - Keep proposals concise
+    - Reference astro-conventions spec for implementation details
+  tasks:
+    - Include build verification step
+    - Include accessibility check for UI changes

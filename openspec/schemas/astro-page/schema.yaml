@@ -1,0 +1,27 @@
+name: astro-page
+version: 1
+description: Workflow for creating Astro pages
+
+artifacts:
+  - id: spec
+    generates: spec.md
+    description: Page specification (route, data, SEO)
+    template: spec.md
+
+  - id: implementation
+    generates: tasks.md
+    description: Implementation checklist
+    template: tasks.md
+    requires: [spec]
+    instruction: |
+      Files to create:
+      - src/pages/<name>.astro
+
+      Verification:
+      - Build passes
+      - SEO meta tags present
+      - Mobile responsive
+
+apply:
+  requires: [implementation]
+  tracks: tasks.md

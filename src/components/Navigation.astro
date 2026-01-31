@@ -1,0 +1,35 @@
+---
+import styles from './Navigation.module.css';
+
+const currentPath = Astro.url.pathname;
+
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/skills', label: 'Skills' },
+  { href: '/blog', label: 'Blog' },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/') {
+    return currentPath === '/';
+  }
+  return currentPath.startsWith(href);
+}
+---
+
+<nav class={styles.nav} aria-label="Main navigation">
+  <ul class={styles.list}>
+    {links.map(({ href, label }) => (
+      <li class={styles.item}>
+        <a
+          href={href}
+          class:list={[styles.link, isActive(href) && styles.active]}
+          aria-current={isActive(href) ? 'page' : undefined}
+        >
+          {label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
