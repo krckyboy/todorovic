@@ -1,6 +1,22 @@
 ---
 import styles from './AuthorCard.module.css';
 
+interface Props {
+  name?: string;
+  title?: string;
+  bio?: string;
+  avatarSrc?: string;
+  avatarAlt?: string;
+}
+
+const {
+  name = 'Dusan Todorovic',
+  title = 'JavaScript Developer | Team Leader',
+  bio = 'Software developer passionate about web technologies, clean code, and building great user experiences.',
+  avatarSrc = '/images/dusan.png',
+  avatarAlt = 'Dusan Todorovic',
+} = Astro.props;
+
 const socialLinks = [
   {
     href: 'https://www.linkedin.com/in/dusan-todorovic-krcky/',
@@ -13,17 +29,19 @@ const socialLinks = [
 ];
 ---
 
-<section class={styles.container} aria-label="About the author">
+<section class={styles.card} aria-label="About the author">
   <img
-    src="/images/dusan.png"
-    alt="Dusan Todorovic"
+    src={avatarSrc}
+    alt={avatarAlt}
     class={styles.avatar}
     width="80"
     height="80"
+    loading="lazy"
   />
-  <div class={styles.textContainer}>
-    <a href="/" class={styles.name}>Dusan Todorovic</a>
-    <p class={styles.title}>JavaScript Developer | Team Leader</p>
+  <div class={styles.content}>
+    <a href="/" class={styles.name}>{name}</a>
+    <p class={styles.title}>{title}</p>
+    <p class={styles.bio}>{bio}</p>
     <ul class={styles.socialLinks}>
       {socialLinks.map(({ href, label }) => (
         <li>

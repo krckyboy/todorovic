@@ -3,17 +3,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SkillsSection from '../components/Skills.tsx';
 import ExperienceSection from '../components/Experience.tsx';
 
-const title = 'Skills & Experience - Dušan Todorović';
-const description = 'Technical skills, soft skills, and work experience of Dušan Todorović in web development and software engineering.';
+const title = 'Skills & Experience - Dusan Todorovic';
+const description = 'Technical skills, soft skills, and work experience of Dusan Todorovic in web development and software engineering.';
 ---
 
 <BaseLayout title={title} description={description}>
   <div class="container content">
-    <h1>Skills & Experience</h1>
-
-    <p class="intro">
-      Here are my skills and professional experience in software development.
-    </p>
+    <header class="page-header">
+      <h1>Skills & Experience</h1>
+      <p class="intro">
+        Here are my skills and professional experience in software development.
+      </p>
+    </header>
 
     <SkillsSection client:load />
 
@@ -22,14 +23,21 @@ const description = 'Technical skills, soft skills, and work experience of Duša
 </BaseLayout>
 
 <style>
-  h1 {
-    font-size: var(--font-size-3xl);
-    margin-bottom: var(--spacing-md);
+  .page-header {
     padding-top: var(--spacing-2xl);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  h1 {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-md);
   }
 
   .intro {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-relaxed);
     color: var(--color-text-muted);
-    margin-bottom: var(--spacing-2xl);
   }
 </style>

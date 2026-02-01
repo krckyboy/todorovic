@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BlogHeader from '../../components/BlogHeader.astro';
+import AuthorCard from '../../components/AuthorCard.astro';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 
@@ -21,13 +22,15 @@ const { title, description } = post.data;
 const { Content } = await post.render();
 ---
 
-<BaseLayout title={`${title} - Dušan Todorović`} description={description}>
+<BaseLayout title={`${title} - Dusan Todorovic`} description={description}>
   <article class="container content">
     <BlogHeader post={post} />
 
     <div class="post-content">
       <Content />
     </div>
+
+    <AuthorCard />
 
     <footer class="post-footer">
       <a href="/blog">&larr; Back to all posts</a>
@@ -37,17 +40,21 @@ const { Content } = await post.render();
 
 <style>
   .post-content {
-    line-height: 1.8;
+    line-height: var(--line-height-relaxed);
   }
 
   .post-content :global(h2) {
+    font-family: var(--font-family-heading);
     font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
     margin-top: var(--spacing-2xl);
     margin-bottom: var(--spacing-md);
   }
 
   .post-content :global(h3) {
+    font-family: var(--font-family-heading);
     font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
     margin-top: var(--spacing-xl);
     margin-bottom: var(--spacing-sm);
   }
@@ -57,9 +64,9 @@ const { Content } = await post.render();
   }
 
   .post-content :global(pre) {
-    padding: var(--spacing-md);
+    padding: var(--spacing-lg);
     background-color: var(--color-background-alt);
-    border-radius: var(--border-radius-md);
+    border-radius: var(--border-radius-lg);
     overflow-x: auto;
     margin-bottom: var(--spacing-md);
   }
@@ -80,8 +87,10 @@ const { Content } = await post.render();
   }
 
   .post-content :global(blockquote) {
-    padding-left: var(--spacing-md);
-    border-left: 3px solid var(--color-primary);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-left: 4px solid var(--color-primary);
+    background-color: var(--color-background-alt);
+    border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
     color: var(--color-text-muted);
     font-style: italic;
     margin-bottom: var(--spacing-md);
@@ -94,10 +103,27 @@ const { Content } = await post.render();
   }
 
   .post-footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-weight: var(--font-weight-medium);
     color: var(--color-primary);
+    transition: color var(--transition-fast);
+
+    &:hover {
+      color: var(--color-primary-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+      border-radius: var(--border-radius-sm);
+    }
   }
 
-  .post-footer a:hover {
-    color: var(--color-primary-hover);
+  @media (prefers-reduced-motion: reduce) {
+    .post-footer a {
+      transition: none;
+    }
   }
 </style>

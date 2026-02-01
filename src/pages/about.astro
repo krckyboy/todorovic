@@ -2,13 +2,15 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ImageSection from '../components/ImageSection.astro';
 
-const title = 'About - Dušan Todorović';
-const description = 'Learn more about Dušan Todorović, a software developer passionate about web technologies.';
+const title = 'About - Dusan Todorovic';
+const description = 'Learn more about Dusan Todorovic, a software developer passionate about web technologies.';
 ---
 
 <BaseLayout title={title} description={description}>
   <article class="container content">
-    <h1>About Me</h1>
+    <header class="page-header">
+      <h1>About Me</h1>
+    </header>
 
     <section class="bio">
       <p>
@@ -46,10 +48,15 @@ const description = 'Learn more about Dušan Todorović, a software developer pa
 </BaseLayout>
 
 <style>
-  h1 {
-    font-size: var(--font-size-3xl);
-    margin-bottom: var(--spacing-xl);
+  .page-header {
     padding-top: var(--spacing-2xl);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  h1 {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
   }
 
   section {
@@ -57,20 +64,23 @@ const description = 'Learn more about Dušan Todorović, a software developer pa
   }
 
   h2 {
+    font-family: var(--font-family-heading);
     font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
     margin-bottom: var(--spacing-md);
   }
 
   p {
     margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-base);
     color: var(--color-text-muted);
-    line-height: 1.7;
+    line-height: var(--line-height-relaxed);
   }
 
   ul {
     padding-left: var(--spacing-lg);
     color: var(--color-text-muted);
-    line-height: 1.7;
+    line-height: var(--line-height-relaxed);
   }
 
   li {
