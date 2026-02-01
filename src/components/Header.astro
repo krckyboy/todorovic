@@ -1,17 +1,15 @@
 ---
-import styles from './Header.module.css';
-import Navigation from './Navigation.astro';
-import SearchBar from '../modules/search/SearchBar.astro';
+import styles from "./Header.module.css";
+import Navigation from "./Navigation.astro";
+import SearchBar from "../modules/search/SearchBar";
 ---
 
 <header class={styles.header}>
   <div class={styles.container}>
-    <a href="/" class={styles.logo}>
-      Dušan Todorović
-    </a>
+    <a href="/" class={styles.logo}> Dušan Todorović </a>
     <div class={styles.actions}>
       <Navigation />
-      <SearchBar />
+      <SearchBar client:load />
     </div>
   </div>
 </header>

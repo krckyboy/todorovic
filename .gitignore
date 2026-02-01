@@ -29,3 +29,4 @@ pnpm-debug.log*
 
 # Git worktrees for parallel development
 work-trees/
+work-trees/
