@@ -1,32 +1,34 @@
 /* Global CSS Custom Properties */
 :root {
   /* Colors */
-  --color-text: #1a1a2e;
-  --color-text-muted: #4a4a68;
-  --color-background: #ffffff;
-  --color-background-alt: #f8f9fa;
-  --color-primary: #3b82f6;
-  --color-primary-light: #60a5fa;
-  --color-primary-dark: #1d4ed8;
-  --color-primary-hover: #2563eb;
-  --color-accent: #8b5cf6;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+  --color-background: #f8fafc;
+  --color-background-alt: #f1f5f9;
+  --color-primary: #ea580c;
+  --color-primary-light: #f97316;
+  --color-primary-dark: #c2410c;
+  --color-primary-hover: #c2410c;
+  --color-accent: #ea580c;
   --color-border: #e2e8f0;
 
   /* Semantic Colors */
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  --color-info: #3b82f6;
+  --color-success: #059669;
+  --color-warning: #d97706;
+  --color-error: #dc2626;
+  --color-info: #0284c7;
 
   /* Gradients */
-  --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
-  --gradient-subtle: linear-gradient(180deg, var(--color-background) 0%, var(--color-background-alt) 100%);
+  --gradient-primary: none;
+  --gradient-subtle: none;
 
   /* Typography - Font Families */
-  --font-family-base: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-family-heading: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-base:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-heading:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-sans: var(--font-family-base);
-  --font-mono: 'SF Mono', SFMono-Regular, ui-monospace, monospace;
+  --font-mono: "SF Mono", SFMono-Regular, ui-monospace, monospace;
 
   /* Typography - Fluid Font Sizes using clamp() */
   --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.8125rem);
@@ -74,7 +76,8 @@
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 
   /* Transitions */
   --transition-fast: 150ms ease;
@@ -96,6 +99,28 @@
   --z-tooltip: 400;
 }
 
+/* Dark Theme */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-background: #121212;
+  --color-background-alt: #1e1e1e;
+  --color-text: #f5f5f5;
+  --color-text-muted: #9ca3af;
+  --color-primary: #f97316;
+  --color-primary-light: #fb923c;
+  --color-primary-dark: #ea580c;
+  --color-primary-hover: #fb923c;
+  --color-accent: #f97316;
+  --color-border: #2a2a2a;
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
+  --color-info: #60a5fa;
+  --gradient-primary: none;
+  --gradient-subtle: none;
+}
+
 /* Reset */
 *,
 *::before,
@@ -113,6 +138,9 @@ html {
   background-color: var(--color-background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition:
+    color var(--transition-normal),
+    background-color var(--transition-normal);
 }
 
 body {

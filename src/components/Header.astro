@@ -2,6 +2,7 @@
 import styles from "./Header.module.css";
 import Navigation from "./Navigation.astro";
 import SearchBar from "../modules/search/SearchBar";
+import { ThemeToggle } from "../modules/theme";
 ---
 
 <header class={styles.header}>
@@ -10,6 +11,7 @@ import SearchBar from "../modules/search/SearchBar";
     <div class={styles.actions}>
       <Navigation />
       <SearchBar client:load />
+      <ThemeToggle client:load />
     </div>
   </div>
 </header>
