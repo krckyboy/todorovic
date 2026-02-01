@@ -9,7 +9,7 @@ interface Props {
   image?: string;
 }
 
-const { title, description = 'Personal portfolio and blog of Dušan Todorović', image } = Astro.props;
+const { title, description = 'Personal portfolio and blog of Dusan Todorovic', image } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = image ? new URL(image, Astro.site) : null;
@@ -46,11 +46,11 @@ const socialImageURL = image ? new URL(image, Astro.site) : null;
   <slot name="head" />
 </head>
 <body>
-  <a href="#main-content" class="visually-hidden">Skip to main content</a>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <Header />
 
-  <main id="main-content">
+  <main id="main-content" role="main">
     <slot />
   </main>
 
@@ -67,5 +67,30 @@ const socialImageURL = image ? new URL(image, Astro.site) : null;
 
   main {
     flex: 1;
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: var(--spacing-md);
+    z-index: 9999;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: white;
+    background-color: var(--color-primary);
+    border-radius: var(--border-radius-md);
+    text-decoration: none;
+    transition: top var(--transition-fast);
+
+    &:focus {
+      top: var(--spacing-md);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skip-link {
+      transition: none;
+    }
   }
 </style>
