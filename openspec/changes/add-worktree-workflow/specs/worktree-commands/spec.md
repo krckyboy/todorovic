@@ -28,7 +28,7 @@ The system SHALL provide `/worktree create <change>` to create a worktree for a 
 
 #### Scenario: Create new worktree
 - **WHEN** user runs `/worktree create add-button` and worktree doesn't exist
-- **THEN** system runs `git worktree add ../<repo>-add-button -b add-button`
+- **THEN** system runs `git worktree add work-trees/add-button -b add-button`
 - **AND** registers worktree in state with status="active"
 
 #### Scenario: Worktree already exists
@@ -105,7 +105,7 @@ The system SHALL provide `/worktree cleanup <change>` to remove worktree.
 
 #### Scenario: Clean cleanup
 - **WHEN** user runs `/worktree cleanup add-button` with merged MR
-- **THEN** system runs `git worktree remove ../<repo>-add-button`
+- **THEN** system runs `git worktree remove work-trees/add-button`
 - **AND** runs `git branch -d add-button`
 - **AND** removes from state
 
@@ -151,7 +151,7 @@ The system SHALL use consistent naming for worktrees.
 
 #### Scenario: Worktree path
 - **WHEN** creating worktree for change "add-button"
-- **THEN** path is `../<repo-name>-add-button`
+- **THEN** path is `work-trees/add-button`
 
 #### Scenario: Branch name
 - **WHEN** creating worktree for change "add-button"

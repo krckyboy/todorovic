@@ -5,7 +5,7 @@ license: MIT
 compatibility: Requires openspec CLI.
 metadata:
   author: openspec
-  version: "1.0"
+  version: "2.0"
   generatedBy: "1.1.1"
 ---
 
@@ -30,139 +30,176 @@ Verify that an implementation matches the change artifacts (specs, tasks, design
    openspec status --change "<name>" --json
    ```
    Parse the JSON to understand:
-   - `schemaName`: The workflow being used (e.g., "spec-driven")
+   - `schemaName`: The workflow being used (e.g., "astro-component")
    - Which artifacts exist for this change
 
-3. **Get the change directory and load artifacts**
+3. **Load schema and extract referenced specs**
 
-   ```bash
-   openspec instructions apply --change "<name>" --json
+   Read the schema file at `openspec/schemas/<schemaName>/schema.yaml`.
+   Extract the `specs` array - these are the project specs that apply to this change.
+
+   Example schema.yaml:
+   ```yaml
+   specs:
+     - openspec/specs/astro-conventions/spec.md#components
+     - openspec/specs/styling/spec.md
    ```
 
-   This returns the change directory and context files. Read all available artifacts from `contextFiles`.
+4. **Identify implemented files**
 
-4. **Initialize verification report structure**
+   Read the change's tasks.md to identify what files were created/modified.
+   Also check the change directory for any delta specs.
 
-   Create a report structure with three dimensions:
-   - **Completeness**: Track tasks and spec coverage
-   - **Correctness**: Track requirement implementation and scenario coverage
-   - **Coherence**: Track design adherence and pattern consistency
+   Build a list of:
+   - Implemented source files (e.g., `src/components/Skills.tsx`)
+   - Delta specs (if any) in `openspec/changes/<name>/specs/`
 
-   Each dimension can have CRITICAL, WARNING, or SUGGESTION issues.
+5. **Spawn parallel verification agents (one per spec)**
 
-5. **Verify Completeness**
+   For EACH spec referenced in the schema, spawn a Task agent with:
 
-   **Task Completion**:
-   - If tasks.md exists in contextFiles, read it
+   ```
+   Agent prompt:
+   "You are a spec compliance verifier. Your task is to check if the implemented code follows the spec.
+
+   SPEC TO VERIFY AGAINST:
+   <read and include the full spec content>
+
+   FILES TO CHECK:
+   <list of implemented files with their content>
+
+   INSTRUCTIONS:
+   1. Read through the spec carefully
+   2. For each rule/requirement in the spec:
+      - Check if the implemented files follow it
+      - Note any violations with specific file:line references
+   3. Return a structured report:
+
+   ## Spec: <spec name>
+
+   ### Violations Found
+   - [CRITICAL] <description> - `file.tsx:123`
+   - [WARNING] <description> - `file.css:45`
+
+   ### Compliant
+   - <rule that was followed correctly>
+
+   ### N/A
+   - <rules that don't apply to these files>
+
+   Be thorough but fair. Only flag actual violations, not stylistic preferences."
+   ```
+
+   **IMPORTANT**: Launch ALL spec agents in parallel using multiple Task tool calls in a single message.
+
+6. **Verify task completion (main agent)**
+
+   While agents run, verify task completion:
+   - Read tasks.md
    - Parse checkboxes: `- [ ]` (incomplete) vs `- [x]` (complete)
    - Count complete vs total tasks
-   - If incomplete tasks exist:
-     - Add CRITICAL issue for each incomplete task
-     - Recommendation: "Complete task: <description>" or "Mark as done if already implemented"
 
-   **Spec Coverage**:
-   - If delta specs exist in `openspec/changes/<name>/specs/`:
-     - Extract all requirements (marked with "### Requirement:")
-     - For each requirement:
-       - Search codebase for keywords related to the requirement
-       - Assess if implementation likely exists
-     - If requirements appear unimplemented:
-       - Add CRITICAL issue: "Requirement not found: <requirement name>"
-       - Recommendation: "Implement requirement X: <description>"
+7. **Collect agent results**
 
-6. **Verify Correctness**
+   Wait for all spec verification agents to complete.
+   Aggregate their findings into a unified report.
 
-   **Requirement Implementation Mapping**:
-   - For each requirement from delta specs:
-     - Search codebase for implementation evidence
-     - If found, note file paths and line ranges
-     - Assess if implementation matches requirement intent
-     - If divergence detected:
-       - Add WARNING: "Implementation may diverge from spec: <details>"
-       - Recommendation: "Review <file>:<lines> against requirement X"
-
-   **Scenario Coverage**:
-   - For each scenario in delta specs (marked with "#### Scenario:"):
-     - Check if conditions are handled in code
-     - Check if tests exist covering the scenario
-     - If scenario appears uncovered:
-       - Add WARNING: "Scenario not covered: <scenario name>"
-       - Recommendation: "Add test or implementation for scenario: <description>"
-
-7. **Verify Coherence**
-
-   **Design Adherence**:
-   - If design.md exists in contextFiles:
-     - Extract key decisions (look for sections like "Decision:", "Approach:", "Architecture:")
-     - Verify implementation follows those decisions
-     - If contradiction detected:
-       - Add WARNING: "Design decision not followed: <decision>"
-       - Recommendation: "Update implementation or revise design.md to match reality"
-   - If no design.md: Skip design adherence check, note "No design.md to verify against"
-
-   **Code Pattern Consistency**:
-   - Review new code for consistency with project patterns
-   - Check file naming, directory structure, coding style
-   - If significant deviations found:
-     - Add SUGGESTION: "Code pattern deviation: <details>"
-     - Recommendation: "Consider following project pattern: <example>"
-
-8. **Generate Verification Report**
+8. **Generate Unified Verification Report**
 
    **Summary Scorecard**:
    ```
    ## Verification Report: <change-name>
 
    ### Summary
-   | Dimension    | Status           |
-   |--------------|------------------|
-   | Completeness | X/Y tasks, N reqs|
-   | Correctness  | M/N reqs covered |
-   | Coherence    | Followed/Issues  |
+   | Dimension        | Status              |
+   |------------------|---------------------|
+   | Tasks            | X/Y complete        |
+   | Spec Compliance  | N specs checked     |
+   | Critical Issues  | M violations        |
+   | Warnings         | P issues            |
    ```
 
-   **Issues by Priority**:
+   **Issues by Spec**:
+
+   For each spec that had violations:
+   ```
+   ### <spec-name>
+
+   **CRITICAL**:
+   - <violation> - `file:line`
+
+   **WARNING**:
+   - <issue> - `file:line`
+   ```
+
+   **Aggregated Issues by Priority**:
 
    1. **CRITICAL** (Must fix before archive):
+      - All critical violations from all specs
       - Incomplete tasks
-      - Missing requirement implementations
-      - Each with specific, actionable recommendation
+      - Each with file:line reference
 
    2. **WARNING** (Should fix):
-      - Spec/design divergences
-      - Missing scenario coverage
-      - Each with specific recommendation
+      - All warnings from all specs
+      - Each with file:line reference
 
    3. **SUGGESTION** (Nice to fix):
-      - Pattern inconsistencies
-      - Minor improvements
-      - Each with specific recommendation
+      - Pattern improvements
+      - Minor issues
 
    **Final Assessment**:
    - If CRITICAL issues: "X critical issue(s) found. Fix before archiving."
-   - If only warnings: "No critical issues. Y warning(s) to consider. Ready for archive (with noted improvements)."
+   - If only warnings: "No critical issues. Y warning(s) to consider. Ready for archive."
    - If all clear: "All checks passed. Ready for archive."
 
-**Verification Heuristics**
+**Parallel Agent Guidelines**
 
-- **Completeness**: Focus on objective checklist items (checkboxes, requirements list)
-- **Correctness**: Use keyword search, file path analysis, reasonable inference - don't require perfect certainty
-- **Coherence**: Look for glaring inconsistencies, don't nitpick style
-- **False Positives**: When uncertain, prefer SUGGESTION over WARNING, WARNING over CRITICAL
-- **Actionability**: Every issue must have a specific recommendation with file/line references where applicable
+- Spawn 1 agent per spec file/section
+- If spec has sections (e.g., `spec.md#components`), only verify that section
+- Each agent should read the actual implemented files, not just search
+- Agents should report specific line numbers where violations occur
+- Use `subagent_type: "general-purpose"` for spec verification agents
 
-**Graceful Degradation**
+**Example Agent Invocations**
 
-- If only tasks.md exists: verify task completion only, skip spec/design checks
-- If tasks + specs exist: verify completeness and correctness, skip design
-- If full artifacts: verify all three dimensions
-- Always note which checks were skipped and why
+For a change using `astro-component` schema with specs:
+- `openspec/specs/astro-conventions/spec.md#components`
+- `openspec/specs/styling/spec.md`
+
+Spawn 2 parallel agents:
+
+```
+Task 1: "Verify against astro-conventions#components"
+- Read spec section on components
+- Check all .astro files created
+- Report violations
+
+Task 2: "Verify against styling spec"
+- Read full styling spec
+- Check all .css/.module.css files created
+- Report violations (e.g., missing nesting for pseudo-selectors)
+```
+
+**Specific Checks per Common Spec**
+
+**styling/spec.md**:
+- CSS custom properties used (not hardcoded values)
+- Pseudo-selectors nested (`&:hover` inside class, not `.class:hover`)
+- Media queries nested inside classes
+- Property order follows convention
+- Focus states present on interactive elements
+
+**astro-conventions/spec.md#components**:
+- Props interface defined
+- CSS Module imported correctly
+- Semantic HTML used
+- Accessibility attributes present
 
 **Output Format**
 
 Use clear markdown with:
 - Table for summary scorecard
-- Grouped lists for issues (CRITICAL/WARNING/SUGGESTION)
+- Grouped sections per spec
 - Code references in format: `file.ts:123`
 - Specific, actionable recommendations
-- No vague suggestions like "consider reviewing"
+- Severity indicators: [CRITICAL], [WARNING], [SUGGESTION]

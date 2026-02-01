@@ -1,45 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SkillsSection from '../components/Skills.tsx';
+import ExperienceSection from '../components/Experience.tsx';
 
-const title = 'Skills - Dušan Todorović';
-const description = 'Technical skills and expertise of Dušan Todorović in web development and software engineering.';
-
-const skillCategories = [
-  {
-    name: 'Frontend',
-    skills: ['TypeScript', 'React', 'Astro', 'HTML/CSS', 'Tailwind CSS'],
-  },
-  {
-    name: 'Backend',
-    skills: ['Node.js', 'Python', 'REST APIs', 'GraphQL', 'PostgreSQL'],
-  },
-  {
-    name: 'Tools & Practices',
-    skills: ['Git', 'CI/CD', 'Testing', 'Agile', 'Code Review'],
-  },
-];
+const title = 'Skills & Experience - Dušan Todorović';
+const description = 'Technical skills, soft skills, and work experience of Dušan Todorović in web development and software engineering.';
 ---
 
 <BaseLayout title={title} description={description}>
   <div class="container content">
-    <h1>Skills</h1>
+    <h1>Skills & Experience</h1>
 
     <p class="intro">
-      Here are the technologies and tools I work with regularly.
+      Here are my skills and professional experience in software development.
     </p>
 
-    <div class="skill-grid">
-      {skillCategories.map(({ name, skills }) => (
-        <section class="skill-category">
-          <h2>{name}</h2>
-          <ul>
-            {skills.map((skill) => (
-              <li>{skill}</li>
-            ))}
-          </ul>
-        </section>
-      ))}
-    </div>
+    <SkillsSection client:load />
+
+    <ExperienceSection client:load />
   </div>
 </BaseLayout>
 
@@ -53,37 +31,5 @@ const skillCategories = [
   .intro {
     color: var(--color-text-muted);
     margin-bottom: var(--spacing-2xl);
-  }
-
-  .skill-grid {
-    display: grid;
-    gap: var(--spacing-xl);
-  }
-
-  @media (min-width: 768px) {
-    .skill-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .skill-category {
-    padding: var(--spacing-lg);
-    background-color: var(--color-background-alt);
-    border-radius: var(--border-radius-lg);
-  }
-
-  h2 {
-    font-size: var(--font-size-lg);
-    margin-bottom: var(--spacing-md);
-    color: var(--color-primary);
-  }
-
-  ul {
-    list-style: none;
-  }
-
-  li {
-    padding-block: var(--spacing-xs);
-    color: var(--color-text-muted);
   }
 </style>

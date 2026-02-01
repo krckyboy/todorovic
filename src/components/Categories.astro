@@ -1,0 +1,54 @@
+---
+import styles from './Categories.module.css';
+
+interface Props {
+  categories: string[];
+  activeCategory?: string;
+}
+
+const { categories, activeCategory } = Astro.props;
+
+// Don't render if no categories
+if (categories.length === 0) {
+  return;
+}
+---
+
+<nav class={styles.categories} aria-label="Blog categories">
+  <ul class={styles.list}>
+    {categories.map((category) => {
+      const isActive = category === activeCategory;
+      const href = isActive ? '/blog' : `/blog?category=${encodeURIComponent(category)}`;
+
+      return (
+        <li class={styles.item}>
+          <a
+            href={href}
+            class:list={[styles.link, isActive && styles.active]}
+            aria-current={isActive ? 'page' : undefined}
+          >
+            <span class={styles.label}>#{category}</span>
+            {isActive && (
+              <svg
+                class={styles.icon}
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            )}
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+</nav>

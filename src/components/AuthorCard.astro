@@ -1,0 +1,42 @@
+---
+import styles from './AuthorCard.module.css';
+
+const socialLinks = [
+  {
+    href: 'https://www.linkedin.com/in/dusan-todorovic-krcky/',
+    label: 'LinkedIn',
+  },
+  {
+    href: 'mailto:dusan.todorovic.dev@gmail.com',
+    label: 'Email',
+  },
+];
+---
+
+<section class={styles.container} aria-label="About the author">
+  <img
+    src="/images/dusan.png"
+    alt="Dusan Todorovic"
+    class={styles.avatar}
+    width="80"
+    height="80"
+  />
+  <div class={styles.textContainer}>
+    <a href="/" class={styles.name}>Dusan Todorovic</a>
+    <p class={styles.title}>JavaScript Developer | Team Leader</p>
+    <ul class={styles.socialLinks}>
+      {socialLinks.map(({ href, label }) => (
+        <li>
+          <a
+            href={href}
+            class={styles.socialLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

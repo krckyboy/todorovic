@@ -26,3 +26,6 @@ pnpm-debug.log*
 
 # Claude Code runtime state (local only)
 .claude/state/
+
+# Git worktrees for parallel development
+work-trees/
