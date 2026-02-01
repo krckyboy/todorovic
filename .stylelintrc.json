@@ -1,0 +1,24 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "plugins": ["stylelint-use-nesting"],
+  "rules": {
+    "csstools/use-nesting": "always",
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global"]
+      }
+    ],
+    "selector-class-pattern": null,
+    "custom-property-pattern": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "rule-empty-line-before": null,
+    "at-rule-empty-line-before": null,
+    "no-descending-specificity": null,
+    "media-feature-range-notation": null,
+    "color-hex-length": null,
+    "value-keyword-case": null,
+    "alpha-value-notation": null,
+    "property-no-deprecated": null
+  }
+}

@@ -1,0 +1,66 @@
+---
+import styles from './BlogHeader.module.css';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  readingTime?: string;
+}
+
+const { post, readingTime = '5 min read' } = Astro.props;
+const { title, pubDate, updatedDate, author, tags } = post.data;
+
+// Format dates
+const formattedPubDate = pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const formattedUpdateDate = updatedDate?.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<header class={styles.header}>
+  <nav class={styles.breadcrumb} aria-label="Breadcrumb">
+    <ol class={styles.breadcrumbList}>
+      <li class={styles.breadcrumbItem}>
+        <a href="/">Home</a>
+      </li>
+      <li class={styles.breadcrumbSeparator} aria-hidden="true">/</li>
+      <li class={styles.breadcrumbItem}>
+        <a href="/blog">Blog</a>
+      </li>
+      <li class={styles.breadcrumbSeparator} aria-hidden="true">/</li>
+      <li class={styles.breadcrumbItem} aria-current="page">
+        <span class={styles.breadcrumbCurrent}>{title}</span>
+      </li>
+    </ol>
+  </nav>
+
+  <h1 class={styles.title}>{title}</h1>
+
+  <div class={styles.meta}>
+    <span class={styles.author}>By {author}</span>
+    <time datetime={pubDate.toISOString()} class={styles.date}>
+      {formattedPubDate}
+    </time>
+    {updatedDate && (
+      <span class={styles.updated}>
+        (Updated: <time datetime={updatedDate.toISOString()}>{formattedUpdateDate}</time>)
+      </span>
+    )}
+    <span class={styles.readingTime}>{readingTime}</span>
+  </div>
+
+  {tags.length > 0 && (
+    <ul class={styles.tags}>
+      {tags.map((tag) => (
+        <li class={styles.tag}>{tag}</li>
+      ))}
+    </ul>
+  )}
+</header>

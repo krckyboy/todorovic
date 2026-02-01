@@ -7,6 +7,10 @@
   display: flex;
   gap: var(--spacing-sm);
   list-style: none;
+
+  @media (min-width: 768px) {
+    gap: var(--spacing-xs);
+  }
 }
 
 .item {
@@ -20,24 +24,18 @@
   text-decoration: none;
   border-radius: var(--border-radius-md);
   transition: color var(--transition-fast), background-color var(--transition-fast);
-}
 
-.link:hover {
-  color: var(--color-text);
-  background-color: var(--color-background-alt);
+  &:hover {
+    color: var(--color-text);
+    background-color: var(--color-background-alt);
+  }
 }
 
 .active {
   color: var(--color-primary);
   font-weight: 500;
-}
 
-.active:hover {
-  color: var(--color-primary-hover);
-}
-
-@media (min-width: 768px) {
-  .list {
-    gap: var(--spacing-xs);
+  &:hover {
+    color: var(--color-primary-hover);
   }
 }

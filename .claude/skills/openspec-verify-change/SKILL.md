@@ -92,19 +92,32 @@ Verify that an implementation matches the change artifacts (specs, tasks, design
 
    **IMPORTANT**: Launch ALL spec agents in parallel using multiple Task tool calls in a single message.
 
-6. **Verify task completion (main agent)**
+6. **Run automated linters (main agent)**
 
-   While agents run, verify task completion:
+   While spec agents run, execute automated linting:
+   ```bash
+   npm run lint:css 2>&1
+   ```
+
+   Parse the output:
+   - If exit code 0: All CSS lint checks passed
+   - If exit code non-zero: Extract violations with file:line references
+
+   CSS lint failures are **CRITICAL** issues that must be fixed before archive.
+
+7. **Verify task completion (main agent)**
+
+   Also verify task completion:
    - Read tasks.md
    - Parse checkboxes: `- [ ]` (incomplete) vs `- [x]` (complete)
    - Count complete vs total tasks
 
-7. **Collect agent results**
+8. **Collect agent results**
 
    Wait for all spec verification agents to complete.
    Aggregate their findings into a unified report.
 
-8. **Generate Unified Verification Report**
+9. **Generate Unified Verification Report**
 
    **Summary Scorecard**:
    ```
@@ -115,6 +128,7 @@ Verify that an implementation matches the change artifacts (specs, tasks, design
    |------------------|---------------------|
    | Tasks            | X/Y complete        |
    | Spec Compliance  | N specs checked     |
+   | CSS Lint         | ✓ passed / X errors |
    | Critical Issues  | M violations        |
    | Warnings         | P issues            |
    ```

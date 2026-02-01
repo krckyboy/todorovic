@@ -1,0 +1,36 @@
+---
+import styles from './FeaturedPosts.module.css';
+import BlogPostItem from './BlogPostItem.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+  title?: string;
+  viewAllLink?: string;
+  viewAllText?: string;
+}
+
+const {
+  posts,
+  title = 'Recent Posts',
+  viewAllLink = '/blog',
+  viewAllText = 'View all posts',
+} = Astro.props;
+
+// Don't render if no posts
+if (posts.length === 0) {
+  return;
+}
+---
+
+<section class={styles.section}>
+  <h2 class={styles.title}>{title}</h2>
+  <div class={styles.posts}>
+    {posts.map((post) => (
+      <BlogPostItem post={post} />
+    ))}
+  </div>
+  <a href={viewAllLink} class={styles.viewAll}>
+    {viewAllText} &rarr;
+  </a>
+</section>

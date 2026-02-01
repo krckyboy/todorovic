@@ -1,20 +1,20 @@
 .article {
   padding-block: var(--spacing-lg);
   border-bottom: 1px solid var(--color-border);
-}
 
-.article:last-child {
-  border-bottom: none;
+  &:last-child {
+    border-bottom: none;
+  }
 }
 
 .link {
   display: inline-block;
   color: var(--color-text);
   text-decoration: none;
-}
 
-.link:hover .title {
-  color: var(--color-primary);
+  &:hover .title {
+    color: var(--color-primary);
+  }
 }
 
 .title {

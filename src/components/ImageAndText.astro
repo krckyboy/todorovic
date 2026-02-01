@@ -1,0 +1,54 @@
+---
+import styles from './ImageAndText.module.css';
+import SocialIcons from './SocialIcons.astro';
+
+interface Props {
+  name?: string;
+  title?: string;
+  description?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+}
+
+const {
+  name = 'Dušan Todorović',
+  title = 'Software Developer',
+  description = 'Building great web experiences with modern technologies. I write about web development, programming, and technology.',
+  imageSrc = '/images/profile.jpg',
+  imageAlt = 'Dušan Todorović',
+} = Astro.props;
+---
+
+<section class={styles.hero}>
+  <div class={styles.content}>
+    <div class={styles.imageWrapper}>
+      <img
+        src={imageSrc}
+        alt={imageAlt}
+        class={styles.image}
+        width="200"
+        height="200"
+        loading="eager"
+      />
+    </div>
+    <div class={styles.text}>
+      <h1 class={styles.name}>{name}</h1>
+      <p class={styles.title}>{title}</p>
+      <p class={styles.description}>{description}</p>
+      <div class={styles.social}>
+        <SocialIcons />
+      </div>
+      <div class={styles.actions}>
+        <a href="/about" class={styles.buttonPrimary}>About Me</a>
+        <a href="/skills" class={styles.buttonSecondary}>Skills</a>
+        <a
+          href="/cv.pdf"
+          class={styles.buttonSecondary}
+          download
+        >
+          Download CV
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
