@@ -1,6 +1,7 @@
 ---
 import styles from './Header.module.css';
 import Navigation from './Navigation.astro';
+import SearchBar from './SearchBar.astro';
 ---
 
 <header class={styles.header}>
@@ -8,6 +9,9 @@ import Navigation from './Navigation.astro';
     <a href="/" class={styles.logo}>
       Dušan Todorović
     </a>
-    <Navigation />
+    <div class={styles.actions}>
+      <Navigation />
+      <SearchBar />
+    </div>
   </div>
 </header>
