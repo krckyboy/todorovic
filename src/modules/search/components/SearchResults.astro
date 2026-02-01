@@ -1,0 +1,122 @@
+---
+import styles from './SearchResults.module.css';
+
+const styleClasses = JSON.stringify({
+  container: styles.container,
+  list: styles.list,
+  item: styles.item,
+  title: styles.title,
+  excerpt: styles.excerpt,
+  focused: styles.focused,
+  hint: styles.hint,
+  loading: styles.loading,
+  noResults: styles.noResults,
+});
+---
+
+<div class={styles.container} id="search-results">
+  <p class={styles.hint}>Start typing to search...</p>
+</div>
+
+<script id="results-styles" type="application/json" set:html={styleClasses} />
+
+<script is:inline>
+  const resultsStylesScript = document.getElementById('results-styles');
+  const styles = resultsStylesScript ? JSON.parse(resultsStylesScript.textContent || '{}') : {};
+
+  const container = document.getElementById('search-results');
+  const searchInput = document.getElementById('search-input');
+
+  let results = [];
+  let focusedIndex = -1;
+
+  function renderResults(searchResults, query) {
+    results = searchResults;
+    focusedIndex = -1;
+
+    if (!query.trim()) {
+      container.innerHTML = `<p class="${styles.hint}">Start typing to search...</p>`;
+      return;
+    }
+
+    if (results.length === 0) {
+      container.innerHTML = `<p class="${styles.noResults}">No results found for "${query}"</p>`;
+      return;
+    }
+
+    let html = `<ul class="${styles.list}" role="listbox" id="search-results-list" aria-label="Search results">`;
+    results.forEach((result, index) => {
+      const title = result.meta?.title || result.url;
+      const excerpt = result.excerpt ? `<div class="${styles.excerpt}">${result.excerpt}</div>` : '';
+      html += `<li role="option" id="search-result-${index}" aria-selected="false">`;
+      html += `<a href="${result.url}" class="${styles.item}" data-index="${index}">`;
+      html += `<div class="${styles.title}">${title}</div>`;
+      html += excerpt;
+      html += '</a></li>';
+    });
+    html += '</ul>';
+    container.innerHTML = html;
+  }
+
+  function updateFocusedResult() {
+    const items = container.querySelectorAll('.' + styles.item);
+    items.forEach((item, index) => {
+      if (index === focusedIndex) {
+        item.classList.add(styles.focused);
+        item.scrollIntoView({ block: 'nearest' });
+      } else {
+        item.classList.remove(styles.focused);
+      }
+    });
+
+    if (focusedIndex >= 0) {
+      searchInput?.setAttribute('aria-activedescendant', 'search-result-' + focusedIndex);
+    } else {
+      searchInput?.removeAttribute('aria-activedescendant');
+    }
+  }
+
+  function navigateToResult() {
+    if (focusedIndex >= 0 && results[focusedIndex]) {
+      window.location.href = results[focusedIndex].url;
+    }
+  }
+
+  // Listen for results
+  window.addEventListener('search:results', (e) => {
+    renderResults(e.detail.results, e.detail.query);
+  });
+
+  // Listen for loading state
+  window.addEventListener('search:loading', () => {
+    container.innerHTML = `<p class="${styles.loading}">Searching...</p>`;
+  });
+
+  // Listen for error state
+  window.addEventListener('search:error', () => {
+    container.innerHTML = `<p class="${styles.noResults}">Search is not available</p>`;
+  });
+
+  // Reset on close
+  window.addEventListener('search:close', () => {
+    container.innerHTML = `<p class="${styles.hint}">Start typing to search...</p>`;
+    results = [];
+    focusedIndex = -1;
+  });
+
+  // Keyboard navigation
+  window.addEventListener('search:navigate', (e) => {
+    const { direction } = e.detail;
+    if (results.length === 0) return;
+
+    if (direction === 'down') {
+      focusedIndex = Math.min(focusedIndex + 1, results.length - 1);
+    } else if (direction === 'up') {
+      focusedIndex = Math.max(focusedIndex - 1, -1);
+    } else if (direction === 'select' && focusedIndex >= 0) {
+      navigateToResult();
+      return;
+    }
+    updateFocusedResult();
+  });
+</script>
