@@ -14,6 +14,7 @@ No way to search blog posts or site content.
 ## Approach
 
 Use Pagefind - a static search library that:
+
 - Indexes content at build time
 - Generates a small search index
 - Runs entirely client-side
@@ -35,7 +36,7 @@ npm install astro-pagefind
 
 ```javascript
 // astro.config.mjs
-import pagefind from 'astro-pagefind';
+import pagefind from "astro-pagefind";
 
 export default defineConfig({
   integrations: [pagefind()],

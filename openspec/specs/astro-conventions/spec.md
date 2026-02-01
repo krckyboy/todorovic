@@ -4,13 +4,13 @@ Coding standards and patterns for this Astro project.
 
 ## File Naming
 
-| Type | Convention | Example |
-|------|------------|---------|
-| Components | PascalCase | `Header.astro` |
+| Type        | Convention        | Example             |
+| ----------- | ----------------- | ------------------- |
+| Components  | PascalCase        | `Header.astro`      |
 | CSS Modules | PascalCase.module | `Header.module.css` |
-| Pages | kebab-case | `about.astro` |
-| Layouts | PascalCase | `BaseLayout.astro` |
-| Content | kebab-case | `my-first-post.md` |
+| Pages       | kebab-case        | `about.astro`       |
+| Layouts     | PascalCase        | `BaseLayout.astro`  |
+| Content     | kebab-case        | `my-first-post.md`  |
 
 ## Components
 
@@ -19,8 +19,8 @@ Coding standards and patterns for this Astro project.
 ```astro
 ---
 // 1. Imports
-import styles from './ComponentName.module.css';
-import OtherComponent from './OtherComponent.astro';
+import styles from "./ComponentName.module.css";
+import OtherComponent from "./OtherComponent.astro";
 
 // 2. Props interface
 interface Props {
@@ -32,7 +32,9 @@ interface Props {
 const { title, isActive = false } = Astro.props;
 
 // 4. Logic (if needed)
-const classes = [styles.container, isActive && styles.active].filter(Boolean).join(' ');
+const classes = [styles.container, isActive && styles.active]
+  .filter(Boolean)
+  .join(" ");
 ---
 
 <!-- 5. Template -->
@@ -55,6 +57,60 @@ const classes = [styles.container, isActive && styles.active].filter(Boolean).jo
 - Use named slots for specific areas
 - Document available slots in comments
 
+## Modules (DDD Convention)
+
+Complex features with multiple components, hooks, and services SHALL use a module structure following Domain-Driven Design principles.
+
+### Module Structure
+
+```
+src/modules/<feature>/
+├── views/                    # Entry points (what consumers import)
+│   ├── FeatureMain.tsx       # Main component
+│   └── FeatureMain.module.css
+├── components/               # Internal sub-components
+│   ├── SubComponent.tsx
+│   └── SubComponent.module.css
+├── hooks/                    # React hooks
+│   └── useFeature.ts
+├── services/                 # Business logic, API, storage
+│   └── featureService.ts
+├── constants.ts              # Feature-specific constants
+├── types.ts                  # TypeScript types
+└── index.ts                  # Public exports
+```
+
+### Guidelines
+
+1. **views/** - Contains entry point components that are imported by pages/other modules
+2. **components/** - Internal sub-components, not exported publicly
+3. **hooks/** - React hooks for state management and side effects
+4. **services/** - Business logic, localStorage, API calls
+5. **index.ts** - Re-exports from views/ for clean imports
+
+### Example Import
+
+```typescript
+// Clean public API via index.ts
+import { ThemeToggle } from "@/modules/theme";
+
+// Or direct import from views/
+import ThemeToggle from "@/modules/theme/views/ThemeToggle";
+```
+
+### When to Use Modules
+
+- Feature has 3+ related files
+- Feature has its own state/services
+- Feature could be extracted as a package
+- Examples: search, theme, auth
+
+### When NOT to Use Modules
+
+- Simple, standalone components (use `src/components/`)
+- Single-file utilities
+- Page-specific components
+
 ## CSS Modules
 
 See [styling spec](../styling/spec.md) for complete CSS conventions.
@@ -74,15 +130,15 @@ See [styling spec](../styling/spec.md) for complete CSS conventions.
 ```astro
 ---
 // 1. Imports
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
 
 // 2. Data fetching (if needed)
-const posts = await getCollection('blog');
+const posts = await getCollection("blog");
 
 // 3. Page metadata
-const title = 'Page Title';
-const description = 'Page description for SEO';
+const title = "Page Title";
+const description = "Page description for SEO";
 ---
 
 <BaseLayout title={title} description={description}>
@@ -100,12 +156,12 @@ Use `[param].astro` syntax for dynamic routes. Requires `getStaticPaths()` for s
 ```astro
 ---
 // src/pages/blog/[slug].astro
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+  const posts = await getCollection("blog");
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
@@ -113,7 +169,7 @@ export async function getStaticPaths() {
 }
 
 interface Props {
-  post: CollectionEntry<'blog'>;
+  post: CollectionEntry<"blog">;
 }
 
 const { post } = Astro.props;
@@ -155,19 +211,19 @@ const { title, description, image } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width">
-  <title>{title}</title>
-  <meta name="description" content={description}>
-  <link rel="canonical" href={canonicalURL}>
-  <!-- Open Graph, etc. -->
-</head>
-<body>
-  <slot />
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <!-- Open Graph, etc. -->
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
 ```
 
@@ -178,17 +234,19 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ```typescript
 // src/content/config.ts
 const blogCollection = defineCollection({
-  type: 'content',
+  type: "content",
   schema: z.object({
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
-    author: z.string().default('Dušan Todorović'),
-    image: z.object({
-      url: z.string(),
-      alt: z.string(),
-    }).optional(),
+    author: z.string().default("Dušan Todorović"),
+    image: z
+      .object({
+        url: z.string(),
+        alt: z.string(),
+      })
+      .optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
   }),
@@ -224,10 +282,10 @@ const { title, description, pubDate } = post.data;
 const { Content } = await post.render();
 
 // Format dates for display
-const formattedDate = pubDate.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
+const formattedDate = pubDate.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
 });
 ---
 
@@ -264,10 +322,10 @@ Create `src/pages/404.astro` for the not-found page:
 
 ```astro
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
 
-const title = '404 - Page Not Found';
-const description = 'The page you are looking for could not be found.';
+const title = "404 - Page Not Found";
+const description = "The page you are looking for could not be found.";
 ---
 
 <BaseLayout title={title} description={description}>

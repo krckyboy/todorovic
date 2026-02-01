@@ -1,0 +1,46 @@
+{
+  "session": "2026-02-01-parallel-tasks",
+  "monitored_at": "2026-02-01T20:26:45Z",
+  "patterns_extracted": [],
+  "corrections_applied": [],
+  "worktree_status": {
+    "update-design": {
+      "has_new_commits": false,
+      "uncommitted_changes": [
+        "src/components/Footer.module.css",
+        "src/components/Header.module.css",
+        "src/components/Navigation.module.css",
+        "src/components/SocialIcons.module.css",
+        "src/styles/global.css"
+      ],
+      "build_status": "success",
+      "build_errors": []
+    },
+    "add-pagefind-search": {
+      "has_new_commits": false,
+      "uncommitted_changes": [
+        "astro.config.mjs",
+        "package-lock.json",
+        "package.json",
+        "src/components/SearchBar.module.css (new)"
+      ],
+      "build_status": "failed",
+      "build_errors": [
+        "Rollup failed to resolve import '/pagefind/pagefind.js' from SearchBar.astro",
+        "Pagefind JS file is expected at runtime but not available during build"
+      ]
+    },
+    "add-existing-blogs": {
+      "has_new_commits": true,
+      "commit_hash": "3f16427",
+      "commit_message": "Add existing blog posts for burnout and conferences",
+      "files_changed": [
+        "src/content/blog/burnout-in-software-engineering.md",
+        "src/content/blog/unlocking-opportunities-why-conferences-matter.md"
+      ],
+      "build_status": "success",
+      "build_errors": []
+    }
+  },
+  "summary": "Parallel implementation monitoring completed. Of the 3 tasks: 1 completed successfully with commit (add-existing-blogs), 1 has uncommitted work but builds (update-design), and 1 has a build error requiring attention (add-pagefind-search - pagefind.js import issue). No real-time user feedback was received during this automated parallel execution session."
+}
