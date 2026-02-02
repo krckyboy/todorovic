@@ -1,10 +1,10 @@
 ---
-import styles from './FeaturedPosts.module.css';
-import BlogPostItem from './BlogPostItem.astro';
-import type { CollectionEntry } from 'astro:content';
+import styles from "./FeaturedPosts.module.css";
+import BlogPostItem from "./BlogPostItem.astro";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  posts: CollectionEntry<'blog'>[];
+  posts: CollectionEntry<"blog">[];
   title?: string;
   viewAllLink?: string;
   viewAllText?: string;
@@ -12,9 +12,9 @@ interface Props {
 
 const {
   posts,
-  title = 'Recent Posts',
-  viewAllLink = '/blog',
-  viewAllText = 'View all posts',
+  title = "From the Blog",
+  viewAllLink = "/blog",
+  viewAllText = "View all posts",
 } = Astro.props;
 
 // Don't render if no posts
@@ -26,9 +26,7 @@ if (posts.length === 0) {
 <section class={styles.section}>
   <h2 class={styles.title}>{title}</h2>
   <div class={styles.posts}>
-    {posts.map((post) => (
-      <BlogPostItem post={post} />
-    ))}
+    {posts.map((post) => <BlogPostItem post={post} />)}
   </div>
   <a href={viewAllLink} class={styles.viewAll}>
     {viewAllText} &rarr;

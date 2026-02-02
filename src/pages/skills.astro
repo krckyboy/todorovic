@@ -1,10 +1,11 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import SkillsSection from '../components/Skills.tsx';
-import ExperienceSection from '../components/Experience.tsx';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SkillTags from "../components/SkillTags.astro";
+import Timeline from "../components/Timeline.astro";
 
-const title = 'Skills & Experience - Dusan Todorovic';
-const description = 'Technical skills, soft skills, and work experience of Dusan Todorovic in web development and software engineering.';
+const title = "Skills & Experience - Dusan Todorovic";
+const description =
+  "Technical skills, soft skills, and work experience of Dusan Todorovic in web development and software engineering.";
 ---
 
 <BaseLayout title={title} description={description}>
@@ -16,9 +17,9 @@ const description = 'Technical skills, soft skills, and work experience of Dusan
       </p>
     </header>
 
-    <SkillsSection client:load />
+    <SkillTags />
 
-    <ExperienceSection client:load />
+    <Timeline />
   </div>
 </BaseLayout>
 

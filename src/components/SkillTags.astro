@@ -1,0 +1,75 @@
+---
+import styles from "./SkillTags.module.css";
+
+interface Props {
+  technicalTitle?: string;
+  softTitle?: string;
+}
+
+const { technicalTitle = "Technical Skills", softTitle = "Soft Skills" } =
+  Astro.props;
+
+const technicalSkills = [
+  "React",
+  "Vue",
+  "Next.js",
+  "TypeScript",
+  "Redux",
+  "Zustand",
+  "TanStack Query",
+  "Astro",
+  "SASS",
+  "Tailwind",
+  "CI/CD",
+  "Git",
+  "Jest",
+  "Playwright",
+];
+
+const softSkills = [
+  "Team Leadership",
+  "Technical Mentoring",
+  "Cross-Team Collaboration",
+  "Problem Solving",
+  "Code Review",
+  "Agile/Scrum",
+];
+---
+
+<section class={styles.section}>
+  <div class={styles.category}>
+    <h2 class={styles.heading}>{technicalTitle}</h2>
+    <ul class={styles.tags} role="list">
+      {
+        technicalSkills.map((skill) => (
+          <li>
+            <a
+              href={`/blog?tags=${encodeURIComponent(skill.toLowerCase())}`}
+              class={styles.tag}
+            >
+              {skill}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class={styles.category}>
+    <h2 class={styles.heading}>{softTitle}</h2>
+    <ul class={styles.tags} role="list">
+      {
+        softSkills.map((skill) => (
+          <li>
+            <a
+              href={`/blog?tags=${encodeURIComponent(skill.toLowerCase())}`}
+              class={styles.tag}
+            >
+              {skill}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

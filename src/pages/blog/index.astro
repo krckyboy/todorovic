@@ -1,26 +1,30 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import BlogPostItem from '../../components/BlogPostItem.astro';
-import Categories from '../../components/Categories.astro';
-import { getCollection } from 'astro:content';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogFilter from "../../components/BlogFilter.tsx";
+import { getCollection } from "astro:content";
 
-const posts = await getCollection('blog', ({ data }) => !data.draft);
-const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+const sortedPosts = posts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
 
 // Extract unique categories from all posts
-const allCategories = [...new Set(sortedPosts.flatMap((post) => post.data.tags || []))].sort();
+const allCategories = [
+  ...new Set(sortedPosts.flatMap((post) => post.data.tags || [])),
+].sort();
 
-// Get active category from URL params
-const url = new URL(Astro.request.url);
-const activeCategory = url.searchParams.get('category') || undefined;
+// Serialize posts for client component
+const serializedPosts = sortedPosts.map((post) => ({
+  slug: post.slug,
+  title: post.data.title,
+  description: post.data.description,
+  pubDate: post.data.pubDate.toISOString(),
+  tags: post.data.tags || [],
+}));
 
-// Filter posts by category if one is selected
-const filteredPosts = activeCategory
-  ? sortedPosts.filter((post) => post.data.tags?.includes(activeCategory))
-  : sortedPosts;
-
-const title = 'Blog - Dusan Todorovic';
-const description = 'Articles about web development, programming, and technology.';
+const title = "Blog - Dusan Todorovic";
+const description =
+  "Articles about web development, programming, and technology.";
 ---
 
 <BaseLayout title={title} description={description}>
@@ -32,23 +36,11 @@ const description = 'Articles about web development, programming, and technology
       </p>
     </header>
 
-    {allCategories.length > 0 && (
-      <Categories categories={allCategories} activeCategory={activeCategory} />
-    )}
-
-    {filteredPosts.length > 0 ? (
-      <div class="posts-list">
-        {filteredPosts.map((post) => (
-          <BlogPostItem post={post} />
-        ))}
-      </div>
-    ) : (
-      <p class="no-posts">
-        {activeCategory
-          ? `No posts found in "${activeCategory}". Try another category or view all posts.`
-          : 'No posts yet. Check back soon!'}
-      </p>
-    )}
+    <BlogFilter
+      client:load
+      posts={serializedPosts}
+      categories={allCategories}
+    />
   </div>
 </BaseLayout>
 
@@ -69,14 +61,5 @@ const description = 'Articles about web development, programming, and technology
     font-size: var(--font-size-lg);
     line-height: var(--line-height-relaxed);
     color: var(--color-text-muted);
-  }
-
-  .no-posts {
-    padding: var(--spacing-2xl);
-    text-align: center;
-    font-size: var(--font-size-base);
-    color: var(--color-text-muted);
-    background-color: var(--color-background-alt);
-    border-radius: var(--border-radius-lg);
   }
 </style>

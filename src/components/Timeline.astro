@@ -1,0 +1,101 @@
+---
+import styles from "./Timeline.module.css";
+import TimelineItem from "./TimelineItem.astro";
+
+interface Props {
+  title?: string;
+}
+
+const { title = "Experience" } = Astro.props;
+
+const experiences = [
+  {
+    year: 2025,
+    roles: [
+      {
+        title: "Frontend Team Lead",
+        company: "Constructor Tech",
+        location: "Belgrade, Serbia (Hybrid)",
+        period: "Jan 2025 - Present",
+        duration: "Present",
+        isCurrent: true,
+      },
+    ],
+  },
+  {
+    year: 2024,
+    roles: [
+      {
+        title: "Senior Frontend Engineer",
+        company: "Constructor Tech",
+        location: "Belgrade, Serbia (Hybrid)",
+        period: "Dec 2024 - Jan 2025",
+        duration: "2 months",
+        isCurrent: false,
+      },
+      {
+        title: "Lead Front-End Developer",
+        company: "Citrus Systems",
+        location: "Belgrade, Serbia",
+        period: "Jul 2021 - Oct 2024",
+        duration: "3 years 4 months",
+        isCurrent: false,
+      },
+    ],
+  },
+  {
+    year: 2020,
+    roles: [
+      {
+        title: "Front-End Developer",
+        company: "Citrus Systems",
+        location: "Belgrade, Serbia",
+        period: "Aug 2020 - Jun 2021",
+        duration: "11 months",
+        isCurrent: false,
+      },
+    ],
+  },
+  {
+    year: 2018,
+    roles: [
+      {
+        title: "Front-End Web Developer",
+        company: "Boca Tech",
+        location: "Belgrade, Serbia",
+        period: "May 2018 - Mar 2019",
+        duration: "11 months",
+        isCurrent: false,
+      },
+    ],
+  },
+];
+---
+
+<section class={styles.section}>
+  <h2 class={styles.heading}>{title}</h2>
+  <div class={styles.timeline}>
+    {
+      experiences.map((yearGroup) => (
+        <div class={styles.yearGroup}>
+          <div class={styles.yearMarker}>
+            <span class={styles.year}>{yearGroup.year}</span>
+            <span class={styles.line} />
+          </div>
+          <div class={styles.roles}>
+            {yearGroup.roles.map((role) => (
+              <TimelineItem
+                title={role.title}
+                company={role.company}
+                location={role.location}
+                period={role.period}
+                duration={role.duration}
+                isCurrent={role.isCurrent}
+              />
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

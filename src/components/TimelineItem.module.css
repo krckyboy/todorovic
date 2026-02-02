@@ -1,0 +1,60 @@
+.item {
+  display: flex;
+  gap: var(--spacing-md);
+  padding-bottom: var(--spacing-lg);
+  position: relative;
+}
+
+.connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 1rem;
+}
+
+.dot {
+  display: block;
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: var(--color-border);
+  border-radius: var(--border-radius-full);
+  border: 2px solid var(--color-background);
+  box-shadow: 0 0 0 2px var(--color-border);
+  transition:
+    background-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+
+.current & {
+  background-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+}
+
+.content {
+  flex: 1;
+  padding-bottom: var(--spacing-sm);
+}
+
+.title {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-xs);
+
+.current & {
+  color: var(--color-primary);
+}
+}
+
+.company {
+  font-size: var(--font-size-base);
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-xs);
+}
+
+.period {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
