@@ -91,6 +91,8 @@
 }
 
 .social {
+  display: flex;
+  justify-content: center;
   margin-block: var(--spacing-sm);
 
   @media (min-width: 768px) {
