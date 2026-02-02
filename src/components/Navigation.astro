@@ -1,18 +1,18 @@
 ---
-import styles from './Navigation.module.css';
+import styles from "./Navigation.module.css";
 
 const currentPath = Astro.url.pathname;
 
 const links = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/skills', label: 'Skills' },
-  { href: '/blog', label: 'Blog' },
+  { href: "/", label: "Home", icon: "home" },
+  { href: "/about", label: "About", icon: "user" },
+  { href: "/skills", label: "Skills", icon: "briefcase" },
+  { href: "/blog", label: "Blog", icon: "pen" },
 ];
 
 function isActive(href: string): boolean {
-  if (href === '/') {
-    return currentPath === '/';
+  if (href === "/") {
+    return currentPath === "/";
   }
   return currentPath.startsWith(href);
 }
@@ -20,16 +20,59 @@ function isActive(href: string): boolean {
 
 <nav class={styles.nav} aria-label="Main navigation">
   <ul class={styles.list}>
-    {links.map(({ href, label }) => (
-      <li class={styles.item}>
-        <a
-          href={href}
-          class:list={[styles.link, isActive(href) && styles.active]}
-          aria-current={isActive(href) ? 'page' : undefined}
-        >
-          {label}
-        </a>
-      </li>
-    ))}
+    {
+      links.map(({ href, label, icon }) => (
+        <li class={styles.item}>
+          <a
+            href={href}
+            class:list={[styles.link, isActive(href) && styles.active]}
+            aria-current={isActive(href) ? "page" : undefined}
+            title={label}
+          >
+            <svg
+              class={styles.icon}
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              {icon === "home" && (
+                <>
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                  <polyline points="9 22 9 12 15 12 15 22" />
+                </>
+              )}
+              {icon === "user" && (
+                <>
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </>
+              )}
+              {icon === "briefcase" && (
+                <>
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                </>
+              )}
+              {icon === "pen" && (
+                <>
+                  <path d="M12 19l7-7 3 3-7 7-3-3z" />
+                  <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+                  <path d="M2 2l7.586 7.586" />
+                  <circle cx="11" cy="11" r="2" />
+                </>
+              )}
+            </svg>
+            <span class={styles.label}>{label}</span>
+          </a>
+        </li>
+      ))
+    }
   </ul>
 </nav>

@@ -48,6 +48,22 @@
   }
 }
 
+.logoShort {
+  display: inline;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.logoFull {
+  display: none;
+
+  @media (min-width: 768px) {
+    display: inline;
+  }
+}
+
 .actions {
   display: flex;
   align-items: center;

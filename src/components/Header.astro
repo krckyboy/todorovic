@@ -7,7 +7,10 @@ import { ThemeToggle } from "../modules/theme";
 
 <header class={styles.header}>
   <div class={styles.container}>
-    <a href="/" class={styles.logo}> Dušan Todorović </a>
+    <a href="/" class={styles.logo}>
+      <span class={styles.logoShort}>DT</span>
+      <span class={styles.logoFull}>Dušan Todorović</span>
+    </a>
     <div class={styles.actions}>
       <Navigation />
       <SearchBar client:load />
