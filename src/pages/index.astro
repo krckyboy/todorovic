@@ -1,16 +1,17 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
-import FeaturedPosts from '../components/FeaturedPosts.astro';
-import { getCollection } from 'astro:content';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import FeaturedPosts from "../modules/blog/components/FeaturedPosts.astro";
+import { getCollection } from "astro:content";
 
-const posts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = await getCollection("blog", ({ data }) => !data.draft);
 const recentPosts = posts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 
-const title = 'Dusan Todorovic - Software Developer';
-const description = 'Personal portfolio and blog of Dusan Todorovic. Software developer focused on web technologies.';
+const title = "Dusan Todorovic - Software Developer";
+const description =
+  "Personal portfolio and blog of Dusan Todorovic. Software developer focused on web technologies.";
 ---
 
 <BaseLayout title={title} description={description}>

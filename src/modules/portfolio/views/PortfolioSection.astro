@@ -1,0 +1,29 @@
+---
+import SkillTags from "../components/SkillTags.astro";
+import Timeline from "../components/Timeline.astro";
+
+interface Props {
+  showSkills?: boolean;
+  showTimeline?: boolean;
+  skillsTitle?: string;
+  softSkillsTitle?: string;
+  timelineTitle?: string;
+}
+
+const {
+  showSkills = true,
+  showTimeline = true,
+  skillsTitle = "Technical Skills",
+  softSkillsTitle = "Soft Skills",
+  timelineTitle = "Experience",
+} = Astro.props;
+---
+
+<div class="portfolio-section">
+  {
+    showSkills && (
+      <SkillTags technicalTitle={skillsTitle} softTitle={softSkillsTitle} />
+    )
+  }
+  {showTimeline && <Timeline title={timelineTitle} />}
+</div>

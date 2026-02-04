@@ -1,18 +1,18 @@
 ---
-import styles from './BlogPostItem.module.css';
-import type { CollectionEntry } from 'astro:content';
+import styles from "./BlogPostItem.module.css";
+import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  post: CollectionEntry<'blog'>;
+  post: CollectionEntry<"blog">;
 }
 
 const { post } = Astro.props;
 const { title, description, pubDate, tags } = post.data;
 
-const formattedDate = pubDate.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
+const formattedDate = pubDate.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
 });
 ---
 
@@ -25,12 +25,14 @@ const formattedDate = pubDate.toLocaleDateString('en-US', {
     <time datetime={pubDate.toISOString()} class={styles.date}>
       {formattedDate}
     </time>
-    {tags.length > 0 && (
-      <ul class={styles.tags}>
-        {tags.map((tag) => (
-          <li class={styles.tag}>{tag}</li>
-        ))}
-      </ul>
-    )}
+    {
+      tags.length > 0 && (
+        <ul class={styles.tags}>
+          {tags.map((tag) => (
+            <li class={styles.tag}>{tag}</li>
+          ))}
+        </ul>
+      )
+    }
   </div>
 </article>

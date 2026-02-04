@@ -1,19 +1,28 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import BlogFilter from "../../modules/blog/components/BlogFilter.tsx";
+import BlogFilter from "../components/BlogFilter.tsx";
 import { getCollection } from "astro:content";
+
+interface Props {
+  showHeader?: boolean;
+  headerTitle?: string;
+  headerIntro?: string;
+}
+
+const {
+  showHeader = true,
+  headerTitle = "Blog",
+  headerIntro = "Thoughts and tutorials on web development and software engineering.",
+} = Astro.props;
 
 const posts = await getCollection("blog", ({ data }) => !data.draft);
 const sortedPosts = posts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
-// Extract unique categories from all posts
 const allCategories = [
   ...new Set(sortedPosts.flatMap((post) => post.data.tags || [])),
 ].sort();
 
-// Serialize posts for client component
 const serializedPosts = sortedPosts.map((post) => ({
   slug: post.slug,
   title: post.data.title,
@@ -21,28 +30,20 @@ const serializedPosts = sortedPosts.map((post) => ({
   pubDate: post.data.pubDate.toISOString(),
   tags: post.data.tags || [],
 }));
-
-const title = "Blog - Dusan Todorovic";
-const description =
-  "Articles about web development, programming, and technology.";
 ---
 
-<BaseLayout title={title} description={description}>
-  <div class="container content">
-    <header class="page-header">
-      <h1>Blog</h1>
-      <p class="intro">
-        Thoughts and tutorials on web development and software engineering.
-      </p>
-    </header>
+<div class="blog-list-view">
+  {
+    showHeader && (
+      <header class="page-header">
+        <h1>{headerTitle}</h1>
+        <p class="intro">{headerIntro}</p>
+      </header>
+    )
+  }
 
-    <BlogFilter
-      client:load
-      posts={serializedPosts}
-      categories={allCategories}
-    />
-  </div>
-</BaseLayout>
+  <BlogFilter client:load posts={serializedPosts} categories={allCategories} />
+</div>
 
 <style>
   .page-header {
@@ -50,7 +51,7 @@ const description =
     margin-bottom: var(--spacing-xl);
   }
 
-  h1 {
+  .page-header h1 {
     font-family: var(--font-family-heading);
     font-size: var(--font-size-3xl);
     font-weight: var(--font-weight-bold);
