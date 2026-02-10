@@ -1,0 +1,52 @@
+## 1. Reading Time Integration
+
+- [ ] 1.1 Import `reading-time` in `src/pages/blog/[slug].astro` and compute reading time from `post.body`
+- [ ] 1.2 Pass the computed reading time string to `BlogHeader` via the `readingTime` prop
+
+## 2. Clickable Tags
+
+- [ ] 2.1 Update `BlogHeader.astro` to render tags as `<a>` links with `href="/blog?tags={encodedTag}"` instead of plain `<li>` text
+- [ ] 2.2 Update `BlogHeader.module.css` to add link styling, hover states, and `:focus-visible` for tag links
+- [ ] 2.3 Update `BlogPostItem.astro` to render tags as `<a>` links with `href="/blog?tags={encodedTag}"` instead of plain `<li>` text
+- [ ] 2.4 Update `BlogPostItem.module.css` to add link styling, hover states, and `:focus-visible` for tag links
+- [ ] 2.5 Verify tag links on BlogPostItem do not trigger the parent post link when clicked
+
+## 3. Social Sharing Component
+
+- [ ] 3.1 Create `SocialShare.astro` at `src/modules/blog/components/` with TypeScript Props interface accepting `url` and `title`
+- [ ] 3.2 Implement LinkedIn share link using `https://www.linkedin.com/sharing/share-offsite/?url={encodedUrl}`
+- [ ] 3.3 Implement Twitter/X share link using `https://twitter.com/intent/tweet?url={encodedUrl}&text={encodedTitle}`
+- [ ] 3.4 Implement copy-link button with Clipboard API and visual feedback
+- [ ] 3.5 Create `SocialShare.module.css` with mobile-first responsive layout, hover states, focus-visible states, and reduced-motion support
+- [ ] 3.6 Add accessible labels (`aria-label`) to all share buttons/links
+
+## 4. Post Navigation Component
+
+- [ ] 4.1 Create `PostNavigation.astro` at `src/modules/blog/components/` with TypeScript Props interface accepting optional prev and next post objects
+- [ ] 4.2 Render prev/next links showing direction label and post title, linking to `/blog/{slug}`
+- [ ] 4.3 Handle edge cases: render nothing when no prev/next exist, show single direction at boundaries
+- [ ] 4.4 Create `PostNavigation.module.css` with mobile-first responsive layout, hover states, focus-visible states, and reduced-motion support
+
+## 5. Related Posts Component
+
+- [ ] 5.1 Create `RelatedPosts.astro` at `src/modules/blog/components/` with TypeScript Props interface accepting current post and all posts
+- [ ] 5.2 Implement tag-overlap matching algorithm: count shared tags, sort by overlap then recency, exclude current post
+- [ ] 5.3 Implement recency fallback: fill remaining slots (up to 3) with most recent posts when fewer than 2 tag matches exist
+- [ ] 5.4 Render each related post with title (linked), publication date, and description
+- [ ] 5.5 Create `RelatedPosts.module.css` with mobile-first responsive layout, hover states, focus-visible states, and reduced-motion support
+
+## 6. Blog Post Page Assembly
+
+- [ ] 6.1 Import `SocialShare`, `PostNavigation`, and `RelatedPosts` in `[slug].astro`
+- [ ] 6.2 Compute prev/next posts from the sorted posts collection in `getStaticPaths` or component logic
+- [ ] 6.3 Compute the canonical post URL for the SocialShare component
+- [ ] 6.4 Add components to the page template in order: BlogHeader, post content, SocialShare, AuthorCard, PostNavigation, RelatedPosts
+- [ ] 6.5 Pass required props to each new component
+
+## 7. Verification
+
+- [ ] 7.1 Run `npm run build` and verify no build errors
+- [ ] 7.2 Run `npm run lint` and verify no linting errors
+- [ ] 7.3 Verify keyboard navigation works for all new interactive elements (tab through tags, share buttons, nav links, related post links)
+- [ ] 7.4 Verify reduced-motion media query disables transitions in all new components
+- [ ] 7.5 Verify tag links navigate to `/blog?tags=tagname` and the blog filter activates correctly
