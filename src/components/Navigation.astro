@@ -27,7 +27,7 @@ function isActive(href: string): boolean {
             href={href}
             class:list={[styles.link, isActive(href) && styles.active]}
             aria-current={isActive(href) ? "page" : undefined}
-            title={label}
+            aria-label={label}
           >
             <svg
               class={styles.icon}

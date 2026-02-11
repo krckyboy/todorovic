@@ -26,6 +26,9 @@ export default function SearchBar() {
   const [error, setError] = useState<string | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const triggerButtonRef = useRef<HTMLButtonElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
   const pagefindRef = useRef<PagefindInstance | null>(null);
   const debounceRef = useRef<NodeJS.Timeout>();
 
@@ -86,6 +89,10 @@ export default function SearchBar() {
   );
 
   const openSearch = useCallback(() => {
+    previousFocusRef.current =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
     setIsOpen(true);
     initPagefind();
   }, [initPagefind]);
@@ -96,6 +103,8 @@ export default function SearchBar() {
     setResults([]);
     setFocusedIndex(-1);
     setError(null);
+    const target = previousFocusRef.current ?? triggerButtonRef.current;
+    requestAnimationFrame(() => target?.focus());
   }, []);
 
   // Focus input when modal opens
@@ -145,6 +154,45 @@ export default function SearchBar() {
       return;
     }
 
+    if (e.key === "Tab") {
+      const modal = modalRef.current;
+      if (!modal) return;
+
+      const focusableSelector =
+        'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+      const focusableElements = Array.from(
+        modal.querySelectorAll<HTMLElement>(focusableSelector),
+      ).filter(
+        (el) =>
+          el.getAttribute("aria-hidden") !== "true" &&
+          el.getClientRects().length > 0,
+      );
+
+      if (focusableElements.length === 0) {
+        e.preventDefault();
+        return;
+      }
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+      const activeElement = document.activeElement as HTMLElement | null;
+      const activeInsideModal = activeElement
+        ? modal.contains(activeElement)
+        : false;
+
+      if (e.shiftKey) {
+        if (!activeInsideModal || activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        }
+      } else if (!activeInsideModal || activeElement === lastElement) {
+        e.preventDefault();
+        firstElement.focus();
+      }
+
+      return;
+    }
+
     if (e.key === "ArrowDown" && results.length > 0) {
       e.preventDefault();
       setFocusedIndex((i) => Math.min(i + 1, results.length - 1));
@@ -172,6 +220,7 @@ export default function SearchBar() {
   return (
     <>
       <button
+        ref={triggerButtonRef}
         type="button"
         className={styles.searchButton}
         onClick={openSearch}
@@ -206,6 +255,7 @@ export default function SearchBar() {
             role="presentation"
           >
             <div
+              ref={modalRef}
               className={styles.modal}
               role="dialog"
               aria-modal="true"
