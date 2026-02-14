@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://todorovic.dev/sitemap-index.xml

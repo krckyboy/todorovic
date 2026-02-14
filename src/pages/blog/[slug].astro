@@ -4,6 +4,7 @@ import BlogHeader from "../../modules/blog/components/BlogHeader.astro";
 import AuthorCard from "../../modules/blog/components/AuthorCard.astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+import readingTime from "reading-time";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -18,13 +19,36 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { title, description } = post.data;
+const { title, description, pubDate, updatedDate, author } = post.data;
 const { Content } = await post.render();
+const readingTimeText = readingTime(post.body).text;
+const canonicalPostURL = new URL(`/blog/${post.slug}/`, Astro.site).toString();
+
+const blogPostingJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: title,
+  description,
+  url: canonicalPostURL,
+  datePublished: pubDate.toISOString(),
+  ...(updatedDate && { dateModified: updatedDate.toISOString() }),
+  author: {
+    "@type": "Person",
+    name: author,
+    url: new URL("/", Astro.site).toString(),
+  },
+};
 ---
 
 <BaseLayout title={`${title} - Dusan Todorovic`} description={description}>
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify(blogPostingJsonLd)}
+  />
+
   <article class="container content">
-    <BlogHeader post={post} />
+    <BlogHeader post={post} readingTime={readingTimeText} />
 
     <div class="post-content">
       <Content />

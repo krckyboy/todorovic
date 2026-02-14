@@ -12,9 +12,27 @@ const recentPosts = posts
 const title = "Dusan Todorovic - Software Developer";
 const description =
   "Personal portfolio and blog of Dusan Todorovic. Software developer focused on web technologies.";
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Dusan Todorovic",
+  jobTitle: "Frontend Team Lead",
+  url: "https://todorovic.dev",
+  sameAs: [
+    "https://github.com/krckyboy",
+    "https://www.linkedin.com/in/dusan-todorovic-krcky/",
+  ],
+};
 ---
 
 <BaseLayout title={title} description={description}>
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify(personJsonLd)}
+  />
+
   <Hero />
   <div class="container">
     <FeaturedPosts posts={recentPosts} />
