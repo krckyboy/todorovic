@@ -1,5 +1,5 @@
-import styles from "./PostCard.module.css";
-import TagList from "./TagList";
+import styles from './PostCard.module.css';
+import TagList from './TagList';
 
 interface Props {
   slug: string;
@@ -17,10 +17,10 @@ export default function PostCard({
   tags,
 }: Props) {
   const date = pubDate instanceof Date ? pubDate : new Date(pubDate);
-  const formattedDate = date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+  const formattedDate = date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
 
   return (

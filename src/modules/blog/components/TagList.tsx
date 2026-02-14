@@ -1,11 +1,11 @@
-import styles from "./TagList.module.css";
+import styles from './TagList.module.css';
 
 interface Props {
   tags: string[];
   ariaLabel?: string;
 }
 
-export default function TagList({ tags, ariaLabel = "Tags" }: Props) {
+export default function TagList({ tags, ariaLabel = 'Tags' }: Props) {
   if (tags.length === 0) {
     return null;
   }

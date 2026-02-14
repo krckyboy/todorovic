@@ -8,10 +8,12 @@ const blogCollection = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     author: z.string().default('Dušan Todorović'),
-    image: z.object({
-      url: z.string(),
-      alt: z.string(),
-    }).optional(),
+    image: z
+      .object({
+        url: z.string(),
+        alt: z.string(),
+      })
+      .optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
   }),

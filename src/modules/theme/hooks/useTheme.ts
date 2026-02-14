@@ -1,26 +1,26 @@
-import { useState, useCallback } from "react";
-import type { Theme } from "../types";
-import { getStoredTheme, setStoredTheme } from "../services/themeStorage";
+import { useState, useCallback } from 'react';
+import { getStoredTheme, setStoredTheme } from '../services/themeStorage';
+import type { Theme } from '../types';
 
 function getInitialTheme(): Theme {
-  if (typeof window === "undefined") return "light";
+  if (typeof window === 'undefined') return 'light';
 
   // Read from DOM first - the inline script in <head> already set this
   const fromDom = document.documentElement.getAttribute(
-    "data-theme",
+    'data-theme',
   ) as Theme | null;
-  if (fromDom === "light" || fromDom === "dark") return fromDom;
+  if (fromDom === 'light' || fromDom === 'dark') return fromDom;
 
   const stored = getStoredTheme();
   if (stored) return stored;
 
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+  return window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
 }
 
 function applyTheme(theme: Theme): void {
-  document.documentElement.setAttribute("data-theme", theme);
+  document.documentElement.setAttribute('data-theme', theme);
 }
 
 export function useTheme() {
@@ -33,7 +33,7 @@ export function useTheme() {
   }, []);
 
   const toggleTheme = useCallback(() => {
-    setTheme(theme === "light" ? "dark" : "light");
+    setTheme(theme === 'light' ? 'dark' : 'light');
   }, [theme, setTheme]);
 
   return { theme, setTheme, toggleTheme };

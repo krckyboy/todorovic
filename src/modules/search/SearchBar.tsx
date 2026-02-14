@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import { createPortal } from "react-dom";
-import styles from "./SearchBar.module.css";
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
+import styles from './SearchBar.module.css';
 
 interface SearchResult {
   url: string;
@@ -14,12 +14,12 @@ interface PagefindInstance {
   init: () => Promise<void>;
   search: (
     query: string,
-  ) => Promise<{ results: Array<{ data: () => Promise<SearchResult> }> }>;
+  ) => Promise<{ results: { data: () => Promise<SearchResult> }[] }>;
 }
 
 export default function SearchBar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
@@ -33,13 +33,13 @@ export default function SearchBar() {
   const debounceRef = useRef<NodeJS.Timeout>();
 
   const isMac =
-    typeof navigator !== "undefined" &&
-    navigator.platform.toUpperCase().includes("MAC");
+    typeof navigator !== 'undefined' &&
+    navigator.platform.toUpperCase().includes('MAC');
 
   const initPagefind = useCallback(async () => {
     if (pagefindRef.current) return pagefindRef.current;
     try {
-      // Use Function constructor to avoid Vite analyzing the import
+      // eslint-disable-next-line @typescript-eslint/no-implied-eval
       const importPagefind = new Function(
         'return import("/pagefind/pagefind.js")',
       );
@@ -48,8 +48,8 @@ export default function SearchBar() {
       pagefindRef.current = pf;
       return pf;
     } catch (e) {
-      console.error("Failed to load Pagefind:", e);
-      setError("Search is not available");
+      console.error('Failed to load Pagefind:', e);
+      setError('Search is not available');
       return null;
     }
   }, []);
@@ -79,8 +79,8 @@ export default function SearchBar() {
         setResults(searchResults);
         setFocusedIndex(-1);
       } catch (e) {
-        console.error("Search error:", e);
-        setError("Search error occurred");
+        console.error('Search error:', e);
+        setError('Search error occurred');
       } finally {
         setIsLoading(false);
       }
@@ -99,7 +99,7 @@ export default function SearchBar() {
 
   const closeSearch = useCallback(() => {
     setIsOpen(false);
-    setQuery("");
+    setQuery('');
     setResults([]);
     setFocusedIndex(-1);
     setError(null);
@@ -126,7 +126,7 @@ export default function SearchBar() {
   // Global keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         if (isOpen) {
           closeSearch();
@@ -135,26 +135,26 @@ export default function SearchBar() {
         }
       }
     };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, openSearch, closeSearch]);
 
   // Prevent body scroll when modal is open
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
+    document.body.style.overflow = isOpen ? 'hidden' : '';
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     };
   }, [isOpen]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Escape") {
+    if (e.key === 'Escape') {
       e.preventDefault();
       closeSearch();
       return;
     }
 
-    if (e.key === "Tab") {
+    if (e.key === 'Tab') {
       const modal = modalRef.current;
       if (!modal) return;
 
@@ -164,7 +164,7 @@ export default function SearchBar() {
         modal.querySelectorAll<HTMLElement>(focusableSelector),
       ).filter(
         (el) =>
-          el.getAttribute("aria-hidden") !== "true" &&
+          el.getAttribute('aria-hidden') !== 'true' &&
           el.getClientRects().length > 0,
       );
 
@@ -193,19 +193,19 @@ export default function SearchBar() {
       return;
     }
 
-    if (e.key === "ArrowDown" && results.length > 0) {
+    if (e.key === 'ArrowDown' && results.length > 0) {
       e.preventDefault();
       setFocusedIndex((i) => Math.min(i + 1, results.length - 1));
       return;
     }
 
-    if (e.key === "ArrowUp" && results.length > 0) {
+    if (e.key === 'ArrowUp' && results.length > 0) {
       e.preventDefault();
       setFocusedIndex((i) => Math.max(i - 1, -1));
       return;
     }
 
-    if (e.key === "Enter" && focusedIndex >= 0 && results[focusedIndex]) {
+    if (e.key === 'Enter' && focusedIndex >= 0 && results[focusedIndex]) {
       e.preventDefault();
       window.location.href = results[focusedIndex].url;
     }
@@ -243,7 +243,9 @@ export default function SearchBar() {
           />
         </svg>
         <span className={styles.shortcut}>
-          <kbd>{isMac ? "Cmd" : "Ctrl"}</kbd>+<kbd>K</kbd>
+          <kbd>{isMac ? 'Cmd' : 'Ctrl'}</kbd>
+          <span>+</span>
+          <kbd>K</kbd>
         </span>
       </button>
 
@@ -336,7 +338,7 @@ export default function SearchBar() {
                   query.trim() &&
                   results.length === 0 && (
                     <p className={styles.noResults}>
-                      No results found for "{query}"
+                      {`No results found for "${query}"`}
                     </p>
                   )}
 
@@ -355,7 +357,7 @@ export default function SearchBar() {
                       >
                         <a
                           href={result.url}
-                          className={`${styles.item} ${index === focusedIndex ? styles.focused : ""}`}
+                          className={`${styles.item} ${index === focusedIndex ? styles.focused : ''}`}
                         >
                           <div className={styles.title}>
                             {result.meta?.title || result.url}

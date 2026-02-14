@@ -1,7 +1,7 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
-import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
+import { defineConfig } from 'astro/config';
 import pagefind from 'astro-pagefind';
 
 // https://astro.build/config

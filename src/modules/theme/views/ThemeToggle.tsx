@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { useTheme } from "../hooks/useTheme";
-import ThemeIcon from "../components/ThemeIcon";
-import styles from "./ThemeToggle.module.css";
+import { useState, useEffect } from 'react';
+import ThemeIcon from '../components/ThemeIcon';
+import { useTheme } from '../hooks/useTheme';
+import styles from './ThemeToggle.module.css';
 
 export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
@@ -12,7 +12,7 @@ export default function ThemeToggle() {
   }, []);
 
   const label =
-    theme === "light" ? "Switch to dark theme" : "Switch to light theme";
+    theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme';
 
   // Render placeholder during SSR to avoid hydration mismatch
   if (!mounted) {

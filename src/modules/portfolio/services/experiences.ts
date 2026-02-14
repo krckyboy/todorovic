@@ -33,57 +33,57 @@ export interface EnrichedCompanyExperience {
 
 const experiences: CompanyExperience[] = [
   {
-    company: "Constructor Tech",
-    location: "Belgrade, Serbia (Hybrid)",
+    company: 'Constructor Tech',
+    location: 'Belgrade, Serbia (Hybrid)',
     roles: [
       {
-        title: "Frontend Team Lead",
-        start: "2025-01",
+        title: 'Frontend Team Lead',
+        start: '2025-01',
         end: null,
       },
       {
-        title: "Senior Frontend Engineer",
-        start: "2024-12",
-        end: "2025-01",
+        title: 'Senior Frontend Engineer',
+        start: '2024-12',
+        end: '2025-01',
       },
     ],
   },
   {
-    company: "Citrus Systems",
-    location: "Belgrade, Serbia",
+    company: 'Citrus Systems',
+    location: 'Belgrade, Serbia',
     roles: [
       {
-        title: "Lead Front-End Developer",
-        start: "2021-07",
-        end: "2024-10",
+        title: 'Lead Front-End Developer',
+        start: '2021-07',
+        end: '2024-10',
       },
       {
-        title: "Front-End Developer",
-        start: "2020-08",
-        end: "2021-06",
+        title: 'Front-End Developer',
+        start: '2020-08',
+        end: '2021-06',
       },
     ],
   },
   {
-    company: "Boca Tech",
-    location: "Belgrade, Serbia",
+    company: 'Boca Tech',
+    location: 'Belgrade, Serbia',
     roles: [
       {
-        title: "Front-End Web Developer",
-        start: "2018-05",
-        end: "2019-03",
+        title: 'Front-End Web Developer',
+        start: '2018-05',
+        end: '2019-03',
       },
     ],
   },
 ];
 
-const monthFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  year: "numeric",
+const monthFormatter = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  year: 'numeric',
 });
 
 function parseYearMonth(value: string): YearMonth {
-  const [year, month] = value.split("-").map(Number);
+  const [year, month] = value.split('-').map(Number);
   return { year, month };
 }
 
@@ -96,7 +96,7 @@ function compareYearMonth(left: YearMonth, right: YearMonth) {
 }
 
 function toYearMonth(value: YearMonth) {
-  return `${value.year}-${String(value.month).padStart(2, "0")}`;
+  return `${value.year}-${String(value.month).padStart(2, '0')}`;
 }
 
 function formatPeriod(start: string, end: string | null) {
@@ -130,17 +130,17 @@ function getMonthSpan(start: string, end: string | null, now: Date) {
 
 function formatDuration(months: number) {
   if (months < 12) {
-    return `${months} month${months === 1 ? "" : "s"}`;
+    return `${months} month${months === 1 ? '' : 's'}`;
   }
 
   const years = Math.floor(months / 12);
   const remainder = months % 12;
 
   if (remainder === 0) {
-    return `${years} year${years === 1 ? "" : "s"}`;
+    return `${years} year${years === 1 ? '' : 's'}`;
   }
 
-  return `${years} year${years === 1 ? "" : "s"} ${remainder} month${remainder === 1 ? "" : "s"}`;
+  return `${years} year${years === 1 ? '' : 's'} ${remainder} month${remainder === 1 ? '' : 's'}`;
 }
 
 export function getSortedExperiences(

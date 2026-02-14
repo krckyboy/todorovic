@@ -1,53 +1,25 @@
-import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
 import eslintPluginAstro from 'eslint-plugin-astro';
-import globals from 'globals';
+import typescriptEslint from 'typescript-eslint';
+import { recommended } from './eslint/eslintConfig.js';
 
-export default tseslint.config(
-  // Global ignores
+const projectRules = recommended({
+  react: true,
+  ignores: ['.astro/**', 'node_modules/**', 'eslint/**'],
+});
+
+export default [
+  ...projectRules,
   {
-    ignores: ['dist/**', '.astro/**', 'node_modules/**'],
-  },
-
-  // Base ESLint recommended rules
-  eslint.configs.recommended,
-
-  // TypeScript recommended rules
-  ...tseslint.configs.recommended,
-
-  // Astro recommended rules
-  ...eslintPluginAstro.configs.recommended,
-
-  // Global settings for all files
-  {
+    files: ['**/*.astro'],
     languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node,
+      parserOptions: {
+        parser: typescriptEslint.parser,
       },
     },
   },
-
-  // TypeScript-specific overrides
   {
-    files: ['**/*.ts', '**/*.tsx'],
-    rules: {
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-        },
-      ],
-      '@typescript-eslint/no-explicit-any': 'warn',
-    },
+    files: ['**/*.astro', '**/*.astro/*', '**/*.astro/**'],
+    ...typescriptEslint.configs.disableTypeChecked,
   },
-
-  // Astro component overrides
-  {
-    files: ['**/*.astro'],
-    rules: {
-      // Astro-specific rule adjustments if needed
-    },
-  }
-);
+  ...eslintPluginAstro.configs['flat/recommended'],
+];

@@ -1,11 +1,11 @@
-import type { Theme } from "../types";
+import type { Theme } from '../types';
 
 interface Props {
   theme: Theme;
 }
 
 export default function ThemeIcon({ theme }: Props) {
-  if (theme === "dark") {
+  if (theme === 'dark') {
     // Sun icon - shown in dark mode (click to go light)
     return (
       <svg
