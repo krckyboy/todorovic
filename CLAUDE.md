@@ -21,6 +21,12 @@ Use OpenSpec for any non-trivial changes:
 
 Example: `/opsx:new add-contact-page --schema astro-page`
 
+## Open Proposal Tracker
+
+- Maintain `openspec/specs/open-proposals/spec.md` as the umbrella tracker for all non-archived proposals.
+- Keep it synchronized whenever proposal status, title, summary, or task progress changes.
+- Update the tracker when a change is created, archived, superseded, or marked completed.
+
 ## Approval and Git Rules
 
 - Never commit without explicit user approval.

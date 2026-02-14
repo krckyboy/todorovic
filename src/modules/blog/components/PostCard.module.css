@@ -1,6 +1,5 @@
 .article {
   padding: var(--spacing-lg);
-  margin-bottom: var(--spacing-md);
   background-color: var(--color-background);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-lg);
@@ -12,11 +11,6 @@
     box-shadow: var(--shadow-md);
     border-color: var(--color-primary-light);
   }
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-
   @media (prefers-reduced-motion: reduce) {
     transition: none;
 

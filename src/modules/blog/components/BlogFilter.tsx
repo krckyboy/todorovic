@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "./BlogFilter.module.css";
-import TagList from "./TagList";
+import PostCard from "./PostCard";
 
 interface Post {
   slug: string;
@@ -58,14 +58,6 @@ export default function BlogFilter({
         )
       : posts;
 
-  const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
-
   return (
     <div className={styles.container}>
       <nav className={styles.categories} aria-label="Blog categories">
@@ -96,16 +88,14 @@ export default function BlogFilter({
       {filteredPosts.length > 0 ? (
         <div className={styles.postsList}>
           {filteredPosts.map((post) => (
-            <article key={post.slug} className={styles.post}>
-              <a href={`/blog/${post.slug}`} className={styles.postTitleLink}>
-                <h2 className={styles.postTitle}>{post.title}</h2>
-              </a>
-              <p className={styles.postDescription}>{post.description}</p>
-              <div className={styles.postMeta}>
-                <time dateTime={post.pubDate}>{formatDate(post.pubDate)}</time>
-                <TagList tags={post.tags} ariaLabel="Post tags" />
-              </div>
-            </article>
+            <PostCard
+              key={post.slug}
+              slug={post.slug}
+              title={post.title}
+              description={post.description}
+              pubDate={post.pubDate}
+              tags={post.tags}
+            />
           ))}
         </div>
       ) : (

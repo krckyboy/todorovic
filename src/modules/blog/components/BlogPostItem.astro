@@ -1,6 +1,5 @@
 ---
-import styles from "./BlogPostItem.module.css";
-import TagList from "./TagList";
+import PostCard from "./PostCard";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
@@ -9,23 +8,12 @@ interface Props {
 
 const { post } = Astro.props;
 const { title, description, pubDate, tags } = post.data;
-
-const formattedDate = pubDate.toLocaleDateString("en-US", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
 ---
 
-<article class={styles.article}>
-  <a href={`/blog/${post.slug}`} class={styles.link}>
-    <h2 class={styles.title}>{title}</h2>
-  </a>
-  <p class={styles.description}>{description}</p>
-  <div class={styles.meta}>
-    <time datetime={pubDate.toISOString()} class={styles.date}>
-      {formattedDate}
-    </time>
-    {tags.length > 0 && <TagList tags={tags} ariaLabel="Post tags" />}
-  </div>
-</article>
+<PostCard
+  slug={post.slug}
+  title={title}
+  description={description}
+  pubDate={pubDate}
+  tags={tags}
+/>

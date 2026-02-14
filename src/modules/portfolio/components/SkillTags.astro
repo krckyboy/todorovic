@@ -18,6 +18,10 @@ const technicalSkills = [
   "Zustand",
   "TanStack Query",
   "Astro",
+  "UI Kit / Library Development",
+  "Reusable Frontend Services",
+  "Microfrontend Architecture",
+  "OpenSpec Development",
   "SASS",
   "Tailwind",
   "CI/CD",
@@ -39,12 +43,10 @@ const softSkills = [
 <section class={styles.section}>
   <div class={styles.category}>
     <h2 class={styles.heading}>{technicalTitle}</h2>
-    <ul class={styles.tags} role="list">
+    <ul class={styles.skillsList} role="list">
       {
         technicalSkills.map((skill) => (
-          <li>
-            <span class={styles.tag}>{skill}</span>
-          </li>
+          <li class={styles.skillItem}>{skill}</li>
         ))
       }
     </ul>
@@ -52,14 +54,8 @@ const softSkills = [
 
   <div class={styles.category}>
     <h2 class={styles.heading}>{softTitle}</h2>
-    <ul class={styles.tags} role="list">
-      {
-        softSkills.map((skill) => (
-          <li>
-            <span class={styles.tag}>{skill}</span>
-          </li>
-        ))
-      }
+    <ul class={styles.skillsList} role="list">
+      {softSkills.map((skill) => <li class={styles.skillItem}>{skill}</li>)}
     </ul>
   </div>
 </section>
