@@ -89,19 +89,6 @@ todorovic/
 - **Blog**: Markdown with frontmatter, draft flag for WIP
 - **Styling**: CSS custom properties from global.css, mobile-first
 
-# Keeping Files in Sync
-
-## CLAUDE.md and AGENTS.md
-
-The files `CLAUDE.md` and `AGENTS.md` in the project root MUST always contain identical content.
-
-When making changes to either file:
-
-- Apply the exact same changes to both files
-- Both files serve as agent instructions and must stay synchronized
-
----
-
 # Subagent Usage
 
 Use subagents (via the Task tool) when it benefits quality or context preservation:
