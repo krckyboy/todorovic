@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "./BlogFilter.module.css";
+import TagList from "./TagList";
 
 interface Post {
   slug: string;
@@ -96,22 +97,14 @@ export default function BlogFilter({
         <div className={styles.postsList}>
           {filteredPosts.map((post) => (
             <article key={post.slug} className={styles.post}>
-              <a href={`/blog/${post.slug}`} className={styles.postLink}>
+              <a href={`/blog/${post.slug}`} className={styles.postTitleLink}>
                 <h2 className={styles.postTitle}>{post.title}</h2>
-                <p className={styles.postDescription}>{post.description}</p>
-                <div className={styles.postMeta}>
-                  <time dateTime={post.pubDate}>
-                    {formatDate(post.pubDate)}
-                  </time>
-                  <ul className={styles.postTags}>
-                    {post.tags.map((tag) => (
-                      <li key={tag} className={styles.postTag}>
-                        {tag}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
               </a>
+              <p className={styles.postDescription}>{post.description}</p>
+              <div className={styles.postMeta}>
+                <time dateTime={post.pubDate}>{formatDate(post.pubDate)}</time>
+                <TagList tags={post.tags} ariaLabel="Post tags" />
+              </div>
             </article>
           ))}
         </div>

@@ -49,3 +49,22 @@ All imports of moved portfolio components SHALL be updated to use the new module
 
 - **WHEN** a page needs Timeline
 - **THEN** it imports from `@modules/portfolio/components/Timeline.astro` or relative equivalent
+
+### Requirement: Skills communicate system-level frontend capability
+
+The Skills section SHALL present not only tool familiarity but also system-level frontend engineering capability.
+
+#### Scenario: Reusable UI libraries capability is represented
+
+- **WHEN** reviewing Skills content
+- **THEN** it includes evidence of building reusable UI libraries or design-system style component kits (for example, React Kit)
+
+#### Scenario: Reusable services capability is represented
+
+- **WHEN** reviewing Skills content
+- **THEN** it includes evidence of designing reusable frontend services/utilities shared across features
+
+#### Scenario: Microfrontends capability is represented
+
+- **WHEN** reviewing Skills content
+- **THEN** it includes evidence of microfrontend architecture or integration experience

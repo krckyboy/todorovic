@@ -21,19 +21,16 @@
   align-items: center;
   gap: var(--spacing-xs);
   margin-top: var(--spacing-xl);
-  padding: var(--spacing-sm) var(--spacing-md);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   color: var(--color-primary);
-  background-color: transparent;
-  border-radius: var(--border-radius-md);
-  transition:
-    color var(--transition-fast),
-    background-color var(--transition-fast);
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+  text-decoration-thickness: 0.08em;
+  transition: color var(--transition-fast);
 
   &:hover {
     color: var(--color-primary-hover);
-    background-color: var(--color-background-alt);
   }
 
   &:focus-visible {

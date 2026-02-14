@@ -1,5 +1,6 @@
 ---
 import styles from "./BlogHeader.module.css";
+import TagList from "./TagList";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
@@ -62,20 +63,5 @@ const formattedUpdateDate = updatedDate?.toLocaleDateString("en-US", {
     <span class={styles.readingTime}>{readingTime}</span>
   </div>
 
-  {
-    tags.length > 0 && (
-      <ul class={styles.tags}>
-        {tags.map((tag) => (
-          <li class={styles.tag}>
-            <a
-              href={`/blog?tags=${encodeURIComponent(tag)}`}
-              class={styles.tagLink}
-            >
-              {tag}
-            </a>
-          </li>
-        ))}
-      </ul>
-    )
-  }
+  {tags.length > 0 && <TagList tags={tags} ariaLabel="Post tags" />}
 </header>

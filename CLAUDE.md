@@ -6,30 +6,48 @@ Instructions for AI assistants working on this Astro portfolio project.
 
 Use OpenSpec for any non-trivial changes:
 
-| Command | Purpose |
-|---------|---------|
-| `/opsx:new` | Start a new change |
-| `/opsx:continue` | Create next artifact |
-| `/opsx:apply` | Implement tasks |
-| `/opsx:archive` | Archive completed change |
+| Command          | Purpose                  |
+| ---------------- | ------------------------ |
+| `/opsx:new`      | Start a new change       |
+| `/opsx:continue` | Create next artifact     |
+| `/opsx:apply`    | Implement tasks          |
+| `/opsx:archive`  | Archive completed change |
 
 **Custom schemas available:**
+
 - `astro-component` - For creating components
 - `astro-page` - For creating pages
 - `blog-content` - For creating blog posts
 
 Example: `/opsx:new add-contact-page --schema astro-page`
 
+## Approval and Git Rules
+
+- Never commit without explicit user approval.
+- Never push without explicit user approval.
+- Keep changes local and uncommitted until the user asks to commit/push.
+- If the user says not to commit yet, continue implementation without committing.
+
+## Delivery Summary Flow
+
+At the end of each substantial task, provide a concise summary in this order:
+
+1. What changed (high-level outcome)
+2. Where it changed (grouped by page/route and key files)
+3. Validation status (`npm run lint`, `npm run build`, and notable checks)
+4. Git state (local-only vs committed/pushed, with commit hash if applicable)
+5. Remaining manual checks or open items
+
 ## Before Writing Code
 
 **Always read the relevant spec before implementation:**
 
-| Task | Read First |
-|------|------------|
-| Component | [openspec/specs/astro-conventions/spec.md#components](openspec/specs/astro-conventions/spec.md) |
-| Page | [openspec/specs/astro-conventions/spec.md#pages](openspec/specs/astro-conventions/spec.md) |
+| Task      | Read First                                                                                               |
+| --------- | -------------------------------------------------------------------------------------------------------- |
+| Component | [openspec/specs/astro-conventions/spec.md#components](openspec/specs/astro-conventions/spec.md)          |
+| Page      | [openspec/specs/astro-conventions/spec.md#pages](openspec/specs/astro-conventions/spec.md)               |
 | Blog post | [openspec/specs/astro-conventions/spec.md#content-collections](openspec/specs/astro-conventions/spec.md) |
-| Styling | [openspec/specs/astro-conventions/spec.md#css-modules](openspec/specs/astro-conventions/spec.md) |
+| Styling   | [openspec/specs/astro-conventions/spec.md#css-modules](openspec/specs/astro-conventions/spec.md)         |
 
 ## Quick Commands
 
@@ -65,8 +83,6 @@ todorovic/
 - **Blog**: Markdown with frontmatter, draft flag for WIP
 - **Styling**: CSS custom properties from global.css, mobile-first
 
----
-
 # Keeping Files in Sync
 
 ## CLAUDE.md and AGENTS.md
@@ -74,6 +90,7 @@ todorovic/
 The files `CLAUDE.md` and `AGENTS.md` in the project root MUST always contain identical content.
 
 When making changes to either file:
+
 - Apply the exact same changes to both files
 - Both files serve as agent instructions and must stay synchronized
 
@@ -89,6 +106,7 @@ Use subagents (via the Task tool) when it benefits quality or context preservati
 - **Context management**: Delegate to subagents to preserve main conversation context
 
 Guidelines:
+
 - Use 3-10 subagents for comprehensive reviews or multi-area searches
 - Prefer parallel execution when tasks are independent
 - Summarize subagent findings concisely for the user

@@ -28,21 +28,31 @@ The component SHALL group technical skills and soft skills under separate headin
 - **THEN** "Technical Skills" heading appears above technical skills
 - **AND** "Soft Skills" heading appears above soft skills
 
-### Requirement: Hover state on skill tags
+### Requirement: Skills are display-only metadata
 
-Each skill tag SHALL have a hover state that uses the primary color.
+Skill tags on the Skills page SHALL be non-interactive presentation elements, not links/buttons.
 
-#### Scenario: Tag hover effect
+#### Scenario: No click navigation on skill tags
 
-- **WHEN** user hovers over a skill tag
-- **THEN** the tag border or background changes to primary color
-- **AND** transition is smooth (using CSS transition)
+- **WHEN** user clicks or taps a skill tag
+- **THEN** no navigation or filtering action is triggered
 
-### Requirement: Accessible focus states
+#### Scenario: Non-interactive semantics
 
-Each skill tag SHALL be focusable and show visible focus indicators.
+- **WHEN** inspecting rendered skill tags
+- **THEN** they render as non-interactive text elements (not anchors or buttons)
 
-#### Scenario: Keyboard navigation
+### Requirement: Skills communicate advanced engineering scope
 
-- **WHEN** user tabs through the skills section
-- **THEN** each skill tag receives visible focus outline
+Skills content SHALL include system-level frontend capabilities in addition to framework/tool names.
+
+#### Scenario: Reusable libraries and services are represented
+
+- **WHEN** reviewing technical skills content
+- **THEN** it references reusable UI library/component-kit work (for example, React Kit)
+- **AND** it references reusable frontend services/utilities
+
+#### Scenario: Microfrontend capability is represented
+
+- **WHEN** reviewing technical skills content
+- **THEN** it references microfrontend architecture or integration experience
