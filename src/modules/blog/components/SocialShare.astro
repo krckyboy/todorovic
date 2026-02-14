@@ -1,0 +1,92 @@
+---
+import styles from "./SocialShare.module.css";
+
+interface Props {
+  url: string;
+  title: string;
+}
+
+const { url, title } = Astro.props;
+
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+const linkedInShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`;
+---
+
+<section
+  class={styles.section}
+  aria-label="Share this article"
+  data-social-share
+>
+  <h2 class={styles.heading}>Share this article</h2>
+  <div class={styles.actions}>
+    <a
+      href={linkedInShareUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class={styles.shareLink}
+      aria-label={`Share "${title}" on LinkedIn`}
+    >
+      LinkedIn
+    </a>
+    <a
+      href={twitterShareUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class={styles.shareLink}
+      aria-label={`Share "${title}" on X (Twitter)`}
+    >
+      X
+    </a>
+    <button
+      type="button"
+      class={styles.copyButton}
+      data-copy-link
+      data-url={url}
+      aria-label={`Copy link to "${title}"`}
+    >
+      Copy link
+    </button>
+  </div>
+  <p
+    class={styles.feedback}
+    data-copy-feedback
+    role="status"
+    aria-live="polite"
+  >
+  </p>
+</section>
+
+<script is:inline>
+  for (const root of document.querySelectorAll("[data-social-share]")) {
+    const copyButton = root.querySelector("[data-copy-link]");
+    const feedback = root.querySelector("[data-copy-feedback]");
+
+    if (!(copyButton instanceof HTMLButtonElement)) continue;
+    if (!(feedback instanceof HTMLElement)) continue;
+
+    const copyUrl = copyButton.getAttribute("data-url") || window.location.href;
+    let resetTimeout;
+
+    copyButton.addEventListener("click", async () => {
+      if (!navigator.clipboard) {
+        feedback.textContent = "Clipboard not supported.";
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(copyUrl);
+        copyButton.setAttribute("data-copied", "true");
+        feedback.textContent = "Link copied.";
+        window.clearTimeout(resetTimeout);
+        resetTimeout = window.setTimeout(() => {
+          copyButton.removeAttribute("data-copied");
+          feedback.textContent = "";
+        }, 2000);
+      } catch {
+        feedback.textContent = "Unable to copy link.";
+      }
+    });
+  }
+</script>

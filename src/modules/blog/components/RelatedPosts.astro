@@ -1,0 +1,88 @@
+---
+import type { CollectionEntry } from "astro:content";
+import styles from "./RelatedPosts.module.css";
+
+interface Props {
+  currentPost: CollectionEntry<"blog">;
+  allPosts: CollectionEntry<"blog">[];
+}
+
+const { currentPost, allPosts } = Astro.props;
+
+const currentTagSet = new Set(currentPost.data.tags ?? []);
+const otherPosts = allPosts.filter((post) => post.slug !== currentPost.slug);
+
+const postsByRecency = [...otherPosts].sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const tagMatchedPosts = otherPosts
+  .map((post) => {
+    const overlap = (post.data.tags ?? []).reduce(
+      (count, tag) => (currentTagSet.has(tag) ? count + 1 : count),
+      0,
+    );
+
+    return { post, overlap };
+  })
+  .filter(({ overlap }) => overlap > 0)
+  .sort((a, b) => {
+    if (b.overlap !== a.overlap) {
+      return b.overlap - a.overlap;
+    }
+
+    return b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf();
+  })
+  .map(({ post }) => post);
+
+const relatedPosts =
+  tagMatchedPosts.length < 2
+    ? [
+        ...tagMatchedPosts,
+        ...postsByRecency
+          .filter(
+            (candidate) =>
+              !tagMatchedPosts.some(
+                (matched) => matched.slug === candidate.slug,
+              ),
+          )
+          .slice(0, 3 - tagMatchedPosts.length),
+      ].slice(0, 3)
+    : tagMatchedPosts.slice(0, 3);
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+---
+
+{
+  relatedPosts.length > 0 && (
+    <section class={styles.section} aria-labelledby="related-posts-heading">
+      <h2 id="related-posts-heading" class={styles.heading}>
+        Related Posts
+      </h2>
+      <ul class={styles.list} role="list">
+        {relatedPosts.map((post) => (
+          <li class={styles.item}>
+            <article class={styles.card}>
+              <h3 class={styles.title}>
+                <a href={`/blog/${post.slug}`} class={styles.link}>
+                  {post.data.title}
+                </a>
+              </h3>
+              <p class={styles.date}>
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {formatDate(post.data.pubDate)}
+                </time>
+              </p>
+              <p class={styles.description}>{post.data.description}</p>
+            </article>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}

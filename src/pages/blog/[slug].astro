@@ -1,13 +1,16 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import BlogHeader from "../../modules/blog/components/BlogHeader.astro";
+import SocialShare from "../../modules/blog/components/SocialShare.astro";
 import AuthorCard from "../../modules/blog/components/AuthorCard.astro";
+import PostNavigation from "../../modules/blog/components/PostNavigation.astro";
+import RelatedPosts from "../../modules/blog/components/RelatedPosts.astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import readingTime from "reading-time";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
@@ -23,6 +26,17 @@ const { title, description, pubDate, updatedDate, author } = post.data;
 const { Content } = await post.render();
 const readingTimeText = readingTime(post.body).text;
 const canonicalPostURL = new URL(`/blog/${post.slug}/`, Astro.site).toString();
+const allPosts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const currentPostIndex = allPosts.findIndex(
+  (entry) => entry.slug === post.slug,
+);
+const nextPost = currentPostIndex > 0 ? allPosts[currentPostIndex - 1] : null;
+const prevPost =
+  currentPostIndex >= 0 && currentPostIndex < allPosts.length - 1
+    ? allPosts[currentPostIndex + 1]
+    : null;
 
 const blogPostingJsonLd = {
   "@context": "https://schema.org",
@@ -54,7 +68,13 @@ const blogPostingJsonLd = {
       <Content />
     </div>
 
+    <SocialShare url={canonicalPostURL} title={title} />
+
     <AuthorCard />
+
+    <PostNavigation prevPost={prevPost} nextPost={nextPost} />
+
+    <RelatedPosts currentPost={post} allPosts={allPosts} />
 
     <footer class="post-footer">
       <a href="/blog">&larr; Back to all posts</a>
