@@ -22,7 +22,7 @@
 
 .yearGroup {
   position: relative;
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
 
   &:last-child {
     margin-bottom: 0;
@@ -59,10 +59,37 @@
   background-color: var(--color-border);
 }
 
-.roles {
+.groupContent {
   padding-left: var(--spacing-sm);
 
   @media (min-width: 768px) {
     padding-left: var(--spacing-md);
   }
+}
+
+.companyHeader {
+  margin-bottom: var(--spacing-sm);
+}
+
+.company {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-xs);
+}
+
+.location {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-xs);
+}
+
+.companyMeta {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.roles {
+  margin-top: var(--spacing-md);
 }

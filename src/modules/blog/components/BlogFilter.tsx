@@ -21,7 +21,20 @@ export default function BlogFilter({
   categories,
   initialTags = [],
 }: Props) {
-  const [activeTags, setActiveTags] = useState<string[]>(initialTags);
+  const [activeTags, setActiveTags] = useState<string[]>(() => {
+    if (typeof window === "undefined") {
+      return initialTags;
+    }
+
+    const url = new URL(window.location.href);
+    const tagsParam = url.searchParams.get("tags");
+
+    if (!tagsParam) {
+      return initialTags;
+    }
+
+    return tagsParam.split(",").filter((tag) => categories.includes(tag));
+  });
 
   // Update URL when tags change
   useEffect(() => {
@@ -33,15 +46,6 @@ export default function BlogFilter({
     }
     window.history.replaceState({}, "", url.toString());
   }, [activeTags]);
-
-  // Read tags from URL on mount
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    const tagsParam = url.searchParams.get("tags");
-    if (tagsParam) {
-      setActiveTags(tagsParam.split(",").filter((t) => categories.includes(t)));
-    }
-  }, []);
 
   const toggleTag = (tag: string) => {
     setActiveTags((prev) =>

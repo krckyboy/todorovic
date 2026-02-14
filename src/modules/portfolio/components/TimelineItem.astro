@@ -3,21 +3,12 @@ import styles from "./TimelineItem.module.css";
 
 interface Props {
   title: string;
-  company: string;
-  location: string;
   period: string;
   duration: string;
   isCurrent?: boolean;
 }
 
-const {
-  title,
-  company,
-  location,
-  period,
-  duration,
-  isCurrent = false,
-} = Astro.props;
+const { title, period, duration, isCurrent = false } = Astro.props;
 ---
 
 <article class:list={[styles.item, isCurrent && styles.current]}>
@@ -25,8 +16,7 @@ const {
     <span class={styles.dot}></span>
   </div>
   <div class={styles.content}>
-    <h3 class={styles.title}>{title}</h3>
-    <p class={styles.company}>{company} · {location}</p>
+    <h4 class={styles.title}>{title}</h4>
     <p class={styles.period}>{period} · {duration}</p>
     {isCurrent && <span class={styles.currentBadge}>Current</span>}
   </div>
