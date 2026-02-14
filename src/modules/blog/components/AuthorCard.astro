@@ -10,21 +10,23 @@ interface Props {
 }
 
 const {
-  name = "Dusan Todorovic",
-  title = "JavaScript Developer | Team Leader",
-  bio = "Software developer passionate about web technologies, clean code, and building great user experiences.",
+  name = "Dušan Todorović",
+  title = "Frontend Team Lead",
+  bio = "Frontend Team Lead focused on fast, accessible, and maintainable web products.",
   avatarSrc = "/images/dusan.png",
-  avatarAlt = "Dusan Todorovic",
+  avatarAlt = "Portrait of Dušan Todorović",
 } = Astro.props;
 
 const socialLinks = [
   {
     href: "https://www.linkedin.com/in/dusan-todorovic-krcky/",
     label: "LinkedIn",
+    external: true,
   },
   {
     href: "mailto:dusan.todorovic.dev@gmail.com",
     label: "Email",
+    external: false,
   },
 ];
 ---
@@ -37,6 +39,7 @@ const socialLinks = [
     width="80"
     height="80"
     loading="lazy"
+    onerror="this.onerror=null;this.src='/images/avatar-fallback.svg';"
   />
   <div class={styles.content}>
     <a href="/" class={styles.name}>{name}</a>
@@ -44,13 +47,13 @@ const socialLinks = [
     <p class={styles.bio}>{bio}</p>
     <ul class={styles.socialLinks}>
       {
-        socialLinks.map(({ href, label }) => (
+        socialLinks.map(({ href, label, external }) => (
           <li>
             <a
               href={href}
               class={styles.socialLink}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={external ? "_blank" : undefined}
+              rel={external ? "noopener noreferrer" : undefined}
             >
               {label}
             </a>
