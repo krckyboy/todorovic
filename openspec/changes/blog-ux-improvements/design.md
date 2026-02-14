@@ -73,6 +73,14 @@ The blog post page layout (top to bottom):
 
 **Rationale**: Social sharing placed immediately after content for maximum visibility. Author card follows as context. Navigation and related posts at the bottom encourage further reading.
 
+### 7. Interaction details and UX polish
+
+- **Tag links**: Keep tag pills visually consistent with current style, but render the interactive element as the anchor itself (not nested interactive controls). URL values MUST be encoded with `encodeURIComponent`.
+- **Share links**: LinkedIn and X links open in a new tab and include `rel="noopener noreferrer"` to avoid leaking window context.
+- **Copy link feedback**: Use short-lived success feedback ("Copied") and reset state automatically after a brief delay so repeated copying remains obvious.
+- **Navigation labels**: Keep directional context explicit (`Previous`, `Next`) and surface the post title as the clickable target text.
+- **Reduced motion**: Any transition added for new components must be disabled under `prefers-reduced-motion: reduce`.
+
 ## Risks / Trade-offs
 
 - **Few posts currently (3)**: Related posts will mostly show all other posts. This is acceptable -- the feature becomes more valuable as content grows. Mitigation: The fallback-to-recent logic ensures the section always looks populated.

@@ -62,3 +62,9 @@ Current pain points:
 
 **[Trade-off]** Hardcoded data vs content collections
 → Skills/experience change rarely; quick edits in component are acceptable for a personal site.
+
+## Final Validation Focus
+
+- **Responsive QA**: Confirm SkillTags wrapping and timeline readability at narrow mobile widths, mid tablet widths, and large desktop widths.
+- **Dark mode QA**: Verify timeline cards, tags, and text contrast remain readable under `[data-theme="dark"]`.
+- **Keyboard QA**: Ensure interactive controls in redesigned areas expose clear `:focus-visible` indicators and preserve logical tab order.

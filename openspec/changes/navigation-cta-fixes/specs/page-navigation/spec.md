@@ -38,6 +38,12 @@ The About and Skills pages SHALL display breadcrumb navigation showing "Home / P
 - **WHEN** viewing the Skills page
 - **THEN** a breadcrumb displays "Home" (linked to /) followed by "Skills & Experience"
 
+#### Scenario: Breadcrumb semantics and accessibility
+
+- **WHEN** breadcrumbs render on About or Skills pages
+- **THEN** they are wrapped in a breadcrumb navigation landmark (`aria-label="Breadcrumb"`)
+- **AND** keyboard users can identify the current page segment
+
 ### Requirement: Hero blog CTA
 
 The Hero section SHALL include a link to the blog page alongside the existing "About Me" and "View Experience" CTAs.
@@ -55,3 +61,12 @@ The 404 page SHALL include a "You might be looking for" section with links to th
 
 - **WHEN** viewing the 404 error page
 - **THEN** links to `/blog`, `/about`, and `/skills` are visible below the error message
+
+### Requirement: CTA link accessibility
+
+All new CTA links/buttons introduced by this change SHALL provide visible keyboard focus states.
+
+#### Scenario: Focus-visible for added links
+
+- **WHEN** keyboard users tab through new CTA controls
+- **THEN** each control displays a visible `:focus-visible` indicator

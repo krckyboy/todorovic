@@ -1,5 +1,7 @@
 # Proposal: Setup Deployment
 
+> **STATUS: BACKLOG** as of February 14, 2026.
+
 ## Problem
 
 Need to deploy the site to production.
@@ -13,11 +15,11 @@ Need to deploy the site to production.
 
 ## Options
 
-| Platform | Pros | Cons |
-|----------|------|------|
-| Vercel | Best DX, fast, free tier | Vendor lock-in |
-| Netlify | Good DX, forms, functions | Slightly slower |
-| Cloudflare Pages | Fastest CDN, generous free tier | Fewer features |
+| Platform         | Pros                            | Cons            |
+| ---------------- | ------------------------------- | --------------- |
+| Vercel           | Best DX, fast, free tier        | Vendor lock-in  |
+| Netlify          | Good DX, forms, functions       | Slightly slower |
+| Cloudflare Pages | Fastest CDN, generous free tier | Fewer features  |
 
 ## Recommended: Vercel
 

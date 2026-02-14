@@ -1,7 +1,10 @@
+> Progress snapshot: February 14, 2026.
+> Reading time is already wired; remaining work is focused on engagement/navigation components and clickable tags.
+
 ## 1. Reading Time Integration
 
-- [ ] 1.1 Import `reading-time` in `src/pages/blog/[slug].astro` and compute reading time from `post.body`
-- [ ] 1.2 Pass the computed reading time string to `BlogHeader` via the `readingTime` prop
+- [x] 1.1 Import `reading-time` in `src/pages/blog/[slug].astro` and compute reading time from `post.body`
+- [x] 1.2 Pass the computed reading time string to `BlogHeader` via the `readingTime` prop
 
 ## 2. Clickable Tags
 
@@ -45,8 +48,8 @@
 
 ## 7. Verification
 
-- [ ] 7.1 Run `npm run build` and verify no build errors
-- [ ] 7.2 Run `npm run lint` and verify no linting errors
+- [x] 7.1 Run `npm run build` and verify no build errors
+- [x] 7.2 Run `npm run lint` and verify no linting errors
 - [ ] 7.3 Verify keyboard navigation works for all new interactive elements (tab through tags, share buttons, nav links, related post links)
 - [ ] 7.4 Verify reduced-motion media query disables transitions in all new components
 - [ ] 7.5 Verify tag links navigate to `/blog?tags=tagname` and the blog filter activates correctly

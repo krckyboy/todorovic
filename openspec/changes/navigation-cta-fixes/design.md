@@ -35,3 +35,10 @@ Rationale: Linking to a specific post URL requires querying content collections 
 
 - **[Risk]** mailto links can feel outdated → Acceptable for a developer portfolio; the audience (recruiters, developers) expects and uses email
 - **[Risk]** Inline breadcrumbs duplicated across pages → Only 2 instances; extract to a component if a third page needs them
+
+## UX Details
+
+- Breadcrumbs use semantic nav markup (`<nav aria-label="Breadcrumb">`) and preserve the same visual rhythm as blog breadcrumbs.
+- New CTAs use descriptive labels ("View my skills", "Read my story", "Read my latest article") to improve scanability for first-time visitors.
+- All added links/buttons must expose visible `:focus-visible` styles, matching existing accessibility conventions.
+- 404 suggestion links should be placed directly below the error message so the recovery path is immediately visible.

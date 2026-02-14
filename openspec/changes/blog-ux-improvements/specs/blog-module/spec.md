@@ -42,6 +42,12 @@ Tags displayed in `BlogHeader` SHALL be rendered as anchor links navigating to `
 - **THEN** the browser navigates to the blog index page
 - **AND** the BlogFilter component activates the corresponding tag filter
 
+#### Scenario: Tag names are safely encoded
+
+- **WHEN** a tag contains spaces or special characters
+- **THEN** its link uses a URL-encoded query value
+- **AND** the resulting URL remains a valid `/blog?tags=...` route
+
 #### Scenario: Tag accessibility
 
 - **WHEN** tags render as links

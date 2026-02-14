@@ -1,8 +1,12 @@
 # Migrate to Astro
 
+> **STATUS: COMPLETED BASELINE** as of February 14, 2026.
+> Follow-up enhancements now live in separate changes (for example: `redesign-portfolio`, `navigation-cta-fixes`, `blog-ux-improvements`, `optimize-header-hydration`, `setup-deployment`).
+
 ## Problem
 
 The current portfolio site uses Next.js with Strapi CMS, which adds unnecessary complexity for a personal portfolio/blog:
+
 - Server-side infrastructure for a mostly static site
 - CMS maintenance overhead
 - Heavier build process
@@ -10,6 +14,7 @@ The current portfolio site uses Next.js with Strapi CMS, which adds unnecessary 
 ## Solution
 
 Migrate to Astro with:
+
 - Static site generation (faster, simpler)
 - Content Collections for blog (markdown files, no CMS)
 - CSS Modules for styling (lightweight, scoped)
@@ -18,6 +23,7 @@ Migrate to Astro with:
 ## Scope
 
 ### Included
+
 - Full site migration (home, about, skills, blog)
 - OpenSpec workflow setup
 - AI agent architecture
@@ -26,6 +32,7 @@ Migrate to Astro with:
 - Search implementation (Pagefind)
 
 ### Not Included
+
 - CMS integration (using markdown files instead)
 - Server-side features
 - Authentication/user features
@@ -43,14 +50,14 @@ Migrate to Astro with:
 
 ## Technical Decisions
 
-| Decision | Choice | Rationale |
-|----------|--------|-----------|
-| Framework | Astro 5.x | Best static site DX |
-| Styling | CSS Modules | Scoped, no runtime |
-| Content | Content Collections | Type-safe, built-in |
-| Search | Pagefind | Client-side, fast |
-| AI Config | Claude only | Primary AI tool |
-| Components | Pure Astro | No hydration needed |
+| Decision   | Choice              | Rationale           |
+| ---------- | ------------------- | ------------------- |
+| Framework  | Astro 5.x           | Best static site DX |
+| Styling    | CSS Modules         | Scoped, no runtime  |
+| Content    | Content Collections | Type-safe, built-in |
+| Search     | Pagefind            | Client-side, fast   |
+| AI Config  | Claude only         | Primary AI tool     |
+| Components | Pure Astro          | No hydration needed |
 
 ## Timeline
 

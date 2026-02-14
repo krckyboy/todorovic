@@ -1,3 +1,6 @@
+> Progress snapshot: February 14, 2026.
+> Author title consistency is completed; remaining scope is page-level CTA and breadcrumb UX.
+
 ## 1. About Page CTA
 
 - [ ] 1.1 Replace the plain text "reach out through social links in the footer" in `src/pages/about.astro` with a styled "Get in Touch" button linking to `mailto:dusan.todorovic.dev@gmail.com`
@@ -9,7 +12,7 @@
 
 ## 3. Author Title Consistency
 
-- [ ] 3.1 Change the default `title` prop in `src/modules/blog/components/AuthorCard.astro` from "JavaScript Developer | Team Leader" to "Frontend Team Lead"
+- [x] 3.1 Change the default `title` prop in `src/modules/blog/components/AuthorCard.astro` from "JavaScript Developer | Team Leader" to "Frontend Team Lead"
 
 ## 4. Breadcrumbs
 

@@ -1,3 +1,6 @@
+> **STATUS: BACKLOG** as of February 14, 2026.
+> Current implementation in `SkillTags.astro` still uses `/blog?tags=...` links, so this proposal remains a pending behavior change.
+
 ## Why
 
 Skills on the Skills page are currently rendered in a way that implies tag/filter behavior and links into blog filtering. That couples two unrelated concerns: skills representation in portfolio UI and content taxonomy in blog search.

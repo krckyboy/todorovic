@@ -1,3 +1,6 @@
+> **STATUS: IN PROGRESS** as of February 14, 2026.
+> Current implementation already includes computed reading time; engagement components and clickable tags are still pending.
+
 ## Why
 
 Blog posts currently lack content discovery and engagement features. Readers finish a post and see only a "Back to all posts" link, with no way to find related content, navigate to adjacent posts, or share what they read. Tags displayed in `BlogHeader` and `BlogPostItem` are static text rather than interactive filters. The `reading-time` package is installed but not wired into the blog post rendering pipeline, so all posts show a hardcoded "5 min read" default.
@@ -32,3 +35,10 @@ Blog posts currently lack content discovery and engagement features. Readers fin
   - `src/modules/blog/components/PostNavigation.astro` + CSS module
 - **Dependencies**: No new packages (uses already-installed `reading-time`).
 - **No breaking changes**: All modifications are additive. Existing URLs and content structure remain unchanged. The `BlogFilter` component on `/blog` already supports `tags` query parameter filtering.
+
+## UX Outcomes
+
+- Readers can continue browsing without returning to `/blog` manually (prev/next + related posts).
+- Readers can share content in one click without third-party scripts (LinkedIn, X, copy link).
+- Tags become navigational controls with keyboard-visible focus, not static labels.
+- Reading-time metadata reflects actual article length instead of placeholder defaults.

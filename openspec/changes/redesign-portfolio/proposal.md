@@ -1,3 +1,6 @@
+> **STATUS: MOSTLY COMPLETE** as of February 14, 2026.
+> Core redesign implementation is done; remaining work is validation across responsive, dark mode, and keyboard-accessibility checks.
+
 ## Why
 
 The current portfolio has a tabbed skills interface and experience section that require clicking to explore, a broken gallery section with no images, and outdated employment info (missing Constructor Tech). Modernizing to a scannable tag cloud for skills and a vertical timeline for experience improves usability and showcases career progression at a glance.
@@ -27,3 +30,9 @@ The current portfolio has a tabbed skills interface and experience section that 
 - **Files to Delete**: Skills.tsx, SkillSection.tsx, Experience.tsx, ImageSection.astro + CSS Modules
 - **Files to Modify**: skills.astro, about.astro, Hero.astro, index.astro, FeaturedPosts.astro
 - **Dependencies**: None - all changes are presentational
+
+## UX Outcomes
+
+- Skills and career history are now scannable at first glance, without tab interactions.
+- Portfolio messaging is more current and aligned with current role/title.
+- Broken or empty sections are removed, reducing visual noise and dead UI.

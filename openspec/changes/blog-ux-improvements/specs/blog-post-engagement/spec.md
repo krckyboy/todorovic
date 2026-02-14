@@ -112,6 +112,12 @@ The `[slug].astro` page SHALL integrate all new components in the correct order:
 - **AND** it SHALL pass the post URL and title to SocialShare
 - **AND** it SHALL compute and pass reading time to BlogHeader
 
+#### Scenario: SocialShare receives canonical absolute URL
+
+- **WHEN** SocialShare receives the post URL
+- **THEN** the URL is absolute and canonical for the current slug
+- **AND** includes the trailing slash style used by blog routes
+
 ### Requirement: New components follow project conventions
 
 All new components SHALL follow the project's Astro component conventions.

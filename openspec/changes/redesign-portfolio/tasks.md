@@ -1,3 +1,6 @@
+> Progress snapshot: February 14, 2026.
+> Implementation tasks are complete; remaining checklist is validation and QA hardening.
+
 ## 1. Skills Section
 
 - [x] 1.1 Create SkillTags.astro with tag cloud layout displaying all technical and soft skills
@@ -29,6 +32,6 @@
 ## 5. Verification
 
 - [x] 5.1 Run npm run build and verify no errors
-- [ ] 5.2 Test responsive layout on mobile, tablet, and desktop viewports
-- [ ] 5.3 Test dark mode appearance
-- [ ] 5.4 Verify keyboard navigation and focus states work correctly
+- [ ] 5.2 Test responsive layout on mobile, tablet, and desktop viewports (at minimum: 375px, 768px, 1280px)
+- [ ] 5.3 Test dark mode appearance for SkillTags and Timeline sections
+- [ ] 5.4 Verify keyboard navigation and focus states work correctly for all interactive elements in redesigned sections

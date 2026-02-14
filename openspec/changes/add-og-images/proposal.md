@@ -1,5 +1,7 @@
 # Proposal: Add OG Images
 
+> **STATUS: BACKLOG** as of February 14, 2026.
+
 ## Problem
 
 When sharing links on social media (Twitter, LinkedIn, Slack), there's no preview image.

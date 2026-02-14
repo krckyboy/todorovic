@@ -1,5 +1,8 @@
 # Proposal: Dark/Light Theme
 
+> **STATUS: SUPERSEDED** on February 11, 2026 by `openspec/changes/archive/2026-02-11-dark-mode-accessibility`.
+> Theme support is already implemented (`data-theme` initialization in BaseLayout plus ThemeToggle module), so this proposal should not be treated as active implementation work.
+
 ## Problem
 
 Site currently only has a light theme. Users should be able to choose their preferred color scheme.
@@ -18,7 +21,7 @@ Site currently only has a light theme. Users should be able to choose their pref
 
 ```javascript
 // Initial theme from system preference
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 ```
 
 ### Theme Storage

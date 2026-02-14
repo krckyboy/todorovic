@@ -1,3 +1,6 @@
+> **STATUS: BACKLOG** as of February 14, 2026.
+> This is a performance optimization follow-up; not yet started.
+
 ## Why
 
 The site currently hydrates React islands in the header on every page load, which pulls in a shared client runtime even when users never use search or theme toggling. This is a good candidate for progressive enhancement because the core navigation is already static.

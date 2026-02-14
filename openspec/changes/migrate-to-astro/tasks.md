@@ -2,6 +2,9 @@
 
 Implementation checklist for the migration.
 
+> Status refresh: February 14, 2026.
+> This file is retained as historical baseline; unresolved verification items should be handled in focused follow-up changes.
+
 ## Phase 1: Foundation ✓
 
 - [x] Initialize Astro project with minimal template
@@ -50,10 +53,10 @@ Implementation checklist for the migration.
 - [x] Create Footer component
 - [x] Create Navigation component
 - [x] Create BlogPostItem component
-- [ ] Create Categories component
-- [ ] Create AuthorCard component
-- [ ] Create Skills component
-- [ ] Create Experience component
+- [x] (Superseded) Categories component requirement replaced by `BlogFilter` + tag-driven filtering
+- [x] Create AuthorCard component
+- [x] (Superseded) Skills component requirement replaced by `SkillTags` in `redesign-portfolio`
+- [x] (Superseded) Experience component requirement replaced by `Timeline` in `redesign-portfolio`
 - [x] Create SocialIcons component
 
 ## Phase 5: Pages ✓
@@ -65,12 +68,12 @@ Implementation checklist for the migration.
 - [x] Create blog/[slug].astro
 - [x] Create 404.astro
 
-## Phase 6: Search
+## Phase 6: Search ✓
 
-- [ ] Install Pagefind
-- [ ] Configure Pagefind in astro.config.mjs
-- [ ] Create Search component
-- [ ] Add search to header/navigation
+- [x] Install Pagefind
+- [x] Configure Pagefind in astro.config.mjs
+- [x] Create Search component
+- [x] Add search to header/navigation
 
 ## Phase 7: Content Migration ✓
 
