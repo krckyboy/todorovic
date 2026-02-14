@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import ThemeIcon from '../components/ThemeIcon';
-import { useTheme } from '../hooks/useTheme';
+import { useTheme } from '../services/useTheme';
 import styles from './ThemeToggle.module.css';
 
 export default function ThemeToggle() {

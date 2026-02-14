@@ -1,43 +1,54 @@
-# Astro Starter Kit: Minimal
+# todorovic
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Personal Astro portfolio project using OpenSpec for spec-driven development.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Architecture and Conventions
 
-## 🚀 Project Structure
+This repository follows two core conventions:
 
-Inside of your Astro project, you'll see the following folders and files:
+- **Domain-Driven Design (DDD)-inspired module structure** for complex features under `src/modules/`.
+- **Astro conventions** defined in `openspec/specs/astro-conventions/spec.md` for components, pages, styling, and content.
+
+Start here:
+
+- [documentation/README.md](documentation/README.md) - repo-wide engineering documentation
+- [documentation/architecture-conventions.md](documentation/architecture-conventions.md) - DDD + Astro conventions summary
+- [documentation/engineering-workflow.md](documentation/engineering-workflow.md) - implementation workflow and OpenSpec execution
+- [documentation/modules-and-services.md](documentation/modules-and-services.md) - module/service boundary rules
+- [documentation/validation-and-quality-gates.md](documentation/validation-and-quality-gates.md) - lint/build gates and release checklist
+- [openspec/specs/astro-conventions/spec.md](openspec/specs/astro-conventions/spec.md) - OpenSpec source-of-truth conventions used by AI assistants and engineers
+- [AGENTS.md](AGENTS.md) - AI assistant working rules for this repo
+
+## Project Structure
 
 ```text
-/
-├── public/
+todorovic/
+├── documentation/
+├── openspec/
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/
+│   ├── content/blog/
+│   ├── layouts/
+│   ├── modules/
+│   ├── pages/
+│   └── styles/
+└── public/
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Commands
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```bash
+npm run dev
+npm run lint
+npm run build
+npm run preview
+```
 
-Any static assets, like images, can be placed in the `public/` directory.
+## OpenSpec Workflow
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+```bash
+/opsx:new      # start a change
+/opsx:continue # create next artifact
+/opsx:apply    # implement tasks
+/opsx:archive  # archive completed change
+```

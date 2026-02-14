@@ -46,14 +46,21 @@ At the end of each substantial task, provide a concise summary in this order:
 
 ## Before Writing Code
 
-**Always read the relevant spec before implementation:**
+Use on-demand loading to keep context lean:
 
-| Task      | Read First                                                                                               |
-| --------- | -------------------------------------------------------------------------------------------------------- |
-| Component | [openspec/specs/astro-conventions/spec.md#components](openspec/specs/astro-conventions/spec.md)          |
-| Page      | [openspec/specs/astro-conventions/spec.md#pages](openspec/specs/astro-conventions/spec.md)               |
-| Blog post | [openspec/specs/astro-conventions/spec.md#content-collections](openspec/specs/astro-conventions/spec.md) |
-| Styling   | [openspec/specs/astro-conventions/spec.md#css-modules](openspec/specs/astro-conventions/spec.md)         |
+- Always read the relevant OpenSpec spec for the task.
+- Do not preload all files in `documentation/`; open only the doc(s) needed for the current task.
+
+| Task             | Read First                                                                                                  |
+| ---------------- | ----------------------------------------------------------------------------------------------------------- |
+| Component        | [openspec/specs/astro-conventions/spec.md#components](openspec/specs/astro-conventions/spec.md)             |
+| Page             | [openspec/specs/astro-conventions/spec.md#pages](openspec/specs/astro-conventions/spec.md)                  |
+| Blog post        | [openspec/specs/astro-conventions/spec.md#content-collections](openspec/specs/astro-conventions/spec.md)    |
+| Styling          | [openspec/specs/astro-conventions/spec.md#css-modules](openspec/specs/astro-conventions/spec.md)            |
+| Module/service   | [openspec/specs/astro-conventions/spec.md#modules-ddd-convention](openspec/specs/astro-conventions/spec.md) |
+| Workflow         | [documentation/engineering-workflow.md](documentation/engineering-workflow.md)                              |
+| Quality gates    | [documentation/validation-and-quality-gates.md](documentation/validation-and-quality-gates.md)              |
+| Repo conventions | [documentation/architecture-conventions.md](documentation/architecture-conventions.md)                      |
 
 ## Quick Commands
 
@@ -68,6 +75,7 @@ npm run preview  # Preview production build
 ```
 todorovic/
 ├── .claude/                    # AI configuration (managed by OpenSpec)
+├── documentation/              # Repo-wide engineering documentation
 ├── openspec/
 │   ├── config.yaml             # Project context
 │   ├── specs/                  # Source of truth
@@ -77,6 +85,7 @@ todorovic/
 │   ├── content/blog/           # Blog posts (markdown)
 │   ├── components/             # Astro components
 │   ├── layouts/                # Page layouts
+│   ├── modules/                # DDD-inspired feature modules
 │   ├── pages/                  # Routes
 │   └── styles/                 # Global CSS
 └── public/                     # Static assets
@@ -84,10 +93,14 @@ todorovic/
 
 ## Key Conventions
 
+- **Architecture**: Domain-Driven Design inspired module boundaries for complex features (`src/modules/<feature>/views|components|services`)
+- **Module internals**: No separate `hooks/` folder convention; reusable hook-style logic belongs in `services/`
+- **Modules**: Keep business/data logic in `services/`; keep rendering in `views/` and `components/`
 - **Components**: PascalCase, CSS Modules, TypeScript Props interface
 - **Pages**: kebab-case, BaseLayout wrapper, unique title/description
 - **Blog**: Markdown with frontmatter, draft flag for WIP
 - **Styling**: CSS custom properties from global.css, mobile-first
+- **Astro conventions**: Follow `openspec/specs/astro-conventions/spec.md` as source of truth
 
 # Subagent Usage
 
