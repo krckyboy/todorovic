@@ -19,7 +19,9 @@ const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text
   aria-label="Share this article"
   data-social-share
 >
-  <h2 class={styles.heading}>Share this article</h2>
+  <h2 class:list={[styles.heading, 'u-heading-xl-semibold']}>
+    Share this article
+  </h2>
   <div class={styles.actions}>
     <a
       href={linkedInShareUrl}

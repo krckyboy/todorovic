@@ -1,4 +1,4 @@
-> **STATUS: IN PROGRESS** as of February 14, 2026.
+> **STATUS: COMPLETED (Pending Archive)** as of February 16, 2026.
 > Scope owner decision: live `todorovic.dev` is source of truth for current blog content.
 
 ## Why

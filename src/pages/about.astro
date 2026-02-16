@@ -1,15 +1,15 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = "About - Dusan Todorovic";
+const title = 'About Dušan Todorović | Frontend Team Lead, React and Next.js';
 const description =
-  "Learn more about Dusan Todorovic, a software developer passionate about web technologies.";
+  'About Dušan Todorović: frontend team lead focused on React, Next.js, leadership, and scalable web engineering.';
 ---
 
 <BaseLayout title={title} description={description}>
   <article class="container content">
     <header class="page-header">
-      <h1>About Me</h1>
+      <h1 class="u-heading-3xl-bold">About Me</h1>
     </header>
 
     <section class="bio">
@@ -32,7 +32,7 @@ const description =
     </section>
 
     <section class="what-i-do">
-      <h2>What I Do</h2>
+      <h2 class="u-heading-xl-semibold">What I Do</h2>
       <ul>
         <li>Build web applications with modern frameworks</li>
         <li>Create responsive and accessible user interfaces</li>
@@ -42,7 +42,7 @@ const description =
     </section>
 
     <section class="contact">
-      <h2>Get in Touch</h2>
+      <h2 class="u-heading-xl-semibold">Get in Touch</h2>
       <p>
         Interested in working together? Feel free to reach out through any of
         the social links in the footer.
@@ -57,20 +57,11 @@ const description =
     margin-bottom: var(--spacing-xl);
   }
 
-  h1 {
-    font-family: var(--font-family-heading);
-    font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-bold);
-  }
-
   section {
     margin-bottom: var(--spacing-2xl);
   }
 
   h2 {
-    font-family: var(--font-family-heading);
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-semibold);
     margin-bottom: var(--spacing-md);
   }
 

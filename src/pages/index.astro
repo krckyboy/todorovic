@@ -1,27 +1,27 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Hero from "../components/Hero.astro";
-import FeaturedPosts from "../modules/blog/components/FeaturedPosts.astro";
-import { getCollection } from "astro:content";
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import FeaturedPosts from '../modules/blog/components/FeaturedPosts.astro';
+import { getCollection } from 'astro:content';
 
-const posts = await getCollection("blog", ({ data }) => !data.draft);
+const posts = await getCollection('blog', ({ data }) => !data.draft);
 const recentPosts = posts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 
-const title = "Dusan Todorovic - Software Developer";
+const title = 'Dušan Todorović | Frontend Team Lead and JavaScript Engineer';
 const description =
-  "Personal portfolio and blog of Dusan Todorovic. Software developer focused on web technologies.";
+  'Frontend Team Lead and JavaScript engineer sharing work on React, Next.js, and modern web development.';
 
 const personJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Dusan Todorovic",
-  jobTitle: "Frontend Team Lead",
-  url: "https://todorovic.dev",
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Dušan Todorović',
+  jobTitle: 'Frontend Team Lead',
+  url: 'https://todorovic.dev',
   sameAs: [
-    "https://github.com/krckyboy",
-    "https://www.linkedin.com/in/dusan-todorovic-krcky/",
+    'https://github.com/krckyboy',
+    'https://www.linkedin.com/in/dusan-todorovic-krcky/',
   ],
 };
 ---

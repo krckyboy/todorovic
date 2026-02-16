@@ -26,7 +26,7 @@ export default function PostCard({
   return (
     <article className={styles.article}>
       <a href={`/blog/${slug}`} className={styles.link}>
-        <h2 className={styles.title}>{title}</h2>
+        <h2 className={`${styles.title} u-heading-xl-semibold`}>{title}</h2>
       </a>
       <p className={styles.description}>{description}</p>
       <div className={styles.meta}>

@@ -63,6 +63,8 @@ If commands fail, report:
 - [../openspec/specs/portfolio-module/spec.md](../openspec/specs/portfolio-module/spec.md)
 - [../openspec/specs/blog-module/spec.md](../openspec/specs/blog-module/spec.md)
 - [../openspec/specs/styling/spec.md](../openspec/specs/styling/spec.md)
+- [blog-authoring-workflow.md](blog-authoring-workflow.md)
+- [deployment-and-domain-cutover.md](deployment-and-domain-cutover.md)
 
 ## Done Criteria
 

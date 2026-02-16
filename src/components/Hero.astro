@@ -1,6 +1,6 @@
 ---
-import styles from "./Hero.module.css";
-import SocialIcons from "./SocialIcons.astro";
+import styles from './Hero.module.css';
+import SocialIcons from './SocialIcons.astro';
 
 interface Props {
   name?: string;
@@ -12,11 +12,11 @@ interface Props {
 }
 
 const {
-  name = "Dušan Todorović",
-  title = "Frontend Team Lead",
-  intro = "Frontend Lead at Constructor Tech. I build fast, accessible web apps and occasionally write about the craft.",
+  name = 'Dušan Todorović',
+  title = 'Frontend Team Lead',
+  intro = 'Frontend Lead at Constructor Tech. I build fast, accessible web apps and occasionally write about the craft.',
   imageSrc,
-  imageAlt = "Dušan Todorović",
+  imageAlt = 'Dušan Todorović',
   showGradient = false,
 } = Astro.props;
 ---
@@ -39,7 +39,7 @@ const {
         )
       }
       <div class={styles.text}>
-        <h1 class={styles.name}>{name}</h1>
+        <h1 class:list={[styles.name, 'u-heading-4xl-bold']}>{name}</h1>
         <p class={styles.title}>{title}</p>
         <p class={styles.intro}>{intro}</p>
         <div class={styles.social}>

@@ -6,9 +6,6 @@
 
 .heading {
   margin-bottom: var(--spacing-md);
-  font-family: var(--font-family-heading);
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
 }
 
 .list {
@@ -32,8 +29,6 @@
 
 .title {
   margin-bottom: var(--spacing-xs);
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
 }
 

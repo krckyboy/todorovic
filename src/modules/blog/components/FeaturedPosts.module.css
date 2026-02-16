@@ -4,9 +4,6 @@
 }
 
 .title {
-  font-family: var(--font-family-heading);
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-semibold);
   margin-bottom: var(--spacing-xl);
 }
 

@@ -1,37 +1,56 @@
 ---
-title: "Welcome to My Blog"
-description: "An introduction to my new blog built with Astro, featuring my thoughts on web development and technology."
-pubDate: 2024-01-31
-author: "Dušan Todorović"
-tags: ["welcome", "astro", "web development"]
+title: 'Welcome to My New Website'
+description: 'I rebuilt todorovic.dev with Astro, OpenSpec, and AI-assisted workflows to improve speed, structure, and shipping quality.'
+pubDate: 2026-02-16
+author: 'Dušan Todorović'
+tags: ['launch', 'astro', 'openspec', 'ai-assisted-engineering']
 draft: false
 ---
 
-## Hello World!
+## Why I Rebuilt It
 
-Welcome to my new blog! I'm excited to share my thoughts and experiences in web development with you.
+The previous version of my site served me well, but it mixed content and implementation decisions in ways that made future updates slower than they should be.
 
-This blog is built with [Astro](https://astro.build), a modern static site generator that focuses on shipping less JavaScript and providing an excellent developer experience.
+I wanted a cleaner foundation with:
 
-## What to Expect
+- Better performance by default
+- Clear module boundaries in the codebase
+- A workflow that keeps requirements explicit before implementation
 
-On this blog, I'll be writing about:
+That is why this new version is built with Astro and organized around practical architecture conventions.
 
-- **Web Development** - Tips, tutorials, and best practices
-- **Technology** - My thoughts on the latest trends
-- **Projects** - Sharing what I'm working on
+## Built with AI + OpenSpec
 
-## Why Astro?
+This rebuild was strongly supported by AI-assisted engineering, especially during exploration, refactors, and consistency checks.
 
-I chose Astro for this blog because:
+The key difference is that AI output is not treated as source of truth. OpenSpec is.
 
-1. **Performance** - Astro ships zero JavaScript by default
-2. **Content-focused** - Perfect for blogs with Content Collections
-3. **Developer Experience** - Great tooling and fast builds
-4. **Flexibility** - Can integrate with React, Vue, or stay pure HTML
+For non-trivial work, I use a spec-first loop:
 
-## Stay Tuned
+1. Define the proposal and expected behavior
+2. Capture decisions and tradeoffs in design artifacts
+3. Implement against explicit tasks
+4. Validate before handoff
 
-I'll be posting regularly about my journey in software development. Feel free to reach out through the social links in the footer!
+This keeps development fast without sacrificing clarity.
 
-Thanks for reading!
+## What You Can Expect Here
+
+I will continue sharing posts about:
+
+- Front-end engineering and architecture
+- Team leadership lessons from real projects
+- AI-assisted engineering workflows
+- Spec-driven delivery with practical examples
+
+## What Is Next
+
+The immediate roadmap for this site includes:
+
+- Final SEO and metadata alignment per route
+- Per-post Open Graph image generation
+- Deployment readiness and controlled domain cutover
+
+If you are reading this, the new foundation is live and moving forward.
+
+Thanks for being here.

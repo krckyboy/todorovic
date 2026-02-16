@@ -1,5 +1,5 @@
 ---
-import styles from "./AuthorCard.module.css";
+import styles from './AuthorCard.module.css';
 
 interface Props {
   name?: string;
@@ -10,22 +10,22 @@ interface Props {
 }
 
 const {
-  name = "Dušan Todorović",
-  title = "Frontend Team Lead",
-  bio = "Frontend Team Lead focused on fast, accessible, and maintainable web products.",
-  avatarSrc = "/images/dusan.png",
-  avatarAlt = "Portrait of Dušan Todorović",
+  name = 'Dušan Todorović',
+  title = 'Frontend Team Lead',
+  bio = 'Frontend Team Lead focused on fast, accessible, and maintainable web products.',
+  avatarSrc = '/images/dusan.png',
+  avatarAlt = 'Portrait of Dušan Todorović',
 } = Astro.props;
 
 const socialLinks = [
   {
-    href: "https://www.linkedin.com/in/dusan-todorovic-krcky/",
-    label: "LinkedIn",
+    href: 'https://www.linkedin.com/in/dusan-todorovic-krcky/',
+    label: 'LinkedIn',
     external: true,
   },
   {
-    href: "mailto:dusan.todorovic.dev@gmail.com",
-    label: "Email",
+    href: 'mailto:dusan.todorovic.dev@gmail.com',
+    label: 'Email',
     external: false,
   },
 ];
@@ -42,7 +42,7 @@ const socialLinks = [
     onerror="this.onerror=null;this.src='/images/avatar-fallback.svg';"
   />
   <div class={styles.content}>
-    <a href="/" class={styles.name}>{name}</a>
+    <a href="/" class:list={[styles.name, 'u-heading-lg-semibold']}>{name}</a>
     <p class={styles.title}>{title}</p>
     <p class={styles.bio}>{bio}</p>
     <ul class={styles.socialLinks}>
@@ -52,8 +52,8 @@ const socialLinks = [
             <a
               href={href}
               class={styles.socialLink}
-              target={external ? "_blank" : undefined}
-              rel={external ? "noopener noreferrer" : undefined}
+              target={external ? '_blank' : undefined}
+              rel={external ? 'noopener noreferrer' : undefined}
             >
               {label}
             </a>

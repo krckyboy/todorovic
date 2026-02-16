@@ -24,11 +24,11 @@
 
   /* Typography - Font Families */
   --font-family-base:
-    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-family-heading:
-    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-sans: var(--font-family-base);
-  --font-mono: "SF Mono", SFMono-Regular, ui-monospace, monospace;
+  --font-mono: 'SF Mono', SFMono-Regular, ui-monospace, monospace;
 
   /* Typography - Fluid Font Sizes using clamp() */
   --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.8125rem);
@@ -100,7 +100,7 @@
 }
 
 /* Dark Theme */
-[data-theme="dark"] {
+[data-theme='dark'] {
   color-scheme: dark;
 
   --color-background: #121212;
@@ -206,6 +206,42 @@ a {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+.u-heading-4xl-bold {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.u-heading-3xl-bold {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.u-heading-2xl-semibold {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+}
+
+.u-heading-xl-semibold {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+}
+
+.u-heading-lg-semibold {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.u-heading-base-semibold {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
 }
 
 /* Focus State Utilities */

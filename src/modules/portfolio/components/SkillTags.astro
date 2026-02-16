@@ -1,50 +1,52 @@
 ---
-import styles from "./SkillTags.module.css";
+import styles from './SkillTags.module.css';
 
 interface Props {
   technicalTitle?: string;
   softTitle?: string;
 }
 
-const { technicalTitle = "Technical Skills", softTitle = "Soft Skills" } =
+const { technicalTitle = 'Technical Skills', softTitle = 'Soft Skills' } =
   Astro.props;
 
 const technicalSkills = [
-  "React",
-  "Vue",
-  "Next.js",
-  "TypeScript",
-  "Redux",
-  "Zustand",
-  "TanStack Query",
-  "Astro",
-  "UI Kit / Library Development",
-  "Reusable Frontend Services",
-  "Microfrontend Architecture",
-  "OpenSpec Development",
-  "AI-assisted engineering",
-  "SASS",
-  "Tailwind",
-  "CI/CD",
-  "Testing Strategy (Unit, Integration, E2E)",
-  "Git",
-  "Jest",
-  "Playwright",
+  'React',
+  'Vue',
+  'Next.js',
+  'TypeScript',
+  'Redux',
+  'Zustand',
+  'TanStack Query',
+  'Astro',
+  'UI Kit / Library Development',
+  'Reusable Frontend Services',
+  'Microfrontend Architecture',
+  'OpenSpec Development',
+  'AI-assisted engineering',
+  'SASS',
+  'Tailwind',
+  'CI/CD',
+  'Testing Strategy (Unit, Integration, E2E)',
+  'Git',
+  'Jest',
+  'Playwright',
 ];
 
 const softSkills = [
-  "Team Leadership",
-  "Technical Mentoring",
-  "Cross-Team Collaboration",
-  "Problem Solving",
-  "Code Review",
-  "Agile/Scrum",
+  'Team Leadership',
+  'Technical Mentoring',
+  'Cross-Team Collaboration',
+  'Problem Solving',
+  'Code Review',
+  'Agile/Scrum',
 ];
 ---
 
 <section class={styles.section}>
   <div class={styles.category}>
-    <h2 class={styles.heading}>{technicalTitle}</h2>
+    <h2 class:list={[styles.heading, 'u-heading-xl-semibold']}>
+      {technicalTitle}
+    </h2>
     <ul class={styles.skillsList} role="list">
       {
         technicalSkills.map((skill) => (
@@ -55,7 +57,9 @@ const softSkills = [
   </div>
 
   <div class={styles.category}>
-    <h2 class={styles.heading}>{softTitle}</h2>
+    <h2 class:list={[styles.heading, 'u-heading-xl-semibold']}>
+      {softTitle}
+    </h2>
     <ul class={styles.skillsList} role="list">
       {softSkills.map((skill) => <li class={styles.skillItem}>{skill}</li>)}
     </ul>

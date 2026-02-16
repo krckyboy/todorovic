@@ -2,7 +2,7 @@
 
 ## Overview
 
-Display author information card with avatar, name, title, and social links. Static component with hardcoded data for Dusan Todorovic.
+Display author information card with avatar, name, title, and social links. Static component with hardcoded data for Dušan Todorović.
 
 ## Props Interface
 
@@ -15,7 +15,7 @@ This is a static component with no configurable props. Author data is hardcoded.
 ## Content
 
 - **Avatar**: `/images/dusan.png` (80x80, circular)
-- **Name**: Dusan Todorovic (links to home page)
+- **Name**: Dušan Todorović (links to home page)
 - **Title**: JavaScript Developer | Team Leader
 - **Links**: LinkedIn, Email
 

@@ -6,9 +6,6 @@
 
 .heading {
   margin-bottom: var(--spacing-md);
-  font-family: var(--font-family-heading);
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
 }
 
 .actions {
@@ -55,7 +52,7 @@
   outline-offset: 2px;
 }
 
-.copyButton[data-copied="true"] {
+.copyButton[data-copied='true'] {
   color: var(--color-background);
   background-color: var(--color-success);
   border-color: var(--color-success);

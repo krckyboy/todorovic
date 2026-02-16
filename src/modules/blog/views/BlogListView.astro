@@ -1,6 +1,6 @@
 ---
-import BlogFilter from "../components/BlogFilter.tsx";
-import { getCollection } from "astro:content";
+import BlogFilter from '../components/BlogFilter.tsx';
+import { getCollection } from 'astro:content';
 
 interface Props {
   showHeader?: boolean;
@@ -10,11 +10,11 @@ interface Props {
 
 const {
   showHeader = true,
-  headerTitle = "Blog",
-  headerIntro = "Thoughts and tutorials on web development and software engineering.",
+  headerTitle = 'Blog',
+  headerIntro = 'Thoughts and tutorials on web development and software engineering.',
 } = Astro.props;
 
-const posts = await getCollection("blog", ({ data }) => !data.draft);
+const posts = await getCollection('blog', ({ data }) => !data.draft);
 const sortedPosts = posts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
@@ -36,7 +36,7 @@ const serializedPosts = sortedPosts.map((post) => ({
   {
     showHeader && (
       <header class="page-header">
-        <h1>{headerTitle}</h1>
+        <h1 class="u-heading-3xl-bold">{headerTitle}</h1>
         <p class="intro">{headerIntro}</p>
       </header>
     )
@@ -52,9 +52,6 @@ const serializedPosts = sortedPosts.map((post) => ({
   }
 
   .page-header h1 {
-    font-family: var(--font-family-heading);
-    font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-bold);
     margin-bottom: var(--spacing-md);
   }
 

@@ -18,6 +18,10 @@ Run before handoff:
 
 `npm run build` verifies static generation and catches integration/runtime build issues.
 
+Build also runs `prebuild`, which generates per-post OG assets via:
+
+- `npm run generate:og:blog`
+
 ## Commit-Time Behavior
 
 This repo has a Husky pre-commit hook:

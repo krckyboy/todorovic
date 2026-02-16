@@ -1,16 +1,16 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import BlogHeader from "../../modules/blog/components/BlogHeader.astro";
-import SocialShare from "../../modules/blog/components/SocialShare.astro";
-import AuthorCard from "../../modules/blog/components/AuthorCard.astro";
-import PostNavigation from "../../modules/blog/components/PostNavigation.astro";
-import RelatedPosts from "../../modules/blog/components/RelatedPosts.astro";
-import { getCollection } from "astro:content";
-import type { CollectionEntry } from "astro:content";
-import readingTime from "reading-time";
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogHeader from '../../modules/blog/components/BlogHeader.astro';
+import SocialShare from '../../modules/blog/components/SocialShare.astro';
+import AuthorCard from '../../modules/blog/components/AuthorCard.astro';
+import PostNavigation from '../../modules/blog/components/PostNavigation.astro';
+import RelatedPosts from '../../modules/blog/components/RelatedPosts.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import readingTime from 'reading-time';
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
@@ -18,7 +18,7 @@ export async function getStaticPaths() {
 }
 
 interface Props {
-  post: CollectionEntry<"blog">;
+  post: CollectionEntry<'blog'>;
 }
 
 const { post } = Astro.props;
@@ -26,7 +26,8 @@ const { title, description, pubDate, updatedDate, author } = post.data;
 const { Content } = await post.render();
 const readingTimeText = readingTime(post.body).text;
 const canonicalPostURL = new URL(`/blog/${post.slug}/`, Astro.site).toString();
-const allPosts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+const ogImagePath = post.data.image?.url ?? `/og/blog/${post.slug}.svg`;
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 const currentPostIndex = allPosts.findIndex(
@@ -39,22 +40,26 @@ const prevPost =
     : null;
 
 const blogPostingJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
   headline: title,
   description,
   url: canonicalPostURL,
   datePublished: pubDate.toISOString(),
   ...(updatedDate && { dateModified: updatedDate.toISOString() }),
   author: {
-    "@type": "Person",
+    '@type': 'Person',
     name: author,
-    url: new URL("/", Astro.site).toString(),
+    url: new URL('/', Astro.site).toString(),
   },
 };
 ---
 
-<BaseLayout title={`${title} - Dusan Todorovic`} description={description}>
+<BaseLayout
+  title={`${title} | Dušan Todorović Blog`}
+  description={description}
+  image={ogImagePath}
+>
   <script
     slot="head"
     type="application/ld+json"
@@ -87,18 +92,20 @@ const blogPostingJsonLd = {
     line-height: var(--line-height-relaxed);
   }
 
-  .post-content :global(h2) {
+  .post-content :global(h2),
+  .post-content :global(h3) {
     font-family: var(--font-family-heading);
-    font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-semibold);
+  }
+
+  .post-content :global(h2) {
+    font-size: var(--font-size-2xl);
     margin-top: var(--spacing-2xl);
     margin-bottom: var(--spacing-md);
   }
 
   .post-content :global(h3) {
-    font-family: var(--font-family-heading);
     font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-semibold);
     margin-top: var(--spacing-xl);
     margin-bottom: var(--spacing-sm);
   }

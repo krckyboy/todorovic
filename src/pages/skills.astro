@@ -1,17 +1,17 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import SkillTags from "../modules/portfolio/components/SkillTags.astro";
-import Timeline from "../modules/portfolio/components/Timeline.astro";
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkillTags from '../modules/portfolio/components/SkillTags.astro';
+import Timeline from '../modules/portfolio/components/Timeline.astro';
 
-const title = "Skills & Experience - Dusan Todorovic";
+const title = 'Skills and Experience | Dušan Todorović, Frontend Team Lead';
 const description =
-  "Technical skills, soft skills, and work experience of Dusan Todorovic in web development and software engineering.";
+  'Technical skills and leadership experience across React, Next.js, frontend architecture, and software delivery.';
 ---
 
 <BaseLayout title={title} description={description}>
   <div class="container content">
     <header class="page-header">
-      <h1>Skills & Experience</h1>
+      <h1 class="u-heading-3xl-bold">Skills & Experience</h1>
       <p class="intro">
         Here are my skills and professional experience in software development.
       </p>
@@ -30,9 +30,6 @@ const description =
   }
 
   h1 {
-    font-family: var(--font-family-heading);
-    font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-bold);
     margin-bottom: var(--spacing-md);
   }
 

@@ -110,7 +110,7 @@ let titleAttributes: [NSAttributedString.Key: Any] = [
   .paragraphStyle: labelStyle,
   .kern: 0.4,
 ]
-("DUSAN TODOROVIC" as NSString).draw(
+("DUŠAN TODOROVIĆ" as NSString).draw(
   in: CGRect(x: contentX, y: cardRect.minY + 232, width: 960, height: 130),
   withAttributes: titleAttributes
 )

@@ -1,5 +1,5 @@
 ---
-import styles from "./TimelineItem.module.css";
+import styles from './TimelineItem.module.css';
 
 interface Props {
   title: string;
@@ -16,7 +16,7 @@ const { title, period, duration, isCurrent = false } = Astro.props;
     <span class={styles.dot}></span>
   </div>
   <div class={styles.content}>
-    <h4 class={styles.title}>{title}</h4>
+    <h4 class:list={[styles.title, 'u-heading-base-semibold']}>{title}</h4>
     <p class={styles.period}>{period} · {duration}</p>
     {isCurrent && <span class={styles.currentBadge}>Current</span>}
   </div>

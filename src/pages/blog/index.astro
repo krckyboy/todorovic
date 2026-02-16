@@ -1,9 +1,9 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import BlogFilter from "../../modules/blog/components/BlogFilter.tsx";
-import { getCollection } from "astro:content";
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogFilter from '../../modules/blog/components/BlogFilter.tsx';
+import { getCollection } from 'astro:content';
 
-const posts = await getCollection("blog", ({ data }) => !data.draft);
+const posts = await getCollection('blog', ({ data }) => !data.draft);
 const sortedPosts = posts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
@@ -22,15 +22,15 @@ const serializedPosts = sortedPosts.map((post) => ({
   tags: post.data.tags || [],
 }));
 
-const title = "Blog - Dusan Todorovic";
+const title = 'Blog | Dušan Todorović on Web Development and Engineering';
 const description =
-  "Articles about web development, programming, and technology.";
+  'Articles on frontend engineering, React, team leadership, and AI-assisted software development workflows.';
 ---
 
 <BaseLayout title={title} description={description}>
   <div class="container content">
     <header class="page-header">
-      <h1>Blog</h1>
+      <h1 class="u-heading-3xl-bold">Blog</h1>
       <p class="intro">
         Thoughts and tutorials on web development and software engineering.
       </p>
@@ -51,9 +51,6 @@ const description =
   }
 
   h1 {
-    font-family: var(--font-family-heading);
-    font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-bold);
     margin-bottom: var(--spacing-md);
   }
 

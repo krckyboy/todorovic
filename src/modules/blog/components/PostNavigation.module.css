@@ -6,9 +6,6 @@
 
 .heading {
   margin-bottom: var(--spacing-md);
-  font-family: var(--font-family-heading);
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
 }
 
 .links {

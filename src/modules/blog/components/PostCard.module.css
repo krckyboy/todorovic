@@ -38,9 +38,6 @@
 
 .title {
   margin-bottom: var(--spacing-sm);
-  font-family: var(--font-family-heading);
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
   transition: color var(--transition-fast);
 
   @media (prefers-reduced-motion: reduce) {
