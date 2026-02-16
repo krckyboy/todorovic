@@ -20,6 +20,10 @@
   }
 }
 
+.draftArticle {
+  border-color: var(--color-warning);
+}
+
 .link {
   display: inline-block;
   color: var(--color-text);
@@ -63,4 +67,18 @@
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   color: var(--color-text-muted);
+}
+
+.draftBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-warning);
+  background-color: var(--color-background-alt);
+  border: 1px solid var(--color-warning);
+  border-radius: var(--border-radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }

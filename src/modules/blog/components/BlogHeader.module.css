@@ -48,11 +48,33 @@
   font-size: var(--font-size-3xl);
   font-weight: var(--font-weight-bold);
   line-height: 1.2;
-  margin-bottom: var(--spacing-md);
+  margin: 0;
 
   @media (min-width: 768px) {
     font-size: var(--font-size-4xl);
   }
+}
+
+.titleRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.draftBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-warning);
+  background-color: var(--color-background-alt);
+  border: 1px solid var(--color-warning);
+  border-radius: var(--border-radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .meta {
@@ -72,7 +94,7 @@
   color: var(--color-text-muted);
 
   &::before {
-    content: "•";
+    content: '•';
     margin-right: var(--spacing-md);
   }
 }

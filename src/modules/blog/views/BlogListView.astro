@@ -1,6 +1,10 @@
 ---
 import BlogFilter from '../components/BlogFilter.tsx';
-import { getCollection } from 'astro:content';
+import {
+  getBlogCategories,
+  getSortedBlogPosts,
+  serializeBlogPosts,
+} from '../services/blogPosts';
 
 interface Props {
   showHeader?: boolean;
@@ -14,22 +18,9 @@ const {
   headerIntro = 'Thoughts and tutorials on web development and software engineering.',
 } = Astro.props;
 
-const posts = await getCollection('blog', ({ data }) => !data.draft);
-const sortedPosts = posts.sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
-
-const allCategories = [
-  ...new Set(sortedPosts.flatMap((post) => post.data.tags || [])),
-].sort();
-
-const serializedPosts = sortedPosts.map((post) => ({
-  slug: post.slug,
-  title: post.data.title,
-  description: post.data.description,
-  pubDate: post.data.pubDate.toISOString(),
-  tags: post.data.tags || [],
-}));
+const sortedPosts = await getSortedBlogPosts();
+const allCategories = getBlogCategories(sortedPosts);
+const serializedPosts = serializeBlogPosts(sortedPosts);
 ---
 
 <div class="blog-list-view">

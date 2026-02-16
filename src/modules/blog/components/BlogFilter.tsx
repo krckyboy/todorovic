@@ -8,6 +8,7 @@ interface Post {
   description: string;
   pubDate: string;
   tags: string[];
+  draft: boolean;
 }
 
 interface Props {
@@ -99,6 +100,7 @@ export default function BlogFilter({
               description={post.description}
               pubDate={post.pubDate}
               tags={post.tags}
+              isDraft={post.draft}
             />
           ))}
         </div>

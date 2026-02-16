@@ -1,5 +1,5 @@
-> **STATUS: IN PROGRESS** as of February 14, 2026.
-> Current implementation already includes computed reading time; engagement components and clickable tags are still pending.
+> **STATUS: COMPLETED** as of February 16, 2026.
+> Engagement components, clickable tags, and reading-time integration are implemented and verified.
 
 ## Why
 

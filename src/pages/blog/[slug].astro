@@ -5,12 +5,15 @@ import SocialShare from '../../modules/blog/components/SocialShare.astro';
 import AuthorCard from '../../modules/blog/components/AuthorCard.astro';
 import PostNavigation from '../../modules/blog/components/PostNavigation.astro';
 import RelatedPosts from '../../modules/blog/components/RelatedPosts.astro';
-import { getCollection } from 'astro:content';
+import {
+  isDraftVisible,
+  getSortedBlogPosts,
+} from '../../modules/blog/services/blogPosts';
 import type { CollectionEntry } from 'astro:content';
 import readingTime from 'reading-time';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const posts = await getSortedBlogPosts();
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
@@ -23,13 +26,16 @@ interface Props {
 
 const { post } = Astro.props;
 const { title, description, pubDate, updatedDate, author } = post.data;
+
+if (post.data.draft && !isDraftVisible(post.data.draft)) {
+  return Astro.redirect('/404');
+}
+
 const { Content } = await post.render();
 const readingTimeText = readingTime(post.body).text;
 const canonicalPostURL = new URL(`/blog/${post.slug}/`, Astro.site).toString();
 const ogImagePath = post.data.image?.url ?? `/og/blog/${post.slug}.svg`;
-const allPosts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+const allPosts = await getSortedBlogPosts();
 const currentPostIndex = allPosts.findIndex(
   (entry) => entry.slug === post.slug,
 );

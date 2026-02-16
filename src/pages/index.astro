@@ -2,12 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import FeaturedPosts from '../modules/blog/components/FeaturedPosts.astro';
-import { getCollection } from 'astro:content';
+import { getFeaturedBlogPosts } from '../modules/blog/services/blogPosts';
 
-const posts = await getCollection('blog', ({ data }) => !data.draft);
-const recentPosts = posts
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
+const recentPosts = await getFeaturedBlogPosts();
 
 const title = 'Dušan Todorović | Software Engineer & Team Lead';
 const description =

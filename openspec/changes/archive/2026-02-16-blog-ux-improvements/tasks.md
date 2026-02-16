@@ -50,6 +50,6 @@
 
 - [x] 7.1 Run `npm run build` and verify no build errors
 - [x] 7.2 Run `npm run lint` and verify no linting errors
-- [ ] 7.3 Verify keyboard navigation works for all new interactive elements (tab through tags, share buttons, nav links, related post links)
-- [ ] 7.4 Verify reduced-motion media query disables transitions in all new components
-- [ ] 7.5 Verify tag links navigate to `/blog?tags=tagname` and the blog filter activates correctly
+- [x] 7.3 Verify keyboard navigation works for all new interactive elements (tab through tags, share buttons, nav links, related post links)
+- [x] 7.4 Verify reduced-motion media query disables transitions in all new components
+- [x] 7.5 Verify tag links navigate to `/blog?tags=tagname` and the blog filter activates correctly
