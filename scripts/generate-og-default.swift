@@ -120,7 +120,7 @@ let subtitleAttributes: [NSAttributedString.Key: Any] = [
   .foregroundColor: tokenPrimaryLight,
   .paragraphStyle: labelStyle,
 ]
-("Frontend Team Lead" as NSString).draw(
+("Software Engineer & Team Lead" as NSString).draw(
   in: CGRect(x: contentX, y: cardRect.minY + 162, width: 900, height: 70),
   withAttributes: subtitleAttributes
 )

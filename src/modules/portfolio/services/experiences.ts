@@ -37,7 +37,7 @@ const experiences: CompanyExperience[] = [
     location: 'Belgrade, Serbia (Hybrid)',
     roles: [
       {
-        title: 'Frontend Team Lead',
+        title: 'Lead Frontend Developer',
         start: '2025-01',
         end: null,
       },
