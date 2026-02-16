@@ -5,12 +5,16 @@ import styles from './RelatedPosts.module.css';
 interface Props {
   currentPost: CollectionEntry<'blog'>;
   allPosts: CollectionEntry<'blog'>[];
+  excludedSlugs?: string[];
 }
 
-const { currentPost, allPosts } = Astro.props;
+const { currentPost, allPosts, excludedSlugs = [] } = Astro.props;
+const excludedSlugSet = new Set(excludedSlugs);
 
 const currentTagSet = new Set(currentPost.data.tags ?? []);
-const otherPosts = allPosts.filter((post) => post.slug !== currentPost.slug);
+const otherPosts = allPosts.filter(
+  (post) => post.slug !== currentPost.slug && !excludedSlugSet.has(post.slug),
+);
 
 const postsByRecency = [...otherPosts].sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),

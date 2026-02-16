@@ -38,6 +38,9 @@ const prevPost =
   currentPostIndex >= 0 && currentPostIndex < allPosts.length - 1
     ? allPosts[currentPostIndex + 1]
     : null;
+const relatedPostsExcludedSlugs = [prevPost?.slug, nextPost?.slug].filter(
+  (slug): slug is string => Boolean(slug),
+);
 
 const blogPostingJsonLd = {
   '@context': 'https://schema.org',
@@ -79,7 +82,11 @@ const blogPostingJsonLd = {
 
     <PostNavigation prevPost={prevPost} nextPost={nextPost} />
 
-    <RelatedPosts currentPost={post} allPosts={allPosts} />
+    <RelatedPosts
+      currentPost={post}
+      allPosts={allPosts}
+      excludedSlugs={relatedPostsExcludedSlugs}
+    />
 
     <footer class="post-footer">
       <a href="/blog">&larr; Back to all posts</a>
