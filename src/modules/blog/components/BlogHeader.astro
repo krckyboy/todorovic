@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { post, readingTime = '5 min read' } = Astro.props;
-const { title, pubDate, updatedDate, author, tags } = post.data;
+const { title, description, pubDate, updatedDate, author, tags } = post.data;
 const showDraftBadge = isDraftVisible(post.data.draft);
 
 // Format dates
@@ -54,6 +54,8 @@ const formattedUpdateDate = updatedDate?.toLocaleDateString('en-US', {
       )
     }
   </div>
+
+  <p class={styles.summary}>{description}</p>
 
   <div class={styles.meta}>
     <span class={styles.author}>By {author}</span>

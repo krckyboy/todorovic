@@ -3,82 +3,297 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'About Dušan Todorović | Software Engineer & Team Lead';
 const description =
-  'About Dušan Todorović: software engineer and team lead focused on React, Next.js, leadership, and scalable web systems.';
+  'About Dušan Todorović: software engineer and team lead focused on product engineering, leadership, and scalable web systems.';
 ---
 
 <BaseLayout title={title} description={description}>
   <article class="container content">
     <header class="page-header">
       <h1 class="u-heading-3xl-bold">About Me</h1>
+      <p class="meta">
+        A quick version of the longer story behind how I moved from music into
+        software engineering and team leadership.
+      </p>
     </header>
 
-    <section class="bio">
-      <p>
-        I'm a front-end developer who believes great software should feel
-        invisible.
-      </p>
+    <figure class="interest-photo top-photo">
+      <img
+        src="/images/dusan-beach.jpeg"
+        alt="Dušan Todorović on a beach"
+        loading="lazy"
+        width="600"
+        height="800"
+      />
+      <figcaption>Hello there! Beach mode for a minute.</figcaption>
+    </figure>
 
-      <p>
-        For 6+ years, I've been building web applications that are fast,
-        accessible, and a joy to use. Currently Lead Frontend Developer at
-        Constructor Tech in Belgrade.
-      </p>
+    <div class="post-content">
+      <section class="story-section">
+        <h2>Introduction</h2>
+        <p>
+          I am Dušan Todorović, based in Belgrade, Serbia, and I build products
+          that prioritize clarity, speed, and accessibility.
+        </p>
+        <p>
+          My past work includes shipping products in the iGaming industry, and
+          at Constructor Tech I work on AI-powered product experiences across
+          learning, assessment, and workforce-oriented use cases. I care about
+          reliable delivery, strong collaboration, and making software feel
+          effortless for users.
+        </p>
+      </section>
 
-      <p>
-        I specialize in React and Next.js, with experience leading teams,
-        building internal frameworks, and shipping products in the iGaming
-        industry.
-      </p>
-    </section>
+      <section class="story-section">
+        <h2>Musical Background</h2>
+        <p>
+          Before tech, music was a major part of my life. I grew up in a family
+          of musicians, played accordion from a young age, and later performed
+          and taught music for years.
+        </p>
+        <p>
+          That period gave me discipline, consistency, and comfort working in
+          high-pressure environments, which still helps in engineering work
+          today.
+        </p>
+      </section>
 
-    <section class="what-i-do">
-      <h2 class="u-heading-xl-semibold">What I Do</h2>
-      <ul>
-        <li>Build web applications with modern frameworks</li>
-        <li>Create responsive and accessible user interfaces</li>
-        <li>Write clean, maintainable code</li>
-        <li>Collaborate with teams to deliver great products</li>
-      </ul>
-    </section>
+      <section class="story-section">
+        <h2>Transition to Programming</h2>
+        <p>
+          During college, a web design class introduced me to code and I quickly
+          realized this was the work I wanted to pursue long-term.
+        </p>
+        <p>
+          I studied through hands-on projects, documentation, and online
+          courses, then moved into my first frontend role with HTML, CSS, and
+          JavaScript as the foundation.
+        </p>
+      </section>
 
-    <section class="contact">
-      <h2 class="u-heading-xl-semibold">Get in Touch</h2>
-      <p>
-        Interested in working together? Feel free to reach out through any of
-        the social links in the footer.
-      </p>
-    </section>
+      <section class="story-section">
+        <h2>Early Career</h2>
+        <p>
+          My early years were shaped by self-driven projects and consistent
+          practice. I designed ideas, implemented them, and shipped them to
+          learn faster from real constraints.
+        </p>
+        <p>
+          That routine built strong habits around maintainable code, product
+          thinking, and ownership across delivery.
+        </p>
+      </section>
+
+      <section class="story-section">
+        <h2>Leading</h2>
+        <p>
+          As my engineering scope grew, I moved into lead responsibilities and
+          found that I enjoy both systems work and people development.
+        </p>
+        <p>
+          Today I focus on building strong frontend foundations, mentoring
+          engineers, and helping teams deliver with quality and consistency.
+        </p>
+      </section>
+
+      <section class="story-section">
+        <h2>Interests</h2>
+        <div class="interests-photos">
+          <figure class="interest-photo">
+            <img
+              src="/images/dusan-walking.jpeg"
+              alt="Dušan Todorović walking during travel"
+              loading="lazy"
+              width="600"
+              height="800"
+            />
+            <figcaption>Solo walks while traveling help me reset.</figcaption>
+          </figure>
+          <figure class="interest-photo">
+            <img
+              src="/images/dusan-with-a-helmet.jpeg"
+              alt="Dušan Todorović wearing a motorcycle helmet"
+              loading="lazy"
+              width="600"
+              height="800"
+            />
+            <figcaption>Motorcycle chapter: unlocked.</figcaption>
+          </figure>
+        </div>
+        <p>
+          Outside of work, I still value creative routines and steady learning.
+          I enjoy films and TV shows, and I spend most of my extra energy on
+          side-projects and experimentation.
+        </p>
+        <p>
+          I also like traveling on my own, and Thailand is one of my favorite
+          places to recharge and get perspective. I recently passed my
+          motorcycle test too, so I am hoping to get my first motorcycle soon.
+        </p>
+        <p>
+          I am also a dog person, and daily time with my dog Lilly is one of the
+          best resets after a focused workday.
+        </p>
+      </section>
+
+      <section class="contact">
+        <h2>Get in Touch</h2>
+        <p>
+          If you want to collaborate, discuss product work, or connect about
+          frontend engineering, feel free to reach out directly.
+        </p>
+        <div class="contact-actions">
+          <a class="contact-button" href="mailto:dusan.todorovic.dev@gmail.com">
+            Send an Email
+          </a>
+          <a
+            class="contact-button secondary"
+            href="https://www.linkedin.com/in/dusan-todorovic-krcky/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Connect on LinkedIn
+          </a>
+        </div>
+        <a class="skills-link" href="/skills">View my skills →</a>
+      </section>
+    </div>
   </article>
 </BaseLayout>
 
 <style>
   .page-header {
-    padding-top: var(--spacing-2xl);
+    padding-top: var(--spacing-xl);
+    padding-bottom: var(--spacing-xl);
+    border-bottom: 1px solid var(--color-border);
     margin-bottom: var(--spacing-xl);
   }
 
-  section {
-    margin-bottom: var(--spacing-2xl);
+  .meta {
+    margin-top: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    line-height: var(--line-height-relaxed);
   }
 
-  h2 {
+  .post-content {
+    line-height: var(--line-height-relaxed);
+  }
+
+  .post-content h2 {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+    margin-top: var(--spacing-2xl);
     margin-bottom: var(--spacing-md);
   }
 
-  p {
+  .post-content .story-section:first-child h2 {
+    margin-top: 0;
+  }
+
+  .post-content p {
     margin-bottom: var(--spacing-md);
     font-size: var(--font-size-base);
     color: var(--color-text-muted);
-    line-height: var(--line-height-relaxed);
   }
 
-  ul {
-    padding-left: var(--spacing-lg);
-    color: var(--color-text-muted);
-    line-height: var(--line-height-relaxed);
-  }
-
-  li {
+  .story-section {
     margin-bottom: var(--spacing-sm);
+  }
+
+  .top-photo {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .interest-photo {
+    margin: 0 0 var(--spacing-lg);
+  }
+
+  .interests-photos {
+    display: grid;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .interests-photos .interest-photo {
+    margin: 0;
+  }
+
+  .interest-photo img {
+    width: min(100%, 420px);
+    height: auto;
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .interest-photo figcaption {
+    margin-top: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  .contact {
+    margin-top: var(--spacing-2xl);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+  }
+
+  .contact-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid var(--color-primary);
+    border-radius: var(--border-radius-md);
+    background-color: var(--color-primary);
+    color: #fff;
+    font-weight: var(--font-weight-semibold);
+    transition:
+      background-color var(--transition-normal),
+      border-color var(--transition-normal),
+      color var(--transition-normal);
+  }
+
+  .contact-button:hover {
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+    color: #fff;
+  }
+
+  .contact-button.secondary {
+    background-color: transparent;
+    color: var(--color-primary);
+  }
+
+  .contact-button.secondary:hover {
+    background-color: var(--color-background-alt);
+    border-color: var(--color-primary-hover);
+    color: var(--color-primary-hover);
+  }
+
+  .skills-link {
+    display: inline-flex;
+    width: fit-content;
+    margin-top: var(--spacing-lg);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .skills-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 </style>

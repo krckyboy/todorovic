@@ -63,6 +63,14 @@
   margin-bottom: var(--spacing-md);
 }
 
+.summary {
+  max-width: 68ch;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--spacing-lg);
+}
+
 .draftBadge {
   display: inline-flex;
   align-items: center;
