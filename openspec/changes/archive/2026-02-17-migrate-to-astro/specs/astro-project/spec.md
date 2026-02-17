@@ -34,26 +34,28 @@ export default defineConfig({
 
 Schema defined in `src/content/config.ts`:
 
-| Field | Type | Required | Default |
-|-------|------|----------|---------|
-| title | string | Yes | - |
-| description | string | Yes | - |
-| pubDate | date | Yes | - |
-| updatedDate | date | No | - |
-| author | string | No | "Dušan Todorović" |
-| image | {url, alt} | No | - |
-| tags | string[] | No | [] |
-| draft | boolean | No | false |
+| Field       | Type       | Required | Default           |
+| ----------- | ---------- | -------- | ----------------- |
+| title       | string     | Yes      | -                 |
+| description | string     | Yes      | -                 |
+| pubDate     | date       | Yes      | -                 |
+| updatedDate | date       | No       | -                 |
+| author      | string     | No       | "Dušan Todorović" |
+| image       | {url, alt} | No       | -                 |
+| tags        | string[]   | No       | []                |
+| draft       | boolean    | No       | false             |
 
 ## Layouts
 
 ### BaseLayout
 
 Required props:
+
 - `title: string` - Page title
 - `description?: string` - Meta description
 
 Provides:
+
 - HTML document structure
 - Meta tags (title, description, OG, Twitter)
 - Canonical URL
@@ -62,34 +64,35 @@ Provides:
 
 ## Components Required
 
-| Component | Purpose | Priority |
-|-----------|---------|----------|
-| Header | Site header with nav | High |
-| Footer | Site footer | High |
-| Navigation | Nav links | High |
-| BlogPostItem | Post preview card | High |
-| Categories | Tag display | Medium |
-| AuthorCard | Author info | Medium |
-| Skills | Skills display | Medium |
-| Experience | Work history | Medium |
-| SocialIcons | Social media links | Low |
+| Component    | Purpose              | Priority |
+| ------------ | -------------------- | -------- |
+| Header       | Site header with nav | High     |
+| Footer       | Site footer          | High     |
+| Navigation   | Nav links            | High     |
+| BlogPostItem | Post preview card    | High     |
+| Categories   | Tag display          | Medium   |
+| AuthorCard   | Author info          | Medium   |
+| Skills       | Skills display       | Medium   |
+| Experience   | Work history         | Medium   |
+| SocialIcons  | Social media links   | Low      |
 
 ## Pages Required
 
-| Route | Purpose | Priority |
-|-------|---------|----------|
-| / | Home page | High |
-| /about | About page | High |
-| /skills | Skills page | Medium |
-| /blog | Blog listing | High |
-| /blog/[slug] | Blog post | High |
-| /404 | Not found | Medium |
+| Route        | Purpose      | Priority |
+| ------------ | ------------ | -------- |
+| /            | Home page    | High     |
+| /about       | About page   | High     |
+| /skills      | Skills page  | Medium   |
+| /blog        | Blog listing | High     |
+| /blog/[slug] | Blog post    | High     |
+| /404         | Not found    | Medium   |
 
 ## Styling Requirements
 
 ### CSS Custom Properties
 
 Defined in `global.css`:
+
 - Colors (text, background, primary, accent)
 - Typography (font families, sizes)
 - Spacing (xs through 3xl)

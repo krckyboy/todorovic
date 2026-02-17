@@ -1,17 +1,17 @@
 # AI Workflow: todorovic Portfolio
 
 > **STATUS: ROADMAP**
-> This document describes the *planned* AI workflow architecture.
+> This document describes the _planned_ AI workflow architecture.
 > See implementation status below for what's currently available.
 
 ## Implementation Status
 
-| Component | Status | Proposal |
-|-----------|--------|----------|
-| OpenSpec commands | **Implemented** | - |
-| Agent architecture | Not started | add-ai-agents |
-| State management | Not started | add-state-management |
-| Worktree workflow | Not started | add-worktree-workflow |
+| Component          | Status          | Proposal              |
+| ------------------ | --------------- | --------------------- |
+| OpenSpec commands  | **Implemented** | -                     |
+| Agent architecture | Not started     | add-ai-agents         |
+| State management   | Not started     | add-state-management  |
+| Worktree workflow  | Not started     | add-worktree-workflow |
 
 ### What's Currently Working
 
@@ -30,6 +30,7 @@
 ### Overview
 
 This project will use an AI-assisted development workflow with:
+
 - **Orchestrator**: Coordinates tasks with parallel execution
 - **Specialized agents**: Handle specific concerns
 - **Feedback loop**: Learns from corrections
@@ -43,6 +44,7 @@ This project will use an AI-assisted development workflow with:
 **Location:** `.claude/agents/orchestrator.md`
 
 **Responsibilities:**
+
 1. Parse user requests into tasks
 2. Build dependency graphs
 3. Manage worktrees for parallel execution
@@ -51,6 +53,7 @@ This project will use an AI-assisted development workflow with:
 6. Propagate fixes across MRs
 
 **Parallel Execution Pattern:**
+
 ```
 Wave 1: [independent tasks]     ← run simultaneously in separate worktrees
 Wave 2: [dependent on wave 1]   ← run after wave 1 completes
@@ -62,6 +65,7 @@ Wave 3: [dependent on wave 2]   ← etc.
 **Location:** `.claude/agents/task-executor.md`
 
 **Responsibilities:**
+
 1. Execute single tasks in worktree context
 2. Follow specs and conventions
 3. Return structured output
@@ -72,6 +76,7 @@ Wave 3: [dependent on wave 2]   ← etc.
 **Location:** `.claude/agents/dependency-resolver.md`
 
 **Responsibilities:**
+
 1. Parse task dependencies
 2. Build directed acyclic graph
 3. Detect circular dependencies
@@ -83,6 +88,7 @@ Wave 3: [dependent on wave 2]   ← etc.
 **Location:** `.claude/agents/feedback-listener.md`
 
 **Responsibilities:**
+
 1. Capture user corrections (conversation + MR comments)
 2. Identify patterns for cross-worktree application
 3. Propose spec updates
@@ -93,6 +99,7 @@ Wave 3: [dependent on wave 2]   ← etc.
 **Location:** `.claude/agents/mr-manager.md`
 
 **Responsibilities:**
+
 1. Create MRs from worktree branches
 2. Fetch and parse MR comments
 3. Update branches with fixes
@@ -101,15 +108,18 @@ Wave 3: [dependent on wave 2]   ← etc.
 #### Verification Agents
 
 **Build:** `.claude/agents/verify-build.md`
+
 - Runs `npm run build`
 - Reports errors with suggestions
 
 **Accessibility:** `.claude/agents/verify-a11y.md`
+
 - Checks semantic HTML
 - Validates ARIA usage
 - Reports issues with fixes
 
 **SEO:** `.claude/agents/verify-seo.md`
+
 - Checks meta tags
 - Validates structure
 - Reports recommendations
@@ -120,9 +130,13 @@ Wave 3: [dependent on wave 2]   ← etc.
 
 ```markdown
 ## Task: <task-id>
+
 ## Context: <relevant context>
+
 ## Worktree: <path if applicable>
+
 ## Dependencies: <what this needs>
+
 ## Expected Output: <what to return>
 ```
 
@@ -130,9 +144,13 @@ Wave 3: [dependent on wave 2]   ← etc.
 
 ```markdown
 ## Status: completed|failed|blocked
+
 ## Output: <result>
+
 ## Context for downstream: <shared info>
+
 ## Issues: <any problems>
+
 ## Propagate: <fixes that may apply elsewhere>
 ```
 
@@ -209,13 +227,13 @@ Logs for future reference
 
 Runtime state in `.claude/state/` (gitignored):
 
-| File | Purpose |
-|------|---------|
-| current-task.json | Active task context |
-| dependency-graph.json | Task dependencies |
-| feedback-log.json | User corrections |
-| worktrees.json | Active worktrees and MRs |
-| context/*.json | Cross-task sharing |
+| File                  | Purpose                  |
+| --------------------- | ------------------------ |
+| current-task.json     | Active task context      |
+| dependency-graph.json | Task dependencies        |
+| feedback-log.json     | User corrections         |
+| worktrees.json        | Active worktrees and MRs |
+| context/\*.json       | Cross-task sharing       |
 
 ## Worktree Workflow
 
@@ -231,13 +249,13 @@ Each OpenSpec change gets its own worktree:
 
 ### Worktree Commands
 
-| Command | Purpose |
-|---------|---------|
-| `/worktree list` | Show all active worktrees |
-| `/worktree create <change>` | Create worktree for a change |
-| `/worktree cleanup <change>` | Remove worktree after merge |
-| `/worktree sync` | Pull latest main into all worktrees |
-| `/worktree verify` | Check state matches reality |
+| Command                      | Purpose                             |
+| ---------------------------- | ----------------------------------- |
+| `/worktree list`             | Show all active worktrees           |
+| `/worktree create <change>`  | Create worktree for a change        |
+| `/worktree cleanup <change>` | Remove worktree after merge         |
+| `/worktree sync`             | Pull latest main into all worktrees |
+| `/worktree verify`           | Check state matches reality         |
 
 ## OpenSpec Integration
 
@@ -254,6 +272,7 @@ Each OpenSpec change gets its own worktree:
 ### Schema-Driven Artifacts
 
 Each schema defines required artifacts:
+
 - astro-component: spec → tasks
 - astro-page: spec → tasks
 - blog-content: outline → draft → review
@@ -273,11 +292,13 @@ Each schema defines required artifacts:
 ### The Problem It Solves
 
 Right now, when you ask Claude to work on multiple things:
+
 - It does them **one at a time**
 - If you have 10 components to build, it builds them **sequentially**
 - You wait, review one, wait, review another...
 
 With a component library like react-kit, imagine you want to:
+
 - Add Button component
 - Add Input component
 - Add Modal component
@@ -291,11 +312,13 @@ That's 5 independent tasks. Today: sequential. With orchestration: **parallel**.
 ### Step-by-Step Flow
 
 **1. You ask for work**
+
 ```
 "Implement the 5 components from the proposals"
 ```
 
 **2. Orchestrator analyzes**
+
 ```
 Tasks identified:
 - add-button (no dependencies)
@@ -310,6 +333,7 @@ Wave 2: update-docs (after wave 1)
 ```
 
 **3. Worktrees created**
+
 ```
 react-kit/                    ← main repo (you're here)
 react-kit-add-button/         ← worktree 1
@@ -323,6 +347,7 @@ Each worktree is a **complete copy** of the repo on a separate branch.
 **4. Subagents work in parallel**
 
 The orchestrator spawns 4 subagents (Task tool). Each:
+
 - Works in its own worktree
 - Follows the specs
 - Commits locally (NO push yet)
@@ -331,6 +356,7 @@ The orchestrator spawns 4 subagents (Task tool). Each:
 **5. You review locally**
 
 Work stays local until you're ready. You can:
+
 - Open worktree folders in WebStorm
 - Review and give feedback
 - Agent applies fixes across worktrees
@@ -340,6 +366,7 @@ Work stays local until you're ready. You can:
 You say: "Don't use `any` type, use proper generics"
 
 The feedback-listener:
+
 1. Logs to feedback-log.json
 2. Searches other worktrees for `any` type
 3. Finds it in worktree 2 and 3
@@ -349,9 +376,11 @@ The feedback-listener:
 **7. You control MR creation**
 
 When YOU'RE ready:
+
 ```
 /worktree push add-button
 ```
+
 - Agent pushes branch
 - Creates MR
 - Now MR comments become another feedback channel
@@ -367,6 +396,7 @@ After approval, MRs merge to main. Worktrees get cleaned up.
 **Worktrees are the magic.** They let multiple "copies" of the repo exist simultaneously, each on a different branch. Without worktrees, parallel work would cause file conflicts.
 
 **Developer control is essential.** MRs are NOT created automatically. Work stays local until you explicitly push. This prevents:
+
 - Flood of half-baked MRs
 - Polluted git history
 - Uncontrollable code output
@@ -382,6 +412,7 @@ After approval, MRs merge to main. Worktrees get cleaned up.
 **Solution**: Mandatory logging in agent specs.
 
 Every agent MUST:
+
 1. Log feedback immediately to feedback-log.json
 2. Extract pattern signature (search/replace terms)
 3. Check other worktrees for matches
@@ -415,6 +446,7 @@ Every agent MUST:
 **Solution**: Track file ownership in dependency-graph.json.
 
 Before starting a task:
+
 1. Get `files_will_touch` from task spec
 2. Check all active worktrees' `files_touched`
 3. If overlap:
@@ -445,15 +477,18 @@ Before starting a task:
 **Solution**: Three-layer state system.
 
 **Layer 1: Orchestrator State** (`.claude/state/`, gitignored)
+
 - orchestrator.json - session state
 - dependency-graph.json - task tracking
 - feedback-log.json - all patterns
 - worktrees.json - worktree registry
 
 **Layer 2: Per-Worktree State** (in each worktree, committed)
+
 ```
 react-kit-add-button/.claude/worktree-state.json
 ```
+
 ```json
 {
   "change": "add-button",
@@ -464,8 +499,10 @@ react-kit-add-button/.claude/worktree-state.json
 ```
 
 **Layer 3: OpenSpec Tasks** (source of truth, committed)
+
 ```markdown
 ## Tasks
+
 - [x] Create Button component
 - [x] Add unit tests
 - [ ] Add documentation
@@ -482,15 +519,16 @@ react-kit-add-button/.claude/worktree-state.json
 **Solution**: Actor model - isolated workers + single coordinator.
 
 With worktree isolation:
+
 - Each subagent works in **separate directory**
 - No file conflicts during work
 - No shared mutable state during execution
 
-| What | Who handles |
-|------|-------------|
-| Task sequencing | Orchestrator (dependency graph) |
-| State updates | Orchestrator only (single writer) |
-| File conflicts | Dependency resolver (pre-task) |
+| What                 | Who handles                         |
+| -------------------- | ----------------------------------- |
+| Task sequencing      | Orchestrator (dependency graph)     |
+| State updates        | Orchestrator only (single writer)   |
+| File conflicts       | Dependency resolver (pre-task)      |
 | Feedback propagation | Orchestrator (after task completes) |
 
 Subagents are **isolated workers**: receive task, work, return result.
@@ -504,40 +542,41 @@ Orchestrator is **single coordinator**: reads state, makes decisions, dispatches
 
 ### All Problems Solved
 
-| Problem | Solution | Status |
-|---------|----------|--------|
-| **Feedback patterns** | Subagent always logs to JSON. If applied and not reverted → stays in state. Future tasks check feedback-log.json proactively. | ✓ Solved |
-| **Merge conflicts** | Dependency graph tracks `files_touched` and `files_will_touch`. Pre-task check for overlap. Sequence or allow based on conflict type. | ✓ Solved |
-| **Session continuity** | Three-layer state: orchestrator JSON + per-worktree state + opsx tasks.md (committed truth). On session start, reconcile all layers. tasks.md is source of truth. | ✓ Solved |
-| **Subagent coordination** | Non-issue with worktrees. Actor model: isolated workers + single coordinator. Each subagent works in separate directory, no shared mutable state. | ✓ Solved |
-| **MR flood** | Developer-controlled push. Work stays local until `/worktree push`. | ✓ Solved |
+| Problem                   | Solution                                                                                                                                                          | Status   |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| **Feedback patterns**     | Subagent always logs to JSON. If applied and not reverted → stays in state. Future tasks check feedback-log.json proactively.                                     | ✓ Solved |
+| **Merge conflicts**       | Dependency graph tracks `files_touched` and `files_will_touch`. Pre-task check for overlap. Sequence or allow based on conflict type.                             | ✓ Solved |
+| **Session continuity**    | Three-layer state: orchestrator JSON + per-worktree state + opsx tasks.md (committed truth). On session start, reconcile all layers. tasks.md is source of truth. | ✓ Solved |
+| **Subagent coordination** | Non-issue with worktrees. Actor model: isolated workers + single coordinator. Each subagent works in separate directory, no shared mutable state.                 | ✓ Solved |
+| **MR flood**              | Developer-controlled push. Work stays local until `/worktree push`.                                                                                               | ✓ Solved |
 
 ### Confidence Levels
 
-| Aspect | Confidence | Why |
-|--------|------------|-----|
-| Git worktrees | **High** | Standard git feature, well-tested |
-| Parallel subagents | **High** | Claude Code's Task tool already does this |
-| Developer-controlled MR | **High** | Just a command gate |
-| Feedback logging | **High** | JSON write on every feedback, simple |
-| Feedback propagation | **High** | grep + apply, straightforward |
-| Dependency graph | **High** | JSON tracking, pre-task file check |
-| Session recovery | **High** | tasks.md is committed, can always rebuild |
-| State sync | **Medium-High** | Three layers with clear precedence |
+| Aspect                  | Confidence      | Why                                       |
+| ----------------------- | --------------- | ----------------------------------------- |
+| Git worktrees           | **High**        | Standard git feature, well-tested         |
+| Parallel subagents      | **High**        | Claude Code's Task tool already does this |
+| Developer-controlled MR | **High**        | Just a command gate                       |
+| Feedback logging        | **High**        | JSON write on every feedback, simple      |
+| Feedback propagation    | **High**        | grep + apply, straightforward             |
+| Dependency graph        | **High**        | JSON tracking, pre-task file check        |
+| Session recovery        | **High**        | tasks.md is committed, can always rebuild |
+| State sync              | **Medium-High** | Three layers with clear precedence        |
 
 ### What's Left (True Edge Cases)
 
 These are genuine edge cases, not blockers:
 
-| Edge Case | Handling |
-|-----------|----------|
-| Very complex feedback ("restructure this pattern") | Ask user to clarify into concrete changes |
-| Semantic conflicts (same area, different logic) | Show both, let developer decide |
-| Massive main divergence | `/worktree sync` with manual conflict resolution |
+| Edge Case                                          | Handling                                         |
+| -------------------------------------------------- | ------------------------------------------------ |
+| Very complex feedback ("restructure this pattern") | Ask user to clarify into concrete changes        |
+| Semantic conflicts (same area, different logic)    | Show both, let developer decide                  |
+| Massive main divergence                            | `/worktree sync` with manual conflict resolution |
 
 ### Bottom Line
 
 **This will work because:**
+
 1. Every "hard problem" has a concrete solution with JSON state
 2. tasks.md (committed) is always the truth - can rebuild from there
 3. Developer stays in control (local review, manual push)

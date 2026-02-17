@@ -24,24 +24,26 @@ Create a personal portfolio and blog that showcases professional work, shares kn
 ## Goals
 
 ### Primary
+
 1. Showcase technical competence through projects and writing
 2. Share knowledge via blog posts
 3. Provide professional contact point
 
 ### Secondary
+
 1. Experiment with modern web technologies
 2. Demonstrate AI-assisted development workflow
 3. Build in public (document the process)
 
 ## Success Metrics
 
-| Metric | Target |
-|--------|--------|
-| Lighthouse Performance | 95+ |
-| Lighthouse Accessibility | 100 |
-| Time to Interactive | < 2s |
-| Blog posts per month | 2+ |
-| Build time | < 30s |
+| Metric                   | Target |
+| ------------------------ | ------ |
+| Lighthouse Performance   | 95+    |
+| Lighthouse Accessibility | 100    |
+| Time to Interactive      | < 2s   |
+| Blog posts per month     | 2+     |
+| Build time               | < 30s  |
 
 ## Design Principles
 

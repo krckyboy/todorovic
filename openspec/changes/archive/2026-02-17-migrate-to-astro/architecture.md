@@ -2,15 +2,15 @@
 
 ## Tech Stack
 
-| Layer | Technology | Purpose |
-|-------|------------|---------|
-| Framework | Astro 5.x | Static site generation |
-| Styling | CSS Modules | Scoped component styles |
-| Variables | CSS Custom Properties | Design tokens |
-| Content | Astro Content Collections | Type-safe markdown |
-| Search | Pagefind | Client-side search |
-| Build | Vite (via Astro) | Fast builds |
-| Deploy | TBD | Static hosting |
+| Layer     | Technology                | Purpose                 |
+| --------- | ------------------------- | ----------------------- |
+| Framework | Astro 5.x                 | Static site generation  |
+| Styling   | CSS Modules               | Scoped component styles |
+| Variables | CSS Custom Properties     | Design tokens           |
+| Content   | Astro Content Collections | Type-safe markdown      |
+| Search    | Pagefind                  | Client-side search      |
+| Build     | Vite (via Astro)          | Fast builds             |
+| Deploy    | TBD                       | Static hosting          |
 
 ## Directory Structure
 
@@ -79,28 +79,28 @@ BaseLayout.astro
 
 ### Components
 
-| Component | Purpose | Props |
-|-----------|---------|-------|
-| Header | Site navigation | none |
-| Footer | Footer content | none |
-| Navigation | Nav links | none |
-| BlogPostItem | Post preview | post |
-| AuthorCard | Author info | none |
-| Categories | Tag list | tags |
-| Skills | Skills display | none |
-| Experience | Work history | none |
-| SocialIcons | Social links | none |
+| Component    | Purpose         | Props |
+| ------------ | --------------- | ----- |
+| Header       | Site navigation | none  |
+| Footer       | Footer content  | none  |
+| Navigation   | Nav links       | none  |
+| BlogPostItem | Post preview    | post  |
+| AuthorCard   | Author info     | none  |
+| Categories   | Tag list        | tags  |
+| Skills       | Skills display  | none  |
+| Experience   | Work history    | none  |
+| SocialIcons  | Social links    | none  |
 
 ### Pages
 
-| Route | Page | Data |
-|-------|------|------|
-| `/` | index.astro | featured posts |
-| `/about` | about.astro | static |
-| `/skills` | skills.astro | skills data |
-| `/blog` | blog/index.astro | all posts |
-| `/blog/[slug]` | blog/[slug].astro | single post |
-| `/404` | 404.astro | static |
+| Route          | Page              | Data           |
+| -------------- | ----------------- | -------------- |
+| `/`            | index.astro       | featured posts |
+| `/about`       | about.astro       | static         |
+| `/skills`      | skills.astro      | skills data    |
+| `/blog`        | blog/index.astro  | all posts      |
+| `/blog/[slug]` | blog/[slug].astro | single post    |
+| `/404`         | 404.astro         | static         |
 
 ## Data Flow
 

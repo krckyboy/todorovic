@@ -64,6 +64,7 @@ Step-by-step migration from Next.js + Strapi to Astro with Content Collections.
 ### Phase 1: Foundation ✓
 
 **Tasks completed:**
+
 - [x] Initialize Astro project
 - [x] Add sitemap integration
 - [x] Install reading-time
@@ -72,6 +73,7 @@ Step-by-step migration from Next.js + Strapi to Astro with Content Collections.
 ### Phase 2: OpenSpec Setup ✓
 
 **Tasks completed:**
+
 - [x] Create openspec/ structure
 - [x] Create schemas
 - [x] Create .claude/ structure
@@ -85,6 +87,7 @@ Step-by-step migration from Next.js + Strapi to Astro with Content Collections.
 ### Phase 3: Core Infrastructure
 
 **Tasks:**
+
 - [x] Setup Content Collections config
 - [x] Setup global CSS
 - [ ] Create BaseLayout
@@ -93,6 +96,7 @@ Step-by-step migration from Next.js + Strapi to Astro with Content Collections.
 ### Phase 4: Components
 
 **Can run in parallel:**
+
 - [ ] Header component
 - [ ] Footer component
 - [ ] Navigation component
@@ -106,6 +110,7 @@ Step-by-step migration from Next.js + Strapi to Astro with Content Collections.
 ### Phase 5: Pages
 
 **Depends on components:**
+
 - [ ] index.astro (home)
 - [ ] about.astro
 - [ ] skills.astro
@@ -122,6 +127,7 @@ Step-by-step migration from Next.js + Strapi to Astro with Content Collections.
 ### Phase 7: Content
 
 **Manual by user:**
+
 - [ ] Migrate blog posts to markdown
 - [ ] Add frontmatter
 - [ ] Verify content renders
@@ -143,6 +149,7 @@ Step-by-step migration from Next.js + Strapi to Astro with Content Collections.
 ## Rollback Plan
 
 Git tracks all changes. If migration fails:
+
 1. `git stash` or `git reset` to undo
 2. Investigate issue
 3. Re-attempt with fixes
