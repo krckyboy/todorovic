@@ -63,6 +63,24 @@ Use on-demand loading to keep context lean:
 | Quality gates    | [documentation/validation-and-quality-gates.md](documentation/validation-and-quality-gates.md)              |
 | Repo conventions | [documentation/architecture-conventions.md](documentation/architecture-conventions.md)                      |
 
+## Pre-Implementation Brief (Required)
+
+For any non-trivial implementation, explain the plan in plain language before making code changes.
+
+Include these points:
+
+1. The problem and expected outcome.
+2. The implementation approach in simple terms (for example: "replace React island with DOM script" vs "optimize existing React code").
+3. The exact files to be changed and why.
+4. What users will notice after the change, and what should stay the same.
+5. Main risks/tradeoffs (performance, maintainability, accessibility, regression risk).
+
+Rules:
+
+- If the approach changes implementation style (example: React to DOM manipulation), call it out explicitly at the top.
+- Ask for confirmation before implementing unless the user explicitly asks to proceed immediately.
+- If the approach changes during implementation, stop and provide an updated brief before continuing.
+
 ## Quick Commands
 
 ```bash
