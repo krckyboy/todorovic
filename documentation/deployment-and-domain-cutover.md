@@ -8,10 +8,12 @@ Define a safe deployment path to Vercel and controlled cutover to the production
 
 1. Import this GitHub repository into Vercel.
 2. Set the production branch to `main`.
-3. Confirm build command and output:
+3. Keep the Root Directory at repository root (`.`); no subdirectory override is needed.
+4. Use the Astro framework preset (auto-detected) and keep defaults unless a future monorepo split requires overrides.
+5. Confirm build command and output:
    - build: `npm run build`
    - output directory: `dist`
-4. Configure required environment variables:
+6. Configure required environment variables:
    - `PUBLIC_GA_MEASUREMENT_ID` (default target: `G-5BEM5384PJ`)
 
 ## Domain Mapping Strategy (`todorovic.dev` + `www`)
