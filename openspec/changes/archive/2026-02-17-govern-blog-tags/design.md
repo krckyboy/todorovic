@@ -25,8 +25,7 @@ Define a single source of truth for allowed tags with metadata:
 
 - slug (`kebab-case`)
 - display label
-- group (e.g. `engineering`, `career`, `workflow`)
-- optional description
+- description
 
 Recommended location: module service under `src/modules/blog/services/` plus mirrored guidance in docs.
 
@@ -53,6 +52,12 @@ When tags exceed a practical threshold, use:
 
 This keeps scanability and avoids overwhelming the UI.
 
+Implementation defaults for this repository:
+
+- Show searchable tag controls when total tags exceed `12`
+- In collapsed mode, show first `10` tags and provide explicit "show more"
+- Keep URL-driven state unchanged (`?tags=tag-a,tag-b`)
+
 ## Risks / Trade-offs
 
 - Strict taxonomy can feel slower while drafting content
@@ -60,7 +65,8 @@ This keeps scanability and avoids overwhelming the UI.
 - Migrating historical tags may require manual edits
   - Mitigation: define mapping table and do incremental cleanup
 
-## Open Questions
+## Resolved Decisions (February 17, 2026)
 
-- Should unknown tags fail CI or warn-only initially?
-- What exact threshold should trigger searchable/collapsible tag UI (e.g. >12)?
+- Unknown tags are **warn-only** initially (no CI/build failure)
+- Search/collapse threshold for blog tags is **greater than 12**
+- Collapsed tag list displays **10 tags** before expansion

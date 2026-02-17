@@ -1,92 +1,161 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import {
+  applyActiveTagsToUrl,
+  buildAvailableTagSlugSet,
+  buildBlogTagViewModel,
+  filterPostsByActiveTags,
+  keepKnownTags,
+  resolveInitialActiveTags,
+  toggleTag,
+} from '../services/blogFilter';
+import type { BlogTagOption, SerializedBlogPost } from '../services/blogPosts';
 import styles from './BlogFilter.module.css';
 import PostCard from './PostCard';
 
-interface Post {
-  slug: string;
-  title: string;
-  description: string;
-  pubDate: string;
-  tags: string[];
-  draft: boolean;
-}
-
 interface Props {
-  posts: Post[];
-  categories: string[];
+  posts: SerializedBlogPost[];
+  tagOptions: BlogTagOption[];
   initialTags?: string[];
 }
 
+const tagListId = 'blog-filter-tag-list';
+
 export default function BlogFilter({
   posts,
-  categories,
+  tagOptions,
   initialTags = [],
 }: Props) {
+  const availableTagSlugs = useMemo(
+    () => buildAvailableTagSlugSet(tagOptions),
+    [tagOptions],
+  );
+
   const [activeTags, setActiveTags] = useState<string[]>(() => {
     if (typeof window === 'undefined') {
-      return initialTags;
+      return resolveInitialActiveTags({
+        initialTags,
+        tagsParam: null,
+        availableTagSlugs,
+      });
     }
 
     const url = new URL(window.location.href);
-    const tagsParam = url.searchParams.get('tags');
-
-    if (!tagsParam) {
-      return initialTags;
-    }
-
-    return tagsParam.split(',').filter((tag) => categories.includes(tag));
+    return resolveInitialActiveTags({
+      initialTags,
+      tagsParam: url.searchParams.get('tags'),
+      availableTagSlugs,
+    });
   });
+  const [tagQuery, setTagQuery] = useState('');
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  useEffect(() => {
+    setActiveTags((previousTags) =>
+      keepKnownTags(previousTags, availableTagSlugs),
+    );
+  }, [availableTagSlugs]);
 
   // Update URL when tags change
   useEffect(() => {
     const url = new URL(window.location.href);
-    if (activeTags.length > 0) {
-      url.searchParams.set('tags', activeTags.join(','));
-    } else {
-      url.searchParams.delete('tags');
-    }
+    applyActiveTagsToUrl(url, activeTags);
     window.history.replaceState({}, '', url.toString());
   }, [activeTags]);
 
-  const toggleTag = (tag: string) => {
-    setActiveTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
-    );
+  useEffect(() => {
+    setIsExpanded(false);
+  }, [tagQuery]);
+
+  const handleToggleTag = (tag: string) => {
+    setActiveTags((previousTags) => toggleTag(previousTags, tag));
   };
 
   const clearAll = () => setActiveTags([]);
+  const {
+    normalizedTagQuery,
+    isTagSearchVisible,
+    filteredTagOptions,
+    shouldCollapseTags,
+    visibleTagOptions,
+    hiddenTagCount,
+  } = buildBlogTagViewModel({
+    tagOptions,
+    tagQuery,
+    isExpanded,
+  });
 
-  const filteredPosts =
-    activeTags.length > 0
-      ? posts.filter((post) =>
-          activeTags.every((tag) => post.tags.includes(tag)),
-        )
-      : posts;
+  const filteredPosts = filterPostsByActiveTags(posts, activeTags);
 
   return (
     <div className={styles.container}>
       <nav className={styles.categories} aria-label="Blog categories">
-        <ul className={styles.tagList}>
-          {categories.map((category) => {
-            const isActive = activeTags.includes(category);
+        <div className={styles.filterHeader}>
+          <h2 className={styles.filterTitle}>Filter posts by tag</h2>
+          {activeTags.length > 0 && (
+            <button
+              type="button"
+              className={styles.clearBtn}
+              onClick={clearAll}
+            >
+              Clear filters
+            </button>
+          )}
+        </div>
+
+        {isTagSearchVisible && (
+          <div className={styles.tagSearch}>
+            <label htmlFor="blog-tag-search" className="visually-hidden">
+              Search tags
+            </label>
+            <input
+              id="blog-tag-search"
+              type="search"
+              className={styles.tagSearchInput}
+              placeholder="Search tags"
+              value={tagQuery}
+              onChange={(event) => setTagQuery(event.target.value)}
+            />
+          </div>
+        )}
+
+        <ul id={tagListId} className={styles.tagList}>
+          {visibleTagOptions.map((tagOption) => {
+            const isActive = activeTags.includes(tagOption.slug);
             return (
-              <li key={category}>
+              <li key={tagOption.slug}>
                 <button
                   type="button"
                   className={`${styles.tag} ${isActive ? styles.active : ''}`}
-                  onClick={() => toggleTag(category)}
+                  onClick={() => handleToggleTag(tagOption.slug)}
                   aria-pressed={isActive}
+                  title={tagOption.description}
                 >
-                  {`#${category}`}
+                  <span>{`#${tagOption.slug}`}</span>
+                  <span className={styles.tagCount}>{tagOption.count}</span>
                 </button>
               </li>
             );
           })}
         </ul>
-        {activeTags.length > 0 && (
-          <button type="button" className={styles.clearBtn} onClick={clearAll}>
-            Clear filters
+
+        {shouldCollapseTags && (
+          <button
+            type="button"
+            className={styles.showMoreBtn}
+            onClick={() => setIsExpanded((previousValue) => !previousValue)}
+            aria-controls={tagListId}
+            aria-expanded={isExpanded}
+          >
+            {isExpanded
+              ? 'Show fewer tags'
+              : `Show ${hiddenTagCount} more tags`}
           </button>
+        )}
+
+        {normalizedTagQuery && filteredTagOptions.length === 0 && (
+          <p className={styles.noTagMatches}>
+            {`No tags match "${tagQuery.trim()}".`}
+          </p>
         )}
       </nav>
 

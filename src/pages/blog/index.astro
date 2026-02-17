@@ -2,14 +2,22 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BlogFilter from '../../modules/blog/components/BlogFilter.tsx';
 import {
-  getBlogCategories,
+  getBlogTagOptions,
+  getUnknownBlogTags,
   getSortedBlogPosts,
   serializeBlogPosts,
 } from '../../modules/blog/services/blogPosts';
 
 const sortedPosts = await getSortedBlogPosts();
-const allCategories = getBlogCategories(sortedPosts);
+const allTagOptions = getBlogTagOptions(sortedPosts);
 const serializedPosts = serializeBlogPosts(sortedPosts);
+const unknownTagSlugs = getUnknownBlogTags(sortedPosts);
+
+if (unknownTagSlugs.length > 0) {
+  console.warn(
+    `[blog-tags] Unknown tags detected (warn-only): ${unknownTagSlugs.join(', ')}`,
+  );
+}
 
 const title = 'Blog | Dušan Todorović on Web Development and Engineering';
 const description =
@@ -28,7 +36,7 @@ const description =
     <BlogFilter
       client:load
       posts={serializedPosts}
-      categories={allCategories}
+      tagOptions={allTagOptions}
     />
   </div>
 </BaseLayout>

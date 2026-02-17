@@ -1,4 +1,5 @@
-> **STATUS: PROPOSED (Awaiting Review)** as of February 16, 2026.
+> **STATUS: COMPLETED (Pending Archive)** as of February 17, 2026.
+> Implemented canonical tag metadata, authoring governance docs, scalable blog filter controls, and warn-only unknown-tag handling.
 
 ## Why
 

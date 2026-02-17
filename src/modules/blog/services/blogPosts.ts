@@ -1,5 +1,10 @@
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
+import {
+  getCanonicalBlogTag,
+  getUnknownBlogTagSlugs,
+  resolveBlogTagLabel,
+} from './blogTags';
 
 export interface SerializedBlogPost {
   slug: string;
@@ -8,6 +13,14 @@ export interface SerializedBlogPost {
   pubDate: string;
   tags: string[];
   draft: boolean;
+}
+
+export interface BlogTagOption {
+  slug: string;
+  label: string;
+  description?: string;
+  count: number;
+  isCanonical: boolean;
 }
 
 const areDraftsIncluded = !import.meta.env.PROD;
@@ -35,8 +48,47 @@ export async function getFeaturedBlogPosts(): Promise<
   return posts.slice(0, featuredPostsLimit);
 }
 
+function buildBlogTagCountMap(posts: CollectionEntry<'blog'>[]) {
+  const countMap = new Map<string, number>();
+
+  for (const post of posts) {
+    const uniqueTags = new Set(post.data.tags || []);
+    for (const tag of uniqueTags) {
+      countMap.set(tag, (countMap.get(tag) ?? 0) + 1);
+    }
+  }
+
+  return countMap;
+}
+
+export function getBlogTagOptions(posts: CollectionEntry<'blog'>[]) {
+  const countMap = buildBlogTagCountMap(posts);
+
+  return [...countMap.entries()]
+    .map(([slug, count]) => {
+      const canonicalTag = getCanonicalBlogTag(slug);
+      return {
+        slug,
+        label: resolveBlogTagLabel(slug),
+        description: canonicalTag?.description,
+        count,
+        isCanonical: Boolean(canonicalTag),
+      } satisfies BlogTagOption;
+    })
+    .sort((left, right) => {
+      if (left.count !== right.count) {
+        return right.count - left.count;
+      }
+      return left.label.localeCompare(right.label);
+    });
+}
+
 export function getBlogCategories(posts: CollectionEntry<'blog'>[]) {
-  return [...new Set(posts.flatMap((post) => post.data.tags || []))].sort();
+  return getBlogTagOptions(posts).map((tagOption) => tagOption.slug);
+}
+
+export function getUnknownBlogTags(posts: CollectionEntry<'blog'>[]) {
+  return getUnknownBlogTagSlugs(posts.flatMap((post) => post.data.tags || []));
 }
 
 export function serializeBlogPosts(

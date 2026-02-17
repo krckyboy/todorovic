@@ -7,6 +7,50 @@
   margin-bottom: var(--spacing-xl);
 }
 
+.filterHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
+}
+
+.filterTitle {
+  margin: 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.tagSearch {
+  margin-bottom: var(--spacing-sm);
+}
+
+.tagSearchInput {
+  width: min(100%, 26rem);
+  min-height: 2.5rem;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+
+  &::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary);
+  }
+}
+
 .tagList {
   display: flex;
   flex-wrap: wrap;
@@ -17,7 +61,9 @@
 }
 
 .tag {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
   padding: var(--spacing-xs) var(--spacing-md);
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);
@@ -40,6 +86,12 @@
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
+}
+
+.tagCount {
+  font-size: var(--font-size-xs);
+  color: inherit;
+  opacity: 0.75;
 }
 
 .active {
@@ -72,6 +124,35 @@
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
+}
+
+.showMoreBtn {
+  margin-top: var(--spacing-xs);
+  padding: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color var(--transition-fast);
+
+  &:hover {
+    color: var(--color-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: var(--border-radius-sm);
+  }
+}
+
+.noTagMatches {
+  margin-top: var(--spacing-sm);
+  margin-bottom: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
 }
 
 .postsList {

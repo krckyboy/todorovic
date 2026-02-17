@@ -56,6 +56,7 @@ Use on-demand loading to keep context lean:
 | Component        | [openspec/specs/astro-conventions/spec.md#components](openspec/specs/astro-conventions/spec.md)             |
 | Page             | [openspec/specs/astro-conventions/spec.md#pages](openspec/specs/astro-conventions/spec.md)                  |
 | Blog post        | [openspec/specs/astro-conventions/spec.md#content-collections](openspec/specs/astro-conventions/spec.md)    |
+| Blog tags        | [documentation/blog-authoring-workflow.md#tag-governance](documentation/blog-authoring-workflow.md)         |
 | Styling          | [openspec/specs/astro-conventions/spec.md#css-modules](openspec/specs/astro-conventions/spec.md)            |
 | Module/service   | [openspec/specs/astro-conventions/spec.md#modules-ddd-convention](openspec/specs/astro-conventions/spec.md) |
 | Workflow         | [documentation/engineering-workflow.md](documentation/engineering-workflow.md)                              |
