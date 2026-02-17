@@ -4,7 +4,7 @@ description: 'I rebuilt todorovic.dev with Astro, OpenSpec, and AI-assisted work
 pubDate: 2026-02-16
 author: 'Dušan Todorović'
 tags: ['launch', 'astro', 'openspec', 'ai-assisted-engineering']
-draft: false
+draft: true
 ---
 
 ## Why I Rebuilt It
