@@ -6,11 +6,10 @@ Last synced: February 17, 2026.
 
 ## Actionable Work (Remaining)
 
-| Change                      | Title                     | Status          | Summary                                                                                                                          | Progress          | Links                                                                                                                                                                |
-| --------------------------- | ------------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `redesign-portfolio`        | Redesign Portfolio        | MOSTLY COMPLETE | Portfolio redesign is implemented; remaining items are QA checks for responsive behavior, dark mode, and keyboard/focus quality. | tasks: 17/20 done | [proposal](../../changes/redesign-portfolio/proposal.md) · [design](../../changes/redesign-portfolio/design.md) · [tasks](../../changes/redesign-portfolio/tasks.md) |
-| `align-skill-blog-taxonomy` | Align Skill/Blog Taxonomy | BACKLOG         | Keep skills as profile metadata only and decouple skill pills from blog filtering behavior.                                      | no tasks file     | [proposal](../../changes/align-skill-blog-taxonomy/proposal.md)                                                                                                      |
-| `setup-deployment`          | Setup Deployment          | BACKLOG         | Set up production deployment pipeline (recommended: Vercel) including domain/DNS/HTTPS verification.                             | no tasks file     | [proposal](../../changes/setup-deployment/proposal.md)                                                                                                               |
+| Change                      | Title                     | Status  | Summary                                                                                              | Progress      | Links                                                           |
+| --------------------------- | ------------------------- | ------- | ---------------------------------------------------------------------------------------------------- | ------------- | --------------------------------------------------------------- |
+| `align-skill-blog-taxonomy` | Align Skill/Blog Taxonomy | BACKLOG | Keep skills as profile metadata only and decouple skill pills from blog filtering behavior.          | no tasks file | [proposal](../../changes/align-skill-blog-taxonomy/proposal.md) |
+| `setup-deployment`          | Setup Deployment          | BACKLOG | Set up production deployment pipeline (recommended: Vercel) including domain/DNS/HTTPS verification. | no tasks file | [proposal](../../changes/setup-deployment/proposal.md)          |
 
 ## Reference-Only Active Folders (Not Current Implementation Targets)
 
