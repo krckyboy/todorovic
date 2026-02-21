@@ -46,7 +46,7 @@ export function buildBaseLayoutMeta({
   publicGaMeasurementId,
 }: BuildBaseLayoutMetaInput): BaseLayoutMeta {
   const canonicalURL = new URL(pathname, site);
-  const socialImageURL = new URL(image ?? '/og-default.png', site);
+  const socialImageURL = new URL(image ?? '/og-default.jpg', site);
   const gaMeasurementId = resolveGaMeasurementId({
     isProd,
     publicGaMeasurementId,

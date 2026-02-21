@@ -29,8 +29,9 @@
     todorovic.dev
   </text>
 
-  <rect x="920" y="334" width="160" height="160" fill="none" stroke="#fb923c" stroke-width="2.5" />
-  <circle cx="995" cy="414" r="35" fill="#f97316" />
-  <circle cx="995" cy="414" r="35" fill="none" stroke="#60a5fa" stroke-width="2" />
+  <rect x="794" y="458" width="286" height="56" rx="14" fill="#f97316" />
+  <text x="937" y="493" fill="#121212" font-size="24" font-weight="600" text-anchor="middle" font-family="Avenir Next, Segoe UI, Arial, sans-serif">
+    Read the Blog
+  </text>
   <rect x="68" y="84" width="1064" height="462" fill="none" stroke="#ea580c" stroke-width="1.5" />
 </svg>

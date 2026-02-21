@@ -8,7 +8,7 @@
     "dev": "astro dev",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "generate:og": "CLANG_MODULE_CACHE_PATH=/tmp/clang-module-cache SWIFT_MODULECACHE_PATH=/tmp/swift-module-cache swiftc scripts/generate-og-default.swift -framework AppKit -o /tmp/generate-og-default && /tmp/generate-og-default public/og-default.png",
+    "generate:og": "CLANG_MODULE_CACHE_PATH=/tmp/clang-module-cache SWIFT_MODULECACHE_PATH=/tmp/swift-module-cache swiftc scripts/generate-og-default.swift -framework AppKit -o /tmp/generate-og-default && /tmp/generate-og-default public/og-default.jpg",
     "generate:og:blog": "node scripts/generate-og-blog.mjs",
     "lint": "eslint . && npm run lint:css",
     "lint:css": "stylelint \"src/**/*.css\"",
@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@eslint/js": "9.18.0",
+    "@fission-ai/openspec": "^1.1.1",
     "@stylistic/eslint-plugin": "5.7.1",
     "@types/react": "19.2.10",
     "@types/react-dom": "19.2.3",

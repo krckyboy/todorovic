@@ -33,12 +33,10 @@ const LAYOUT = {
   footerLineEndX: 580,
   footerLineY: 520,
   footerTextY: 488,
-  squareX: 920,
-  squareY: 334,
-  squareSize: 160,
-  circleX: 995,
-  circleY: 414,
-  circleRadius: 35,
+  ctaX: 794,
+  ctaY: 458,
+  ctaWidth: 286,
+  ctaHeight: 56,
 };
 
 function escapeXml(value) {
@@ -274,9 +272,10 @@ function buildSvg({ title }) {
     todorovic.dev
   </text>
 
-  <rect x="${LAYOUT.squareX}" y="${LAYOUT.squareY}" width="${LAYOUT.squareSize}" height="${LAYOUT.squareSize}" fill="none" stroke="${TOKENS.primaryLight}" stroke-width="2.5" />
-  <circle cx="${LAYOUT.circleX}" cy="${LAYOUT.circleY}" r="${LAYOUT.circleRadius}" fill="${TOKENS.primary}" />
-  <circle cx="${LAYOUT.circleX}" cy="${LAYOUT.circleY}" r="${LAYOUT.circleRadius}" fill="none" stroke="${TOKENS.info}" stroke-width="2" />
+  <rect x="${LAYOUT.ctaX}" y="${LAYOUT.ctaY}" width="${LAYOUT.ctaWidth}" height="${LAYOUT.ctaHeight}" rx="14" fill="${TOKENS.primary}" />
+  <text x="${LAYOUT.ctaX + LAYOUT.ctaWidth / 2}" y="${LAYOUT.ctaY + 35}" fill="${TOKENS.background}" font-size="24" font-weight="600" text-anchor="middle" font-family="Avenir Next, Segoe UI, Arial, sans-serif">
+    Read the Blog
+  </text>
   <rect x="68" y="84" width="1064" height="462" fill="none" stroke="${TOKENS.primaryDark}" stroke-width="1.5" />
 </svg>
 `;

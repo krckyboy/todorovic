@@ -1,6 +1,6 @@
 import AppKit
 
-let defaultOutputPath = FileManager.default.currentDirectoryPath + "/public/og-default.png"
+let defaultOutputPath = FileManager.default.currentDirectoryPath + "/public/og-default.jpg"
 let outputPath = CommandLine.arguments.count > 1 ? CommandLine.arguments[1] : defaultOutputPath
 
 func colorFromHex(_ hex: String, alpha: CGFloat = 1.0) -> NSColor {
@@ -24,22 +24,40 @@ let tokenPrimary = colorFromHex("#f97316")
 let tokenPrimaryLight = colorFromHex("#fb923c")
 let tokenPrimaryDark = colorFromHex("#ea580c")
 let tokenBorder = colorFromHex("#404040")
-let tokenInfo = colorFromHex("#60a5fa")
+
+func makeFont(_ name: String, size: CGFloat, weight: NSFont.Weight) -> NSFont {
+  NSFont(name: name, size: size) ?? NSFont.systemFont(ofSize: size, weight: weight)
+}
 
 let canvasWidth = 1200
 let canvasHeight = 630
 let canvasSize = NSSize(width: canvasWidth, height: canvasHeight)
-let canvasRect = CGRect(origin: .zero, size: canvasSize)
 let cardRect = CGRect(x: 56, y: 72, width: 1088, height: 486)
 let contentX = cardRect.minX + 64
 let topInset: CGFloat = 88
 
-let image = NSImage(size: canvasSize)
-
-image.lockFocus()
-guard let context = NSGraphicsContext.current?.cgContext else {
-  fatalError("Failed to access graphics context.")
+guard let bitmapRep = NSBitmapImageRep(
+  bitmapDataPlanes: nil,
+  pixelsWide: canvasWidth,
+  pixelsHigh: canvasHeight,
+  bitsPerSample: 8,
+  samplesPerPixel: 4,
+  hasAlpha: true,
+  isPlanar: false,
+  colorSpaceName: .deviceRGB,
+  bytesPerRow: 0,
+  bitsPerPixel: 0
+) else {
+  fatalError("Failed to create bitmap representation.")
 }
+bitmapRep.size = canvasSize
+
+guard let graphicsContext = NSGraphicsContext(bitmapImageRep: bitmapRep) else {
+  fatalError("Failed to create graphics context.")
+}
+NSGraphicsContext.saveGraphicsState()
+NSGraphicsContext.current = graphicsContext
+let context = graphicsContext.cgContext
 
 let colorSpace = CGColorSpaceCreateDeviceRGB()
 let gradientColors: [CGColor] = [
@@ -89,10 +107,6 @@ context.strokePath()
 let labelStyle = NSMutableParagraphStyle()
 labelStyle.alignment = .left
 
-func makeFont(_ name: String, size: CGFloat, weight: NSFont.Weight) -> NSFont {
-  NSFont(name: name, size: size) ?? NSFont.systemFont(ofSize: size, weight: weight)
-}
-
 let kickerAttributes: [NSAttributedString.Key: Any] = [
   .font: makeFont("Avenir Next Medium", size: 26, weight: .medium),
   .foregroundColor: tokenTextMuted,
@@ -135,38 +149,6 @@ let urlAttributes: [NSAttributedString.Key: Any] = [
   withAttributes: urlAttributes
 )
 
-context.setStrokeColor(tokenPrimaryLight.cgColor)
-context.setLineWidth(2.5)
-context.stroke(
-  CGRect(
-    x: cardRect.maxX - 224,
-    y: cardRect.minY + 64,
-    width: 160,
-    height: 160
-  )
-)
-
-context.setFillColor(tokenPrimary.cgColor)
-context.fillEllipse(
-  in: CGRect(
-    x: cardRect.maxX - 179,
-    y: cardRect.minY + 109,
-    width: 70,
-    height: 70
-  )
-)
-
-context.setStrokeColor(tokenInfo.cgColor)
-context.setLineWidth(2)
-context.strokeEllipse(
-  in: CGRect(
-    x: cardRect.maxX - 179,
-    y: cardRect.minY + 109,
-    width: 70,
-    height: 70
-  )
-)
-
 context.setStrokeColor(tokenPrimaryDark.cgColor)
 context.setLineWidth(1.5)
 context.stroke(
@@ -178,14 +160,13 @@ context.stroke(
   )
 )
 
-image.unlockFocus()
+NSGraphicsContext.restoreGraphicsState()
 
-guard
-  let tiff = image.tiffRepresentation,
-  let bitmap = NSBitmapImageRep(data: tiff),
-  let pngData = bitmap.representation(using: .png, properties: [:])
-else {
-  fatalError("Failed to encode PNG output.")
+guard let jpegData = bitmapRep.representation(
+  using: .jpeg,
+  properties: [.compressionFactor: 0.82]
+) else {
+  fatalError("Failed to encode JPEG output.")
 }
 
 let outputURL = URL(fileURLWithPath: outputPath)
@@ -195,7 +176,7 @@ do {
     withIntermediateDirectories: true,
     attributes: nil
   )
-  try pngData.write(to: outputURL)
+  try jpegData.write(to: outputURL)
   print("Generated \(outputURL.path)")
 } catch {
   fatalError("Failed to write output image: \(error)")

@@ -12,7 +12,7 @@ interface Props {
 
 const {
   title,
-  description = 'Personal portfolio and blog of Dušan Todorović',
+  description = 'Personal portfolio and engineering blog of Dušan Todorović, sharing practical web development insights, architecture decisions, and delivery workflows.',
   image,
 } = Astro.props;
 
@@ -32,6 +32,7 @@ const {
 const headSlotHtml = Astro.slots.has('head')
   ? await Astro.slots.render('head')
   : '';
+const socialImageAlt = `${title} social preview image`;
 ---
 
 <!doctype html>
@@ -57,6 +58,9 @@ const headSlotHtml = Astro.slots.has('head')
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={socialImageURL} />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -64,6 +68,7 @@ const headSlotHtml = Astro.slots.has('head')
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImageURL} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

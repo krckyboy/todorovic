@@ -2,7 +2,7 @@
 
 Umbrella tracker for all non-archived OpenSpec changes.
 
-Last synced: February 17, 2026.
+Last synced: February 21, 2026.
 
 ## Actionable Work (Remaining)
 
