@@ -1,5 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import dusanBeach from '../assets/images/dusan-beach.jpeg';
+import dusanWalking from '../assets/images/dusan-walking.jpeg';
+import dusanHelmet from '../assets/images/dusan-with-a-helmet.jpeg';
 
 const title = 'About Dušan Todorović | Software Engineer & Team Lead';
 const description =
@@ -17,12 +21,12 @@ const description =
     </header>
 
     <figure class="interest-photo top-photo">
-      <img
-        src="/images/dusan-beach.jpeg"
+      <Image
+        src={dusanBeach}
         alt="Dušan Todorović on a beach"
         loading="lazy"
-        width="600"
-        height="800"
+        width={600}
+        height={800}
       />
       <figcaption>Hello there! Beach mode for a minute.</figcaption>
     </figure>
@@ -99,22 +103,22 @@ const description =
         <h2>Interests</h2>
         <div class="interests-photos">
           <figure class="interest-photo">
-            <img
-              src="/images/dusan-walking.jpeg"
+            <Image
+              src={dusanWalking}
               alt="Dušan Todorović walking during travel"
               loading="lazy"
-              width="600"
-              height="800"
+              width={600}
+              height={800}
             />
             <figcaption>Solo walks while traveling help me reset.</figcaption>
           </figure>
           <figure class="interest-photo">
-            <img
-              src="/images/dusan-with-a-helmet.jpeg"
+            <Image
+              src={dusanHelmet}
               alt="Dušan Todorović wearing a motorcycle helmet"
               loading="lazy"
-              width="600"
-              height="800"
+              width={600}
+              height={800}
             />
             <figcaption>Motorcycle chapter: unlocked.</figcaption>
           </figure>

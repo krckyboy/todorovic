@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import FeaturedPosts from '../modules/blog/components/FeaturedPosts.astro';
 import { getFeaturedBlogPosts } from '../modules/blog/services/blogPosts';
+import dusanPortrait from '../assets/images/dusan.png';
 
 const recentPosts = await getFeaturedBlogPosts();
 
@@ -30,7 +31,7 @@ const personJsonLd = {
     set:html={JSON.stringify(personJsonLd)}
   />
 
-  <Hero imageSrc="/images/dusan.png" imageAlt="Dušan Todorović portrait" />
+  <Hero imageSrc={dusanPortrait} imageAlt="Dušan Todorović portrait" />
   <div class="container">
     <FeaturedPosts posts={recentPosts} />
   </div>

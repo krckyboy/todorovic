@@ -1,11 +1,14 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import styles from './AuthorCard.module.css';
+import defaultAvatar from '../../../assets/images/dusan.png';
 
 interface Props {
   name?: string;
   title?: string;
   bio?: string;
-  avatarSrc?: string;
+  avatarSrc?: ImageMetadata;
   avatarAlt?: string;
 }
 
@@ -13,7 +16,7 @@ const {
   name = 'Dušan Todorović',
   title = 'Software Engineer & Team Lead',
   bio = 'Software Engineer & Team Lead focused on fast, accessible, and maintainable web products.',
-  avatarSrc = '/images/dusan.png',
+  avatarSrc = defaultAvatar,
   avatarAlt = 'Portrait of Dušan Todorović',
 } = Astro.props;
 
@@ -32,14 +35,13 @@ const socialLinks = [
 ---
 
 <section class={styles.card} aria-label="About the author">
-  <img
+  <Image
     src={avatarSrc}
     alt={avatarAlt}
     class={styles.avatar}
-    width="80"
-    height="80"
+    width={80}
+    height={80}
     loading="lazy"
-    onerror="this.onerror=null;this.src='/images/avatar-fallback.svg';"
   />
   <div class={styles.content}>
     <a href="/" class:list={[styles.name, 'u-heading-lg-semibold']}>{name}</a>

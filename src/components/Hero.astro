@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import styles from './Hero.module.css';
 import SocialIcons from './SocialIcons.astro';
 
@@ -6,7 +8,7 @@ interface Props {
   name?: string;
   title?: string;
   intro?: string;
-  imageSrc?: string;
+  imageSrc?: ImageMetadata;
   imageAlt?: string;
   showGradient?: boolean;
 }
@@ -27,12 +29,15 @@ const {
       {
         imageSrc && (
           <div class={styles.imageWrapper}>
-            <img
+            <Image
               src={imageSrc}
               alt={imageAlt}
               class={styles.image}
-              width="200"
-              height="200"
+              width={200}
+              height={200}
+              densities={[1, 2]}
+              sizes="(min-width: 768px) 200px, 160px"
+              quality={95}
               loading="eager"
             />
           </div>
