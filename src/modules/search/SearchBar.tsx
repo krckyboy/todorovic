@@ -24,17 +24,25 @@ export default function SearchBar() {
   const [isLoading, setIsLoading] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const [error, setError] = useState<string | null>(null);
+  const [shortcutModifier, setShortcutModifier] = useState<'Ctrl' | 'Cmd'>(
+    'Ctrl',
+  );
 
   const inputRef = useRef<HTMLInputElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const triggerButtonRef = useRef<HTMLButtonElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const pagefindRef = useRef<PagefindInstance | null>(null);
-  const debounceRef = useRef<NodeJS.Timeout>();
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
 
-  const isMac =
-    typeof navigator !== 'undefined' &&
-    navigator.platform.toUpperCase().includes('MAC');
+  useEffect(() => {
+    const isApplePlatform = /Mac|iPhone|iPad|iPod/.test(navigator.userAgent);
+    if (isApplePlatform) {
+      setShortcutModifier('Cmd');
+    }
+  }, []);
 
   const initPagefind = useCallback(async () => {
     if (pagefindRef.current) return pagefindRef.current;
@@ -243,7 +251,7 @@ export default function SearchBar() {
           />
         </svg>
         <span className={styles.shortcut}>
-          <kbd>{isMac ? 'Cmd' : 'Ctrl'}</kbd>
+          <kbd>{shortcutModifier}</kbd>
           <span>+</span>
           <kbd>K</kbd>
         </span>

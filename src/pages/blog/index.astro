@@ -4,11 +4,11 @@ import BlogFilter from '../../modules/blog/components/BlogFilter.tsx';
 import {
   getBlogTagOptions,
   getUnknownBlogTags,
-  getSortedBlogPosts,
+  getListVisibleBlogPosts,
   serializeBlogPosts,
 } from '../../modules/blog/services/blogPosts';
 
-const sortedPosts = await getSortedBlogPosts();
+const sortedPosts = await getListVisibleBlogPosts();
 const allTagOptions = getBlogTagOptions(sortedPosts);
 const serializedPosts = serializeBlogPosts(sortedPosts);
 const unknownTagSlugs = getUnknownBlogTags(sortedPosts);

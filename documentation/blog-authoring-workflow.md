@@ -107,7 +107,7 @@ Unknown tags are currently **warn-only** (not build-blocking). Resolve warnings 
 - OG asset exists at `public/og/blog/<slug>.svg`
 - Social metadata resolves correctly in built output
 
-## AI Guidance (Codex and Cursor)
+## AI Guidance (Codex-First)
 
 Use AI as an accelerator, not as source of truth.
 
@@ -130,3 +130,99 @@ Required human checks:
 - claims that need citation
 - wording quality and originality
 - final metadata and publish readiness
+
+## Tooling Strategy (Updated February 21, 2026)
+
+### Recommended default stack
+
+1. OpenSpec for workflow control and change tracking.
+2. Local editor (WebStorm/VS Code) for drafting and rewrites.
+3. Codex for technical validation, implementation-adjacent checks, and review passes.
+
+### Why this stack
+
+- OpenSpec keeps intent, requirements, and tasks explicit across non-trivial changes.
+- Local editor writing keeps the workflow cost-free for hobby publishing.
+- Agent workflows are better for larger refactors, validation loops, and cross-file tasks.
+
+### Optional tooling worth evaluating
+
+- `markdownlint` for Markdown structure and consistency checks.
+- `Vale` for prose style consistency across posts and contributors.
+- Darkmatter for non-developer content editing workflows on Astro collections (macOS-focused tool).
+
+## Agent Role Model for Non-Trivial Posts
+
+Use role separation to avoid mixing concerns in a single pass.
+
+### 1) Research Agent
+
+Owns source gathering and claim boundaries.
+
+- Input: topic, audience, claims to verify
+- Output:
+  - source list (primary sources preferred)
+  - claim-to-source mapping
+  - "known unknowns" list
+
+### 2) Technical Reviewer Agent
+
+Owns factual and implementation correctness.
+
+- Input: outline/draft + claim-to-source mapping
+- Output:
+  - corrections to technical statements
+  - runnable snippet validation notes (if snippets exist)
+  - risk flags (version drift, unsupported assumptions)
+
+### 3) Editorial Agent
+
+Owns narrative quality and readability.
+
+- Input: technically reviewed draft
+- Output:
+  - structure and flow improvements
+  - clarity and brevity edits
+  - metadata polish (title, description, tags)
+
+Final sign-off remains human-owned.
+
+## OpenSpec Schema Selection
+
+Use schema choice by scope:
+
+- Single post creation/update with meaningful content work:
+  - `/opsx:new <change-name> --schema blog-content`
+  - Complete `outline -> draft -> review`
+- Multi-post strategy changes, workflow/process changes, or behavior changes:
+  - `/opsx:new <change-name>` (default `spec-driven`)
+  - Complete `proposal -> specs -> design -> tasks`
+- Minor typo/copy fix in one post:
+  - direct edit allowed (still run validation before publish)
+
+## Recommended Operating Flow (Non-Trivial Post)
+
+1. Start OpenSpec change with `blog-content` schema.
+2. Run Research Agent and produce claim/source map.
+3. Draft in your local editor for direct iteration.
+4. Run Technical Reviewer Agent on all technical claims and snippets.
+5. Run Editorial Agent for final polish and metadata quality.
+6. Validate with:
+   - `npm run lint`
+   - `npm run build`
+7. Manual publish checks:
+   - render in `/blog` and `/blog/<slug>`
+   - confirm tags follow canonical catalog
+   - confirm draft/public state is correct
+
+## Reference Inputs (Reviewed February 21, 2026)
+
+- OpenSpec:
+  - https://github.com/fission-codes/openspec
+- Astro content collections:
+  - https://docs.astro.build/en/guides/content-collections/
+- Optional quality tools:
+  - https://github.com/DavidAnson/markdownlint
+  - https://vale.sh/docs/
+- Optional Astro CMS workflow:
+  - https://darkmatter.sh/

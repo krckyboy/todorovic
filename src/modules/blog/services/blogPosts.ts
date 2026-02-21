@@ -23,28 +23,46 @@ export interface BlogTagOption {
   isCanonical: boolean;
 }
 
-const areDraftsIncluded = !import.meta.env.PROD;
+const isProductionBuild = import.meta.env.PROD;
 const featuredPostsLimit = 3;
 
+function sortByPubDateDescending(posts: CollectionEntry<'blog'>[]) {
+  return posts.sort(
+    (left, right) => right.data.pubDate.valueOf() - left.data.pubDate.valueOf(),
+  );
+}
+
 export function isDraftVisible(isDraft: boolean) {
-  return areDraftsIncluded && isDraft;
+  return isDraft;
+}
+
+export async function getRoutableBlogPosts(): Promise<
+  CollectionEntry<'blog'>[]
+> {
+  const posts = await getCollection('blog');
+  return sortByPubDateDescending(posts);
+}
+
+export async function getListVisibleBlogPosts(): Promise<
+  CollectionEntry<'blog'>[]
+> {
+  const posts = await getRoutableBlogPosts();
+
+  if (!isProductionBuild) {
+    return posts;
+  }
+
+  return posts.filter(({ data }) => !data.draft);
 }
 
 export async function getSortedBlogPosts(): Promise<CollectionEntry<'blog'>[]> {
-  const posts = await getCollection(
-    'blog',
-    ({ data }) => areDraftsIncluded || !data.draft,
-  );
-
-  return posts.sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-  );
+  return getListVisibleBlogPosts();
 }
 
 export async function getFeaturedBlogPosts(): Promise<
   CollectionEntry<'blog'>[]
 > {
-  const posts = await getSortedBlogPosts();
+  const posts = await getListVisibleBlogPosts();
   return posts.slice(0, featuredPostsLimit);
 }
 
@@ -100,6 +118,6 @@ export function serializeBlogPosts(
     description: post.data.description,
     pubDate: post.data.pubDate.toISOString(),
     tags: post.data.tags || [],
-    draft: isDraftVisible(post.data.draft),
+    draft: post.data.draft,
   }));
 }

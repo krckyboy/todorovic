@@ -6,14 +6,14 @@ import AuthorCard from '../../modules/blog/components/AuthorCard.astro';
 import PostNavigation from '../../modules/blog/components/PostNavigation.astro';
 import RelatedPosts from '../../modules/blog/components/RelatedPosts.astro';
 import {
-  isDraftVisible,
-  getSortedBlogPosts,
+  getListVisibleBlogPosts,
+  getRoutableBlogPosts,
 } from '../../modules/blog/services/blogPosts';
 import type { CollectionEntry } from 'astro:content';
 import readingTime from 'reading-time';
 
 export async function getStaticPaths() {
-  const posts = await getSortedBlogPosts();
+  const posts = await getRoutableBlogPosts();
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
@@ -27,15 +27,11 @@ interface Props {
 const { post } = Astro.props;
 const { title, description, pubDate, updatedDate, author } = post.data;
 
-if (post.data.draft && !isDraftVisible(post.data.draft)) {
-  return Astro.redirect('/404');
-}
-
 const { Content } = await post.render();
 const readingTimeText = readingTime(post.body).text;
 const canonicalPostURL = new URL(`/blog/${post.slug}/`, Astro.site).toString();
 const ogImagePath = post.data.image?.url ?? `/og/blog/${post.slug}.svg`;
-const allPosts = await getSortedBlogPosts();
+const allPosts = await getListVisibleBlogPosts();
 const currentPostIndex = allPosts.findIndex(
   (entry) => entry.slug === post.slug,
 );
@@ -68,12 +64,18 @@ const blogPostingJsonLd = {
   title={`${title} | Dušan Todorović Blog`}
   description={description}
   image={ogImagePath}
+  isSearchIndexable={!post.data.draft}
 >
   <script
     slot="head"
     type="application/ld+json"
     set:html={JSON.stringify(blogPostingJsonLd)}
   />
+  {
+    post.data.draft && (
+      <meta slot="head" name="robots" content="noindex, nofollow" />
+    )
+  }
 
   <article class="container content">
     <BlogHeader post={post} readingTime={readingTimeText} />

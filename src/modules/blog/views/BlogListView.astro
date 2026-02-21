@@ -2,7 +2,7 @@
 import BlogFilter from '../components/BlogFilter.tsx';
 import {
   getBlogTagOptions,
-  getSortedBlogPosts,
+  getListVisibleBlogPosts,
   serializeBlogPosts,
 } from '../services/blogPosts';
 
@@ -18,7 +18,7 @@ const {
   headerIntro = 'Thoughts and tutorials on web development and software engineering.',
 } = Astro.props;
 
-const sortedPosts = await getSortedBlogPosts();
+const sortedPosts = await getListVisibleBlogPosts();
 const allTagOptions = getBlogTagOptions(sortedPosts);
 const serializedPosts = serializeBlogPosts(sortedPosts);
 ---

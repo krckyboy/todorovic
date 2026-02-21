@@ -20,6 +20,14 @@ interface Props {
 
 const tagListId = 'blog-filter-tag-list';
 
+function areTagsEqual(left: string[], right: string[]) {
+  if (left.length !== right.length) {
+    return false;
+  }
+
+  return left.every((tag, index) => tag === right[index]);
+}
+
 export default function BlogFilter({
   posts,
   tagOptions,
@@ -30,24 +38,30 @@ export default function BlogFilter({
     [tagOptions],
   );
 
-  const [activeTags, setActiveTags] = useState<string[]>(() => {
-    if (typeof window === 'undefined') {
-      return resolveInitialActiveTags({
-        initialTags,
-        tagsParam: null,
-        availableTagSlugs,
-      });
-    }
+  const [activeTags, setActiveTags] = useState<string[]>(() =>
+    resolveInitialActiveTags({
+      initialTags,
+      tagsParam: null,
+      availableTagSlugs,
+    }),
+  );
+  const [isUrlSyncComplete, setIsUrlSyncComplete] = useState(false);
+  const [tagQuery, setTagQuery] = useState('');
+  const [isExpanded, setIsExpanded] = useState(false);
 
+  useEffect(() => {
     const url = new URL(window.location.href);
-    return resolveInitialActiveTags({
+    const resolvedTags = resolveInitialActiveTags({
       initialTags,
       tagsParam: url.searchParams.get('tags'),
       availableTagSlugs,
     });
-  });
-  const [tagQuery, setTagQuery] = useState('');
-  const [isExpanded, setIsExpanded] = useState(false);
+
+    setActiveTags((previousTags) =>
+      areTagsEqual(previousTags, resolvedTags) ? previousTags : resolvedTags,
+    );
+    setIsUrlSyncComplete(true);
+  }, [initialTags, availableTagSlugs]);
 
   useEffect(() => {
     setActiveTags((previousTags) =>
@@ -57,10 +71,14 @@ export default function BlogFilter({
 
   // Update URL when tags change
   useEffect(() => {
+    if (!isUrlSyncComplete) {
+      return;
+    }
+
     const url = new URL(window.location.href);
     applyActiveTagsToUrl(url, activeTags);
     window.history.replaceState({}, '', url.toString());
-  }, [activeTags]);
+  }, [activeTags, isUrlSyncComplete]);
 
   useEffect(() => {
     setIsExpanded(false);
