@@ -19,6 +19,7 @@ interface Props {
 }
 
 const tagListId = 'blog-filter-tag-list';
+const emptyTags: string[] = [];
 
 function areTagsEqual(left: string[], right: string[]) {
   if (left.length !== right.length) {
@@ -28,11 +29,9 @@ function areTagsEqual(left: string[], right: string[]) {
   return left.every((tag, index) => tag === right[index]);
 }
 
-export default function BlogFilter({
-  posts,
-  tagOptions,
-  initialTags = [],
-}: Props) {
+export default function BlogFilter({ posts, tagOptions, initialTags }: Props) {
+  const resolvedInitialTags = initialTags ?? emptyTags;
+
   const availableTagSlugs = useMemo(
     () => buildAvailableTagSlugSet(tagOptions),
     [tagOptions],
@@ -40,7 +39,7 @@ export default function BlogFilter({
 
   const [activeTags, setActiveTags] = useState<string[]>(() =>
     resolveInitialActiveTags({
-      initialTags,
+      initialTags: resolvedInitialTags,
       tagsParam: null,
       availableTagSlugs,
     }),
@@ -52,7 +51,7 @@ export default function BlogFilter({
   useEffect(() => {
     const url = new URL(window.location.href);
     const resolvedTags = resolveInitialActiveTags({
-      initialTags,
+      initialTags: resolvedInitialTags,
       tagsParam: url.searchParams.get('tags'),
       availableTagSlugs,
     });
@@ -61,12 +60,15 @@ export default function BlogFilter({
       areTagsEqual(previousTags, resolvedTags) ? previousTags : resolvedTags,
     );
     setIsUrlSyncComplete(true);
-  }, [initialTags, availableTagSlugs]);
+  }, [resolvedInitialTags, availableTagSlugs]);
 
   useEffect(() => {
-    setActiveTags((previousTags) =>
-      keepKnownTags(previousTags, availableTagSlugs),
-    );
+    setActiveTags((previousTags) => {
+      const normalizedTags = keepKnownTags(previousTags, availableTagSlugs);
+      return areTagsEqual(previousTags, normalizedTags)
+        ? previousTags
+        : normalizedTags;
+    });
   }, [availableTagSlugs]);
 
   // Update URL when tags change
