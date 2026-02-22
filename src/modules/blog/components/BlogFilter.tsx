@@ -8,7 +8,9 @@ import {
   resolveInitialActiveTags,
   toggleTag,
 } from '../services/blogFilter';
-import type { BlogTagOption, SerializedBlogPost } from '../services/blogPosts';
+import { presentClientBlogPostCard } from '../services/blogPostPresenter.client';
+import type { BlogTagOption } from '../services/blogPosts';
+import type { SerializedBlogPost } from '../services/blogPostTypes';
 import styles from './BlogFilter.module.css';
 import PostCard from './PostCard';
 
@@ -182,15 +184,7 @@ export default function BlogFilter({ posts, tagOptions, initialTags }: Props) {
       {filteredPosts.length > 0 ? (
         <div className={styles.postsList}>
           {filteredPosts.map((post) => (
-            <PostCard
-              key={post.slug}
-              slug={post.slug}
-              title={post.title}
-              description={post.description}
-              pubDate={post.pubDate}
-              tags={post.tags}
-              isDraft={post.draft && !post.archived}
-            />
+            <PostCard key={post.slug} post={presentClientBlogPostCard(post)} />
           ))}
         </div>
       ) : (

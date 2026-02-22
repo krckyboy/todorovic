@@ -1,6 +1,6 @@
 ---
 import PostCard from './PostCard';
-import { isDraftVisible } from '../services/blogPosts';
+import { presentServerBlogPostCard } from '../services/blogPostPresenter.server';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -8,14 +8,7 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { title, description, pubDate, tags, draft, archived } = post.data;
+const postCard = presentServerBlogPostCard(post);
 ---
 
-<PostCard
-  slug={post.slug}
-  title={title}
-  description={description}
-  pubDate={pubDate}
-  tags={tags}
-  isDraft={isDraftVisible(draft, archived)}
-/>
+<PostCard post={postCard} />

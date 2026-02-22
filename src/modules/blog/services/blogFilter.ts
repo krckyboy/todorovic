@@ -1,4 +1,5 @@
-import type { BlogTagOption, SerializedBlogPost } from './blogPosts';
+import type { BlogTagOption } from './blogPosts';
+import type { SerializedBlogPost } from './blogPostTypes';
 
 export const tagSearchThreshold = 12;
 export const collapsedVisibleTagCount = 10;

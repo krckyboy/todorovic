@@ -1,20 +1,12 @@
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
+import { isListVisiblePost, isRoutablePost } from './blogPostPolicy';
+import type { SerializedBlogPost } from './blogPostTypes';
 import {
   getCanonicalBlogTag,
   getUnknownBlogTagSlugs,
   resolveBlogTagLabel,
 } from './blogTags';
-
-export interface SerializedBlogPost {
-  slug: string;
-  title: string;
-  description: string;
-  pubDate: string;
-  tags: string[];
-  draft: boolean;
-  archived: boolean;
-}
 
 export interface BlogTagOption {
   slug: string;
@@ -33,15 +25,11 @@ function sortByPubDateDescending(posts: CollectionEntry<'blog'>[]) {
   );
 }
 
-export function isDraftVisible(isDraft: boolean, isArchived = false) {
-  return isDraft && !isArchived;
-}
-
 export async function getRoutableBlogPosts(): Promise<
   CollectionEntry<'blog'>[]
 > {
   const posts = await getCollection('blog');
-  const activePosts = posts.filter(({ data }) => !data.archived);
+  const activePosts = posts.filter(({ data }) => isRoutablePost(data.archived));
   return sortByPubDateDescending(activePosts);
 }
 
@@ -54,7 +42,13 @@ export async function getListVisibleBlogPosts(): Promise<
     return posts;
   }
 
-  return posts.filter(({ data }) => !data.draft);
+  return posts.filter(({ data }) =>
+    isListVisiblePost({
+      draft: data.draft,
+      archived: data.archived,
+      isProductionBuild,
+    }),
+  );
 }
 
 export async function getSortedBlogPosts(): Promise<CollectionEntry<'blog'>[]> {

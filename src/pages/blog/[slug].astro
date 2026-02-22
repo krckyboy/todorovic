@@ -5,6 +5,7 @@ import SocialShare from '../../modules/blog/components/SocialShare.astro';
 import AuthorCard from '../../modules/blog/components/AuthorCard.astro';
 import PostNavigation from '../../modules/blog/components/PostNavigation.astro';
 import RelatedPosts from '../../modules/blog/components/RelatedPosts.astro';
+import { buildBlogPostPageContext } from '../../modules/blog/services/blogPostPageContext.server';
 import {
   getListVisibleBlogPosts,
   getRoutableBlogPosts,
@@ -25,54 +26,31 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { title, description, pubDate, updatedDate, author } = post.data;
+const { title, description } = post.data;
 
 const { Content } = await post.render();
 const readingTimeText = readingTime(post.body).text;
-const canonicalPostURL = new URL(`/blog/${post.slug}/`, Astro.site).toString();
-const ogImagePath = post.data.image?.url ?? `/og/blog/${post.slug}.svg`;
 const allPosts = await getListVisibleBlogPosts();
-const currentPostIndex = allPosts.findIndex(
-  (entry) => entry.slug === post.slug,
-);
-const nextPost = currentPostIndex > 0 ? allPosts[currentPostIndex - 1] : null;
-const prevPost =
-  currentPostIndex >= 0 && currentPostIndex < allPosts.length - 1
-    ? allPosts[currentPostIndex + 1]
-    : null;
-const relatedPostsExcludedSlugs = [prevPost?.slug, nextPost?.slug].filter(
-  (slug): slug is string => Boolean(slug),
-);
-
-const blogPostingJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'BlogPosting',
-  headline: title,
-  description,
-  url: canonicalPostURL,
-  datePublished: pubDate.toISOString(),
-  ...(updatedDate && { dateModified: updatedDate.toISOString() }),
-  author: {
-    '@type': 'Person',
-    name: author,
-    url: new URL('/', Astro.site).toString(),
-  },
-};
+const pageContext = buildBlogPostPageContext({
+  post,
+  allPosts,
+  site: Astro.site ?? Astro.url,
+});
 ---
 
 <BaseLayout
   title={`${title} | Dušan Todorović Blog`}
   description={description}
-  image={ogImagePath}
-  isSearchIndexable={!post.data.draft}
+  image={pageContext.ogImagePath}
+  isSearchIndexable={pageContext.isSearchIndexable}
 >
   <script
     slot="head"
     type="application/ld+json"
-    set:html={JSON.stringify(blogPostingJsonLd)}
+    set:html={JSON.stringify(pageContext.blogPostingJsonLd)}
   />
   {
-    post.data.draft && (
+    pageContext.shouldRenderNoindexMeta && (
       <meta slot="head" name="robots" content="noindex, nofollow" />
     )
   }
@@ -84,16 +62,19 @@ const blogPostingJsonLd = {
       <Content />
     </div>
 
-    <SocialShare url={canonicalPostURL} title={title} />
+    <SocialShare url={pageContext.canonicalPostURL} title={title} />
 
     <AuthorCard />
 
-    <PostNavigation prevPost={prevPost} nextPost={nextPost} />
+    <PostNavigation
+      prevPost={pageContext.prevPost}
+      nextPost={pageContext.nextPost}
+    />
 
     <RelatedPosts
       currentPost={post}
       allPosts={allPosts}
-      excludedSlugs={relatedPostsExcludedSlugs}
+      excludedSlugs={pageContext.relatedPostsExcludedSlugs}
     />
 
     <footer class="post-footer">
