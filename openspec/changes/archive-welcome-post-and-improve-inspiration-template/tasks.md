@@ -5,6 +5,7 @@
 - [x] 1.1 Add `archived` to `src/content/config.ts` blog frontmatter schema.
 - [x] 1.2 Update `src/modules/blog/services/blogPosts.ts` to exclude archived posts from routable/list-visible selectors.
 - [x] 1.3 Mark `src/content/blog/welcome.md` with `archived: true`.
+- [x] 1.4 Ensure client-side post card draft badge logic respects archived state.
 
 ## 2. Inspiration Artifact Template
 

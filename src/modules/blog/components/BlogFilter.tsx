@@ -187,7 +187,7 @@ export default function BlogFilter({
               description={post.description}
               pubDate={post.pubDate}
               tags={post.tags}
-              isDraft={post.draft}
+              isDraft={post.draft && !post.archived}
             />
           ))}
         </div>
