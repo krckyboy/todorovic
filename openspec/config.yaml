@@ -23,8 +23,7 @@ context: |
 
   ## Custom Schemas
   - astro-component: For creating new Astro components
-  - astro-page: For creating new pages
-  - blog-content: For creating blog posts
+  - blog-authoring: For inspiration, research, draft, and edit blog workflows
 
 rules:
   proposal:

@@ -16,10 +16,9 @@ Use OpenSpec for any non-trivial changes:
 **Custom schemas available:**
 
 - `astro-component` - For creating components
-- `astro-page` - For creating pages
-- `blog-content` - For creating blog posts
+- `blog-authoring` - For blog ideation, research, drafting, and editing
 
-Example: `/opsx:new add-contact-page --schema astro-page`
+Example: `/opsx:new write-openspec-agent-flow-post --schema blog-authoring`
 
 ## Open Proposal Tracker
 

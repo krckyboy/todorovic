@@ -131,6 +131,13 @@ Required human checks:
 - wording quality and originality
 - final metadata and publish readiness
 
+## Editorial Voice Baseline
+
+- Write in a warm, natural voice with clear ownership.
+- Prefer conversational phrasing when it improves readability.
+- Avoid generic AI-sounding phrasing and vague motivational filler.
+- Use exclamation points sparingly and only where they match genuine emphasis.
+
 ## Tooling Strategy (Updated February 21, 2026)
 
 ### Recommended default stack
@@ -192,8 +199,8 @@ Final sign-off remains human-owned.
 Use schema choice by scope:
 
 - Single post creation/update with meaningful content work:
-  - `/opsx:new <change-name> --schema blog-content`
-  - Complete `outline -> draft -> review`
+  - `/opsx:new <change-name> --schema blog-authoring`
+  - Complete `intent -> inspiration -> research -> revision`
 - Multi-post strategy changes, workflow/process changes, or behavior changes:
   - `/opsx:new <change-name>` (default `spec-driven`)
   - Complete `proposal -> specs -> design -> tasks`
@@ -202,7 +209,7 @@ Use schema choice by scope:
 
 ## Recommended Operating Flow (Non-Trivial Post)
 
-1. Start OpenSpec change with `blog-content` schema.
+1. Start OpenSpec change with `blog-authoring` schema.
 2. Run Research Agent and produce claim/source map.
 3. Draft in your local editor for direct iteration.
 4. Run Technical Reviewer Agent on all technical claims and snippets.

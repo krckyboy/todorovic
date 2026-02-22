@@ -1,0 +1,52 @@
+name: blog-authoring
+version: 1
+description: Workflow for blog intent, inspiration, research, and revision
+
+specs:
+  - openspec/specs/astro-conventions/spec.md#content-collections
+  - documentation/blog-authoring-workflow.md
+  - documentation/validation-and-quality-gates.md
+
+artifacts:
+  - id: intent
+    generates: 01-intent.md
+    description: Audience, outcomes, key claims, and metadata intent
+    template: intent.md
+
+  - id: inspiration
+    generates: 02-inspiration.md
+    description: Topic angles, hooks, and outline candidates
+    template: inspiration.md
+    requires: [intent]
+
+  - id: research
+    generates: 03-research.md
+    description: Claim-to-source map, confidence notes, and unknowns
+    template: research.md
+    requires: [intent]
+
+  - id: revision
+    generates: 04-revision.md
+    description: Technical/editorial revisions and publish-readiness checklist
+    template: revision.md
+    requires: [research]
+    instruction: |
+      Canonical writing target:
+      - src/content/blog/<slug>.md
+
+      Writing policy:
+      - Write and edit post body directly in the canonical blog file.
+      - Keep `draft: true` until publish decision.
+
+      Required validation:
+      - npm run lint
+      - npm run build
+
+      Manual checks:
+      - metadata quality (title, description, tags, draft flag)
+      - render checks in /blog and /blog/<slug>
+      - link validity and factual consistency
+
+apply:
+  requires: [revision]
+  tracks: 04-revision.md

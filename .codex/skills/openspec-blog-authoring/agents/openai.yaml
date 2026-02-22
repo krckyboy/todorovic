@@ -1,0 +1,7 @@
+interface:
+  display_name: "OpenSpec Blog Authoring"
+  short_description: "Schema-driven blog authoring router"
+  default_prompt: "Use $openspec-blog-authoring and follow the blog-authoring OpenSpec schema artifacts exactly."
+
+policy:
+  allow_implicit_invocation: true
