@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { title, description, pubDate, tags, draft } = post.data;
+const { title, description, pubDate, tags, draft, archived } = post.data;
 ---
 
 <PostCard
@@ -17,5 +17,5 @@ const { title, description, pubDate, tags, draft } = post.data;
   description={description}
   pubDate={pubDate}
   tags={tags}
-  isDraft={isDraftVisible(draft)}
+  isDraft={isDraftVisible(draft, archived)}
 />

@@ -5,6 +5,7 @@ pubDate: 2026-02-16
 author: 'Dušan Todorović'
 tags: ['launch', 'astro', 'openspec', 'ai-assisted-engineering']
 draft: true
+archived: true
 ---
 
 ## Why This Rebuild Happened

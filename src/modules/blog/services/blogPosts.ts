@@ -13,6 +13,7 @@ export interface SerializedBlogPost {
   pubDate: string;
   tags: string[];
   draft: boolean;
+  archived: boolean;
 }
 
 export interface BlogTagOption {
@@ -32,15 +33,16 @@ function sortByPubDateDescending(posts: CollectionEntry<'blog'>[]) {
   );
 }
 
-export function isDraftVisible(isDraft: boolean) {
-  return isDraft;
+export function isDraftVisible(isDraft: boolean, isArchived = false) {
+  return isDraft && !isArchived;
 }
 
 export async function getRoutableBlogPosts(): Promise<
   CollectionEntry<'blog'>[]
 > {
   const posts = await getCollection('blog');
-  return sortByPubDateDescending(posts);
+  const activePosts = posts.filter(({ data }) => !data.archived);
+  return sortByPubDateDescending(activePosts);
 }
 
 export async function getListVisibleBlogPosts(): Promise<
@@ -119,5 +121,6 @@ export function serializeBlogPosts(
     pubDate: post.data.pubDate.toISOString(),
     tags: post.data.tags || [],
     draft: post.data.draft,
+    archived: post.data.archived,
   }));
 }
