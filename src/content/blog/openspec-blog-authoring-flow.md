@@ -14,7 +14,7 @@ In daily engineering work, AI can help with planning, code generation, refactors
 
 It can output a huge amount of code in a very short time, and that is genuinely powerful.
 
-Lately, at <a href="https://constructor.tech/" target="_blank" rel="noopener noreferrer">Constructor Tech</a>, I have been working on a UI library with 100+ components. And in my side projects, I see the same shift: AI is now part of the normal workflow.
+At <a href="https://constructor.tech/" target="_blank" rel="noopener noreferrer">Constructor Tech</a> and in my side projects, I see the same shift: AI is now part of the normal workflow.
 
 That is the upside.
 
@@ -151,10 +151,11 @@ Think in two layers:
 
 `/opsx:sync` and `/opsx:archive` are the bridge between those two layers.
 
-Let me repeat the key point: your change folder is where you draft new or modified specs first.
-If a capability does not exist yet, that change creates the first version of the spec.
-If the capability already exists, the change usually adds deltas (`ADDED`/`MODIFIED`/`REMOVED`) that update the existing contract.
-Then `/opsx:sync` or `/opsx:archive` merges those approved changes into `openspec/specs/...` so future work starts from the updated source of truth.
+So it goes like this:
+you start a change (`/opsx:propose` or `/opsx:new`), OpenSpec generates artifacts in `openspec/changes/<change-id>/...`, and you refine them while implementing.
+When the change is done, run `/opsx:sync` and/or `/opsx:archive` to merge approved specs into `openspec/specs/...`.
+If a spec did not exist before, this creates the first version.
+If it already existed, your deltas (`ADDED`/`MODIFIED`/`REMOVED`) update that contract.
 
 ## Schema First (Before Artifacts)
 

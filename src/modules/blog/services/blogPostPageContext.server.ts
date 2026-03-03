@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs';
+import path from 'node:path';
 import type { CollectionEntry } from 'astro:content';
 
 interface BuildBlogPostPageContextInput {
@@ -49,7 +51,17 @@ export function buildBlogPostPageContext({
     (slug): slug is string => Boolean(slug),
   );
   const canonicalPostURL = new URL(`/blog/${post.slug}/`, site).toString();
-  const ogImagePath = post.data.image?.url ?? `/og/blog/${post.slug}.svg`;
+  const generatedOgPngPath = path.join(
+    process.cwd(),
+    'public',
+    'og',
+    'blog',
+    `${post.slug}.png`,
+  );
+  const generatedOgPath = existsSync(generatedOgPngPath)
+    ? `/og/blog/${post.slug}.png`
+    : `/og/blog/${post.slug}.svg`;
+  const ogImagePath = post.data.image?.url ?? generatedOgPath;
 
   const blogPostingJsonLd: BlogPostingJsonLd = {
     '@context': 'https://schema.org',

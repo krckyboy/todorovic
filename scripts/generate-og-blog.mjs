@@ -1,12 +1,15 @@
+import { execFile } from 'node:child_process';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 const blogDir = path.join(projectRoot, 'src', 'content', 'blog');
 const outputDir = path.join(projectRoot, 'public', 'og', 'blog');
+const execFileAsync = promisify(execFile);
 
 const FRONTMATTER_RE = /^---\n([\s\S]*?)\n---/;
 const TOKENS = {
@@ -281,8 +284,29 @@ function buildSvg({ title }) {
 `;
 }
 
+async function canUseSips() {
+  try {
+    await execFileAsync('sips', ['-h']);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function generatePngFromSvg(inputPath, outputPath) {
+  await execFileAsync('sips', [
+    '-s',
+    'format',
+    'png',
+    inputPath,
+    '--out',
+    outputPath,
+  ]);
+}
+
 async function main() {
   await fs.mkdir(outputDir, { recursive: true });
+  const shouldGeneratePng = await canUseSips();
 
   const entries = await fs.readdir(blogDir);
   const markdownFiles = entries.filter((entry) => entry.endsWith('.md')).sort();
@@ -299,25 +323,46 @@ async function main() {
       title,
     });
 
-    const outputFileName = `${slug}.svg`;
-    const outputPath = path.join(outputDir, outputFileName);
-    await fs.writeFile(outputPath, svg, 'utf8');
-    expectedOutputFiles.add(outputFileName);
+    const outputSvgFileName = `${slug}.svg`;
+    const outputSvgPath = path.join(outputDir, outputSvgFileName);
+    await fs.writeFile(outputSvgPath, svg, 'utf8');
+    expectedOutputFiles.add(outputSvgFileName);
+
+    if (shouldGeneratePng) {
+      const outputPngFileName = `${slug}.png`;
+      const outputPngPath = path.join(outputDir, outputPngFileName);
+      await generatePngFromSvg(outputSvgPath, outputPngPath);
+      expectedOutputFiles.add(outputPngFileName);
+    }
   }
 
   const existingOutputEntries = await fs.readdir(outputDir);
   for (const entry of existingOutputEntries) {
-    if (!entry.endsWith('.svg')) {
+    const isSvg = entry.endsWith('.svg');
+    const isPng = entry.endsWith('.png');
+
+    if (!isSvg && !isPng) {
       continue;
     }
+
+    if (isPng && !shouldGeneratePng) {
+      continue;
+    }
+
     if (expectedOutputFiles.has(entry)) {
       continue;
     }
     await fs.unlink(path.join(outputDir, entry));
   }
 
+  if (!shouldGeneratePng) {
+    console.warn(
+      'sips is unavailable. Generated SVG OG images only; PNG generation was skipped.',
+    );
+  }
+
   console.log(
-    `Generated ${expectedOutputFiles.size} OG image(s) in public/og/blog.`,
+    `Generated ${expectedOutputFiles.size} OG image file(s) in public/og/blog.`,
   );
 }
 
