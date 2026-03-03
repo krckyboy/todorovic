@@ -1,0 +1,7 @@
+interface:
+  display_name: "OpenSpec Blog Technical Review"
+  short_description: "Role 2 technical verifier for blog-authoring"
+  default_prompt: "Use $openspec-blog-technical-review. Execute role 2 only, produce 05-technical-review.md, verify technical correctness against source of truth, and run required lint/build checks."
+
+policy:
+  allow_implicit_invocation: true

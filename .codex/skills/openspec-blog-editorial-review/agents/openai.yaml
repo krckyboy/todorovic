@@ -1,0 +1,7 @@
+interface:
+  display_name: "OpenSpec Blog Editorial Review"
+  short_description: "Role 3 editorial reviewer for blog-authoring"
+  default_prompt: "Use $openspec-blog-editorial-review. Execute role 3 only, produce 06-editorial-review.md, and optimize readability/flow for developers (including non-native speakers)."
+
+policy:
+  allow_implicit_invocation: true

@@ -2,15 +2,15 @@
 
 ## Working Title
 
-[Write your opening hook here: what problem pushed you toward spec-driven development?]
+[Write your opening hook in plain, natural language. Start from a real moment/problem, not a generic statement.]
 
 ## Why I Needed This
 
-[Write your real context: team/project pressure, AI speed vs quality, where things used to break.]
+[Write your real context in everyday words: what changed in your work, where AI helped, and where things went wrong without structure.]
 
 ## What OpenSpec Changed for Me
 
-[Explain your actual workflow and what became better. Keep this practical.]
+[Explain your actual workflow and what improved. Keep it practical and concrete.]
 
 Suggested points:
 
@@ -21,16 +21,16 @@ Suggested points:
 
 ## How AI Fits In (Codex)
 
-[Describe your Codex workflow with examples from this repo.]
+[Describe your AI workflow with examples from this repo. Keep wording simple and specific.]
 
 ## Concrete Example
 
-[Pick one real change and show: intent -> proposal -> tasks -> implementation -> validation.]
+[Pick one real change and show: intent -> proposal -> tasks -> implementation -> validation. Use concrete files/commands, not abstract language.]
 
 ## Lessons Learned
 
-[Capture what you would repeat and what you would change next time.]
+[Capture what you would repeat and what you would change next time. Keep this honest and direct.]
 
 ## Closing
 
-[Add your final perspective and what readers should do next.]
+[Add your final perspective and a practical next step readers can try immediately.]

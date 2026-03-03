@@ -1,7 +1,7 @@
 interface:
   display_name: "OpenSpec Blog Authoring"
-  short_description: "Schema-driven blog authoring router"
-  default_prompt: "Use $openspec-blog-authoring and follow the blog-authoring OpenSpec schema artifacts exactly."
+  short_description: "Schema-driven blog authoring with 3-role review flow"
+  default_prompt: "Use $openspec-blog-authoring and follow the blog-authoring schema exactly. Orchestrate roles in order: $openspec-blog-writer -> $openspec-blog-technical-review -> $openspec-blog-editorial-review."
 
 policy:
   allow_implicit_invocation: true

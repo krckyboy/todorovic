@@ -1,0 +1,7 @@
+interface:
+  display_name: "OpenSpec Blog Writer"
+  short_description: "Role 1 writer for blog-authoring schema"
+  default_prompt: "Use $openspec-blog-writer. Execute role 1 only (intent -> inspiration -> research -> revision), write canonical post content, and stop before technical/editorial approval."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,7 @@
+interface:
+  display_name: "New Blog"
+  short_description: "One-command OpenSpec blog kickoff and role orchestration"
+  default_prompt: "Use $new-blog. Treat input like '/new-blog <change-id-or-slug>' and run OpenSpec blog-authoring workflow: propose/change setup, writer stage, technical review, editorial review, then report readiness."
+
+policy:
+  allow_implicit_invocation: true

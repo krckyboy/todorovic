@@ -24,6 +24,10 @@
 - Formality level (casual / balanced / formal):
 - Engagement moments (where to add energy naturally):
 - Exclamation usage (light / moderate / none):
+- Plain-language guardrails (words/phrases to avoid, preferred wording):
+- Opening framing (AI value -> team drift risk -> OpenSpec solution):
+- TL;DR summary plan (which long sections get blockquote summaries):
+- Basics scope follow-up note (advanced examples deferred: yes/no):
 - Required examples:
 - Must-link references:
 

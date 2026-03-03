@@ -11,8 +11,11 @@
 - Structure changes:
 - Clarity and brevity edits:
 - Tone adjustments:
+- Plain-language pass (replace buzzwords/robotic wording with clear, everyday phrasing):
 - Warmth pass (less robotic, more natural phrasing):
 - Engagement punctuation pass (use `!` only where authentic):
+- TL;DR pass (long sections summarized, short/snippet sections not overloaded):
+- Basics-scope pass (advanced content deferred with follow-up note at end):
 
 ## Metadata Review
 

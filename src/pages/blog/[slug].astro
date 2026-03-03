@@ -110,6 +110,12 @@ const pageContext = buildBlogPostPageContext({
     margin-bottom: var(--spacing-md);
   }
 
+  .post-content :global(.code-snippet-title) {
+    margin: var(--spacing-sm) 0 var(--spacing-xs);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
   .post-content :global(pre) {
     padding: var(--spacing-lg);
     background-color: var(--color-background-alt);
@@ -120,7 +126,29 @@ const pageContext = buildBlogPostPageContext({
 
   .post-content :global(code) {
     font-family: var(--font-mono);
+  }
+
+  .post-content :global(:not(pre) > code) {
+    font-size: 0.95em;
+    padding: 0.1em 0.35em;
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-background-alt);
+  }
+
+  .post-content :global(pre code) {
     font-size: var(--font-size-sm);
+  }
+
+  .post-content :global(h2 code),
+  .post-content :global(h3 code) {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary-dark);
+    padding: 0.08em 0.35em;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background-alt);
   }
 
   .post-content :global(ul),
@@ -140,7 +168,52 @@ const pageContext = buildBlogPostPageContext({
     border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
     color: var(--color-text-muted);
     font-style: italic;
+    margin: var(--spacing-md) 0;
+  }
+
+  .post-content :global(blockquote p) {
+    margin: 0;
+  }
+
+  .post-content :global(blockquote p + p) {
+    margin-top: var(--spacing-sm);
+  }
+
+  .post-content :global(table) {
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
     margin-bottom: var(--spacing-md);
+    background-color: var(--color-background);
+  }
+
+  .post-content :global(thead th) {
+    background-color: var(--color-background-alt);
+    color: var(--color-text);
+    font-weight: var(--font-weight-semibold);
+    font-family: var(--font-family-heading);
+    white-space: nowrap;
+  }
+
+  .post-content :global(th),
+  .post-content :global(td) {
+    padding: var(--spacing-sm) var(--spacing-md);
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-border);
+    min-width: 170px;
+  }
+
+  .post-content :global(tbody tr:last-child td) {
+    border-bottom: none;
+  }
+
+  .post-content :global(tbody tr:nth-child(odd)) {
+    background-color: var(--color-background-alt);
   }
 
   .post-footer {

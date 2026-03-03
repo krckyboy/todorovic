@@ -1,6 +1,6 @@
 name: blog-authoring
 version: 1
-description: Workflow for blog intent, inspiration, research, and revision
+description: Workflow for blog intent, inspiration, research, writing, technical verification, and editorial review
 
 specs:
   - openspec/specs/astro-conventions/spec.md#content-collections
@@ -27,16 +27,27 @@ artifacts:
 
   - id: revision
     generates: 04-revision.md
-    description: Technical/editorial revisions and publish-readiness checklist
+    description: Writer pass in canonical blog file with publish-readiness checklist
     template: revision.md
     requires: [research]
     instruction: |
       Canonical writing target:
       - src/content/blog/<slug>.md
 
+      Role skill:
+      - Use $openspec-blog-writer for writer-stage execution.
+
       Writing policy:
       - Write and edit post body directly in the canonical blog file.
       - Keep `draft: true` until publish decision.
+      - Use plain, natural language that sounds human and direct.
+      - Prefer concrete examples over abstract phrasing.
+      - Avoid buzzwords and robotic wording where a simpler phrase is clearer.
+      - For long conceptual sections, add a short `TL;DR` blockquote where it improves scanability.
+      - Do not add `TL;DR` blockquotes to short sections or snippet-only sections.
+      - If post scope is basics, end with a short note that advanced examples will be covered in a follow-up post.
+      - Keep command snippets and markdown context snippets separated when both are shown.
+      - Ensure external links open in a new tab with safe rel attributes.
 
       Required validation:
       - npm run lint
@@ -47,6 +58,42 @@ artifacts:
       - render checks in /blog and /blog/<slug>
       - link validity and factual consistency
 
+  - id: technical-review
+    generates: 05-technical-review.md
+    description: Technical accuracy review (commands, claims, implementation details)
+    template: technical-review.md
+    requires: [revision]
+    instruction: |
+      Role: architect-verifier (role 2)
+      Role skill:
+      - Use $openspec-blog-technical-review.
+
+      Focus:
+      - Verify technical correctness of commands, workflows, and claims.
+      - Cross-check statements against repository source of truth files.
+      - Flag unclear or risky technical wording.
+
+      Required checks:
+      - npm run lint
+      - npm run build
+
+  - id: editorial-review
+    generates: 06-editorial-review.md
+    description: Developer-facing editorial review for clarity and readability
+    template: editorial-review.md
+    requires: [technical-review]
+    instruction: |
+      Role: dev-post-reviewer (role 3)
+      Role skill:
+      - Use $openspec-blog-editorial-review.
+
+      Focus:
+      - Keep language simple for non-native speakers.
+      - Ensure flow is practical for developers.
+      - Remove buzzwords and ambiguous phrasing.
+      - Confirm `TL;DR` blockquotes are present only where useful (not overused).
+      - Confirm basics posts explicitly defer advanced setups to follow-up content.
+
 apply:
-  requires: [revision]
-  tracks: 04-revision.md
+  requires: [editorial-review]
+  tracks: 06-editorial-review.md
