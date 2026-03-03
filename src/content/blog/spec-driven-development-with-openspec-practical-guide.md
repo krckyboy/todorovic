@@ -152,10 +152,18 @@ Think in two layers:
 `/opsx:sync` and `/opsx:archive` are the bridge between those two layers.
 
 So it goes like this:
-you start a change (`/opsx:propose` or `/opsx:new`), OpenSpec generates artifacts in `openspec/changes/<change-id>/...`, and you refine them while implementing.
-When the change is done, run `/opsx:sync` and/or `/opsx:archive` to merge approved specs into `openspec/specs/...`.
-If a spec did not exist before, this creates the first version.
-If it already existed, your deltas (`ADDED`/`MODIFIED`/`REMOVED`) update that contract.
+
+1. Start a change with `/opsx:propose` (quick path) or `/opsx:new` (step-by-step).
+2. OpenSpec generates planning artifacts in `openspec/changes/<change-id>/...`.
+3. Refine those artifacts until the plan is clear.
+4. Run `/opsx:apply` to execute tasks from the approved artifacts.
+5. When the change is done, run `/opsx:sync` and/or `/opsx:archive`.
+6. Approved specs are merged into `openspec/specs/...` for future changes.
+
+Result:
+
+- If a spec did not exist before, this creates the first version.
+- If it already existed, deltas (`ADDED`/`MODIFIED`/`REMOVED`) update that contract.
 
 ## Schema First (Before Artifacts)
 
@@ -451,15 +459,13 @@ We will now focus on the core command flow.
 
 My preference in team projects: use the dev dependency path so everyone runs the same OpenSpec version.
 
-If you want the expanded workflow (`/opsx:new`, `/opsx:continue`, `/opsx:ff`, `/opsx:verify`, `/opsx:sync`), enable it in OpenSpec profile settings, then run `openspec update` again (or `npx openspec update` if using the dev dependency path).
+If commands are missing in your tool, run `openspec update` (or `npx openspec update`) so generated command/skill files are refreshed.
 
 ## OpenSpec Command Flow (`/opsx:` style)
 
-> **TL;DR:** Use core flow for speed, expanded flow for stricter artifact control.
+> **TL;DR:** In OpenSpec `1.2.x` core profile, use `/opsx:propose` as the default quick path.
 
-OpenSpec now has two practical command paths.
-
-Core flow (quick default):
+Default core flow:
 
 ```text
 /opsx:propose <idea>
@@ -467,53 +473,32 @@ Core flow (quick default):
 /opsx:archive
 ```
 
-Expanded flow (more control):
+If your project uses an expanded/custom workflow, you may also see:
+`/opsx:new`, `/opsx:continue`, `/opsx:ff`, `/opsx:verify`, `/opsx:sync`.
 
-```text
-/opsx:explore
-/opsx:new <change-id>
-/opsx:status --change <change-id>
-/opsx:continue <artifact-id> --change <change-id>
-/opsx:ff <change-id>
-/opsx:apply --change <change-id>
-/opsx:verify --change <change-id>
-/opsx:sync --change <change-id>
-/opsx:archive <change-id>
-/opsx:bulk-archive
-/opsx:onboard
-```
+## `/opsx:propose` vs `/opsx:new` vs `/opsx:ff`
 
-Use core when you want speed. Use expanded when you want strict artifact control.
+This is the practical split:
 
-## `/opsx:new` vs `/opsx:ff` vs `/opsx:propose`
+- `/opsx:propose` (core profile): create change + generate planning artifacts in one pass.
+- `/opsx:new` (expanded/custom): create scaffold only.
+- `/opsx:ff` (expanded/custom): fast-forward planning artifacts for a change (new or existing).
+- `/opsx:new` + `/opsx:continue`: explicit review checkpoints between artifacts.
 
-> **TL;DR:** `/opsx:propose` = create+plan (core flow), `/opsx:new` = scaffold only, `/opsx:ff` = create+fast-forward (expanded flow).
+Simple rule:
 
-This is where confusion usually happens, so here is the exact split.
-
-- `/opsx:new` creates only the change scaffold.
-- `/opsx:ff` fast-forwards planning artifacts, and can create a new change in the same command.
-- `/opsx:propose` creates a new change and generates planning artifacts in one step.
-
-They are not synonyms.
-Even when final files look similar, the workflow behavior is different:
-
-- `/opsx:propose` is the default quick path (core profile).
-- `/opsx:new` + `/opsx:continue` gives review checkpoints between artifacts.
-- `/opsx:ff` is the expanded-flow fast path (new change or existing change).
-
-As documented in OpenSpec, `/opsx:ff` is still part of the expanded command set (not a deprecated alias for `/opsx:propose`).
+- Use `/opsx:propose` when you want the default quick start for a new change.
+- Use `/opsx:ff` when you are in expanded/custom flow and want to generate the remaining artifacts, either at the start or in the middle of an existing change.
 
 Quick side-by-side:
 
-| Command         | Creates new change id              | Generates planning artifacts | Best use                |
-| --------------- | ---------------------------------- | ---------------------------- | ----------------------- |
-| `/opsx:propose` | Yes                                | Yes (in one run)             | Fast start from idea    |
-| `/opsx:new`     | Yes                                | No                           | Step-by-step control    |
-| `/opsx:ff`      | Yes (or uses existing if provided) | Yes                          | Expanded-flow fast path |
+| Command         | Profile           | Creates new change id              | Generates planning artifacts | Best use                |
+| --------------- | ----------------- | ---------------------------------- | ---------------------------- | ----------------------- |
+| `/opsx:propose` | Core              | Yes                                | Yes                          | Default quick start     |
+| `/opsx:new`     | Expanded / custom | Yes                                | No                           | Step-by-step control    |
+| `/opsx:ff`      | Expanded / custom | Yes (or uses existing if provided) | Yes                          | Expanded-flow fast path |
 
-If you want one default command for this basics guide, use `/opsx:propose`.
-Use `/opsx:ff` only when you intentionally run the expanded profile and prefer that path.
+For this basics guide, use `/opsx:propose` as the default quick path.
 
 For the default `spec-driven` schema, the planning artifacts are:
 
@@ -522,13 +507,13 @@ For the default `spec-driven` schema, the planning artifacts are:
 - `design.md`
 - `tasks.md`
 
-So yes: in default schema, `/opsx:ff` creates all four planning artifacts.
+So yes: in default schema, these four planning artifacts are generated by either `/opsx:propose` (core) or `/opsx:ff` (expanded/custom).
 
 ### Quick mental model
 
-- `/opsx:propose` = fastest one-command start (default `core` profile).
+- `/opsx:propose` = default one-command start in core profile.
 - `/opsx:new` + `/opsx:continue` = step-by-step control with review between artifacts.
-- `/opsx:ff` = expanded workflow fast start (or fast-forward on an existing scaffold).
+- `/opsx:ff` = expanded/custom workflow fast start (or fast-forward on an existing scaffold).
 
 ## What Each Command Generates
 
@@ -536,7 +521,12 @@ So yes: in default schema, `/opsx:ff` creates all four planning artifacts.
 
 This is important because traceable output is the whole point.
 
-### `/opsx:propose`
+Profile note:
+
+- Core profile: `/opsx:propose`, `/opsx:explore`, `/opsx:apply`, `/opsx:archive`
+- Expanded/custom profile adds commands like `/opsx:new`, `/opsx:continue`, `/opsx:ff`, `/opsx:verify`, `/opsx:sync`
+
+### `/opsx:propose` (core profile)
 
 Creates a change and planning artifacts in one shot:
 
@@ -549,7 +539,7 @@ openspec/changes/<change-id>/
   tasks.md
 ```
 
-### `/opsx:new`
+### `/opsx:new` (expanded/custom profile)
 
 Creates a new change scaffold:
 
@@ -576,7 +566,7 @@ Practical rule:
 - `openspec/config.yaml` controls repo defaults.
 - `openspec/changes/<change-id>/.openspec.yaml` controls this one change.
 
-### `/opsx:continue proposal|specs|design|tasks`
+### `/opsx:continue proposal|specs|design|tasks` (expanded/custom profile)
 
 Generates the selected artifact:
 
@@ -592,7 +582,7 @@ Important workflow behavior:
 After each `/opsx:continue`, review the generated artifact before moving on.
 In practice, the AI should prompt you to confirm the artifact is good, then continue with the next `/opsx:continue` (or move to `/opsx:apply` once planning is approved).
 
-### `/opsx:ff`
+### `/opsx:ff` (expanded/custom profile)
 
 Fast-forwards planning artifacts in one pass (expanded workflow).
 
@@ -611,8 +601,8 @@ In this basics flow, generated artifacts follow the default `spec-driven` schema
 If the change already exists, `/opsx:ff` generates the remaining missing artifacts.
 
 Important:
-`/opsx:propose` and `/opsx:ff` can result in a similar planning file set.
-The difference is how you start and control the flow, not only the final files.
+`/opsx:propose` is the default quick path in core profile.
+`/opsx:new` + `/opsx:continue` and `/opsx:ff` are expanded/custom profile paths.
 
 ### `/opsx:apply`
 
@@ -851,5 +841,14 @@ The win now is not just model quality. It is workflow quality.
 <a href="https://github.com/Fission-AI/OpenSpec" target="_blank" rel="noopener noreferrer">OpenSpec</a> gives you a way to make intent explicit before code generation, keep decisions traceable, and reduce wasted output cycles.
 
 For component/module work especially, this is the difference between fast chaos and fast reliability.
+
+One honest note:
+in simple examples, the full benefit is not always obvious.
+The real payoff appears on larger modules and longer-lived features, where specs effectively become self-documentation for both AI and humans.
+
+You also have flexibility to shape the flow for your team and product.
+With profile/schema choices and verification layers, you can make the process as strict or lightweight as needed.
+
+As modules grow, specs evolve with deltas and stay aligned through `/opsx:sync` and `/opsx:archive`, so future changes start from current contracts instead of chat memory.
 
 In the next post, I will cover more complex, real-world examples where OpenSpec really shines (custom schemas, stricter verification, and larger team flows), so stay tuned.
