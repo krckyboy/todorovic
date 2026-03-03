@@ -1,5 +1,5 @@
 ---
-title: 'Spec-Driven Development: From Prompt Chaos to Repeatable Delivery with OpenSpec'
+title: 'Spec-Driven Development with OpenSpec: A Practical Guide'
 description: 'A practical, in-depth OpenSpec guide for developers using Codex or Claude Code, from first principles to component-level spec-driven delivery.'
 pubDate: 2026-02-28
 author: 'Dušan Todorović'

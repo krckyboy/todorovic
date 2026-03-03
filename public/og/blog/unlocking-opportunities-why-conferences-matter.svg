@@ -13,24 +13,24 @@
 
   <rect x="56" y="72" width="1088" height="486" rx="28" fill="rgba(18, 18, 18, 0.46)" stroke="#404040" stroke-opacity="0.95" stroke-width="2" />
 
-  <text x="120" y="128" fill="#9ca3af" font-size="26" font-family="Avenir Next, Segoe UI, Arial, sans-serif" letter-spacing="1.2">
+  <text x="120" y="128" fill="#9ca3af" font-size="21" font-family="Avenir Next, Segoe UI, Arial, sans-serif" letter-spacing="1.2">
     PORTFOLIO / BLOG
   </text>
 
-  <text x="120" y="272" fill="#f5f5f5" font-size="60" font-weight="700" font-family="Avenir Next, Segoe UI, Arial, sans-serif">Unlocking Opportunities:</text>
-  <text x="120" y="343" fill="#f5f5f5" font-size="60" font-weight="700" font-family="Avenir Next, Segoe UI, Arial, sans-serif">Why Conferences Matter</text>
+  <text x="120" y="264" fill="#f5f5f5" font-size="58" font-weight="700" font-family="Avenir Next, Segoe UI, Arial, sans-serif">Unlocking Opportunities:</text>
+  <text x="120" y="332" fill="#f5f5f5" font-size="58" font-weight="700" font-family="Avenir Next, Segoe UI, Arial, sans-serif">Why Conferences Matter</text>
 
-  <text x="120" y="430" fill="#fb923c" font-size="42" font-weight="500" font-family="Avenir Next, Segoe UI, Arial, sans-serif">
+  <text x="120" y="430" fill="#fb923c" font-size="31" font-weight="500" font-family="Avenir Next, Segoe UI, Arial, sans-serif">
     Blog Post
   </text>
 
   <line x1="120" y1="520" x2="580" y2="520" stroke="#404040" stroke-opacity="0.9" stroke-width="4" />
-  <text x="120" y="488" fill="#9ca3af" font-size="28" font-family="Avenir Next, Segoe UI, Arial, sans-serif">
+  <text x="120" y="488" fill="#9ca3af" font-size="21" font-family="Avenir Next, Segoe UI, Arial, sans-serif">
     todorovic.dev
   </text>
 
   <rect x="794" y="458" width="286" height="56" rx="14" fill="#f97316" />
-  <text x="937" y="493" fill="#121212" font-size="24" font-weight="600" text-anchor="middle" font-family="Avenir Next, Segoe UI, Arial, sans-serif">
+  <text x="937" y="493" fill="#121212" font-size="19" font-weight="600" text-anchor="middle" font-family="Avenir Next, Segoe UI, Arial, sans-serif">
     Read the Blog
   </text>
   <rect x="68" y="84" width="1064" height="462" fill="none" stroke="#ea580c" stroke-width="1.5" />

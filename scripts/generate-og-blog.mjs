@@ -197,8 +197,8 @@ function fitTitle(text) {
     text,
     maxLines: 2,
     maxWidth: 760,
-    maxFontSize: 74,
-    minFontSize: 56,
+    maxFontSize: 58,
+    minFontSize: 44,
     fontStep: 2,
   });
   if (twoLineFit) {
@@ -209,8 +209,8 @@ function fitTitle(text) {
     text,
     maxLines: 3,
     maxWidth: 760,
-    maxFontSize: 68,
-    minFontSize: 50,
+    maxFontSize: 52,
+    minFontSize: 38,
     fontStep: 2,
   });
   if (threeLineFit) {
@@ -218,8 +218,8 @@ function fitTitle(text) {
   }
 
   return {
-    ...wrapTextByWidth(text, 760, 50, 3),
-    fontSize: 50,
+    ...wrapTextByWidth(text, 760, 38, 3),
+    fontSize: 38,
   };
 }
 
@@ -233,9 +233,9 @@ function buildSvg({ title }) {
       : Math.round(titleFontSize * 1.12);
   let firstTitleY = 248;
   if (titleLines.length === 1) {
-    firstTitleY = 300;
+    firstTitleY = 288;
   } else if (titleLines.length === 2) {
-    firstTitleY = 272;
+    firstTitleY = 264;
   }
 
   const titleSvg = titleLines
@@ -260,23 +260,23 @@ function buildSvg({ title }) {
 
   <rect x="${LAYOUT.cardX}" y="${LAYOUT.cardY}" width="${LAYOUT.cardWidth}" height="${LAYOUT.cardHeight}" rx="28" fill="rgba(18, 18, 18, 0.46)" stroke="${TOKENS.border}" stroke-opacity="0.95" stroke-width="2" />
 
-  <text x="${LAYOUT.contentX}" y="128" fill="${TOKENS.textMuted}" font-size="26" font-family="Avenir Next, Segoe UI, Arial, sans-serif" letter-spacing="1.2">
+  <text x="${LAYOUT.contentX}" y="128" fill="${TOKENS.textMuted}" font-size="21" font-family="Avenir Next, Segoe UI, Arial, sans-serif" letter-spacing="1.2">
     PORTFOLIO / BLOG
   </text>
 
   ${titleSvg}
 
-  <text x="${LAYOUT.contentX}" y="430" fill="${TOKENS.primaryLight}" font-size="42" font-weight="500" font-family="Avenir Next, Segoe UI, Arial, sans-serif">
+  <text x="${LAYOUT.contentX}" y="430" fill="${TOKENS.primaryLight}" font-size="31" font-weight="500" font-family="Avenir Next, Segoe UI, Arial, sans-serif">
     Blog Post
   </text>
 
   <line x1="${LAYOUT.footerLineStartX}" y1="${LAYOUT.footerLineY}" x2="${LAYOUT.footerLineEndX}" y2="${LAYOUT.footerLineY}" stroke="${TOKENS.border}" stroke-opacity="0.9" stroke-width="4" />
-  <text x="${LAYOUT.contentX}" y="${LAYOUT.footerTextY}" fill="${TOKENS.textMuted}" font-size="28" font-family="Avenir Next, Segoe UI, Arial, sans-serif">
+  <text x="${LAYOUT.contentX}" y="${LAYOUT.footerTextY}" fill="${TOKENS.textMuted}" font-size="21" font-family="Avenir Next, Segoe UI, Arial, sans-serif">
     todorovic.dev
   </text>
 
   <rect x="${LAYOUT.ctaX}" y="${LAYOUT.ctaY}" width="${LAYOUT.ctaWidth}" height="${LAYOUT.ctaHeight}" rx="14" fill="${TOKENS.primary}" />
-  <text x="${LAYOUT.ctaX + LAYOUT.ctaWidth / 2}" y="${LAYOUT.ctaY + 35}" fill="${TOKENS.background}" font-size="24" font-weight="600" text-anchor="middle" font-family="Avenir Next, Segoe UI, Arial, sans-serif">
+  <text x="${LAYOUT.ctaX + LAYOUT.ctaWidth / 2}" y="${LAYOUT.ctaY + 35}" fill="${TOKENS.background}" font-size="19" font-weight="600" text-anchor="middle" font-family="Avenir Next, Segoe UI, Arial, sans-serif">
     Read the Blog
   </text>
   <rect x="68" y="84" width="1064" height="462" fill="none" stroke="${TOKENS.primaryDark}" stroke-width="1.5" />
