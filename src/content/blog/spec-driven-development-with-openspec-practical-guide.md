@@ -851,4 +851,4 @@ With profile/schema choices and verification layers, you can make the process as
 
 As modules grow, specs evolve with deltas and stay aligned through `/opsx:sync` and `/opsx:archive`, so future changes start from current contracts instead of chat memory.
 
-In the next post, I will cover more complex, real-world examples where OpenSpec really shines (custom schemas, stricter verification, and larger team flows), so stay tuned.
+In the next post, I will cover more complex, real-world examples where OpenSpec really shines (custom schemas, stricter verification, and larger team flows), so stay tuned!
