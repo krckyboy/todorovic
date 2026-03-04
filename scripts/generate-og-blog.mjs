@@ -307,6 +307,7 @@ async function generatePngFromSvg(inputPath, outputPath) {
 async function main() {
   await fs.mkdir(outputDir, { recursive: true });
   const shouldGeneratePng = await canUseSips();
+  const shouldPruneStaleOutputs = process.env.CLEAN_STALE_BLOG_OG === '1';
 
   const entries = await fs.readdir(blogDir);
   const markdownFiles = entries.filter((entry) => entry.endsWith('.md')).sort();
@@ -336,23 +337,25 @@ async function main() {
     }
   }
 
-  const existingOutputEntries = await fs.readdir(outputDir);
-  for (const entry of existingOutputEntries) {
-    const isSvg = entry.endsWith('.svg');
-    const isPng = entry.endsWith('.png');
+  if (shouldPruneStaleOutputs) {
+    const existingOutputEntries = await fs.readdir(outputDir);
+    for (const entry of existingOutputEntries) {
+      const isSvg = entry.endsWith('.svg');
+      const isPng = entry.endsWith('.png');
 
-    if (!isSvg && !isPng) {
-      continue;
-    }
+      if (!isSvg && !isPng) {
+        continue;
+      }
 
-    if (isPng && !shouldGeneratePng) {
-      continue;
-    }
+      if (isPng && !shouldGeneratePng) {
+        continue;
+      }
 
-    if (expectedOutputFiles.has(entry)) {
-      continue;
+      if (expectedOutputFiles.has(entry)) {
+        continue;
+      }
+      await fs.unlink(path.join(outputDir, entry));
     }
-    await fs.unlink(path.join(outputDir, entry));
   }
 
   if (!shouldGeneratePng) {

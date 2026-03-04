@@ -5,16 +5,14 @@ pubDate: 2026-02-28
 author: 'Dušan Todorović'
 tags:
   ['openspec', 'engineering-workflow', 'ai-assisted-engineering', 'delivery']
-draft: true
+draft: false
 ---
 
 We are in a really interesting AI era.
 
 In daily engineering work, AI can help with planning, code generation, refactors, tests, and documentation much faster than before.
 
-It can output a huge amount of code in a very short time, and that is genuinely powerful.
-
-At <a href="https://constructor.tech/" target="_blank" rel="noopener noreferrer">Constructor Tech</a> and in my side projects, I see the same shift: AI is now part of the normal workflow.
+At <a href="https://constructor.tech/" target="_blank" rel="noopener noreferrer">Constructor Tech</a>, we started using AI more and more in daily delivery. In my personal projects, I saw the same pattern and started applying OpenSpec there as well.
 
 That is the upside.
 
@@ -26,27 +24,11 @@ So if you want speed and control at the same time, this is where spec-driven dev
 
 That is exactly where <a href="https://github.com/Fission-AI/OpenSpec" target="_blank" rel="noopener noreferrer">OpenSpec</a> became important for me.
 
-When you move fast with AI but skip structure, this is what usually happens:
-
-- You get a lot of code fast, but not always the code you actually wanted.
-- The first output pushes the direction, even if the scope was not clear yet.
-- Important decisions stay in chat instead of repo files.
-- Reviews get harder because people cannot see why decisions were made.
-
-Tools like Claude Code Plan mode help a lot with planning. I use that kind of approach too.
-
-But if those decisions are not written into files in your repo, people lose context quickly.
-
-That is exactly where OpenSpec helps.
-
-This post focuses on OpenSpec basics.
-I will cover custom schemas and advanced setup in a separate post.
-
 ## What Drift Looks Like Without OpenSpec
 
 > **TL;DR:** Without written specs, teams and AI sessions drift into different implementations, and reviews lose shared context.
 
-Let's start with a concrete non-OpenSpec example first.
+Let’s start with a concrete non-OpenSpec example.
 
 You ask your AI assistant:
 
@@ -62,7 +44,7 @@ Here is a realistic drift example from team work:
 
 1. You implement the todo flow with local state (`useState`-style).
 2. Another developer asks AI for a similar feature and gets a global store approach (for example Zustand/Redux).
-3. A third implementation (or another framework variant) follows a different state pattern again.
+3. A third implementation (or framework variant) follows a different state pattern again.
 
 All three versions can "work", but now your codebase has mixed patterns, mixed naming, mixed testing assumptions, and inconsistent behavior decisions.
 
@@ -77,18 +59,9 @@ All three versions can "work", but now your codebase has mixed patterns, mixed n
 
 Missing state persistence, filter edge cases, or accessibility rules are common symptoms of that bigger problem.
 
-You might still ship something working, but usually with more back-and-forth, lower confidence, and weaker traceability.
-
-This gets even worse in team environments.
-
-Without shared specs, guidelines, and documentation, implementation naturally drifts between developers. In AI-assisted workflows that drift can accelerate, because each person and each agent fills missing context differently.
+Without shared specs, guidelines, and documentation, implementation naturally drifts between developers. In AI-assisted workflows, that drift can accelerate because each person and each agent fills missing context differently.
 
 Spec-driven conventions are how you prevent that: they align people, align AI outputs, and keep delivery consistent across the team.
-
-If you also guide AI to read specific conventions before coding, drift drops even further.
-And in advanced setups (covered in a separate post), you can add verification layers that check generated code against your rules before changes are accepted.
-
-That is what I call fast chaos: high output, low alignment.
 
 ## What OpenSpec Actually Is
 
@@ -98,17 +71,17 @@ OpenSpec is a spec-driven workflow that helps you turn intent into clear, tracka
 
 The big picture is simple:
 
-1. You run a command for a change.
-2. It generates planning artifacts that become your shared contract.
-3. You review and iterate those artifacts before implementation.
-4. You implement and verify against the approved artifacts.
-5. In future changes, you expand or modify behavior through delta specs.
-6. You merge approved deltas into the main spec source of truth with `/opsx:sync` (while the change stays active) or `/opsx:archive` (when closing the change).
+1. Start a change.
+2. Generate planning artifacts.
+3. Review and refine those artifacts.
+4. Implement against approved artifacts.
+5. Validate.
+6. Merge deltas into the main specs with `/opsx:sync` or `/opsx:archive`.
 
 This is the key idea many people miss: specs are not one-time documents.
 They are living contracts that evolve across changes.
 
-Without OpenSpec, your process is usually:
+Without OpenSpec, process is often:
 
 - prompt,
 - output,
@@ -116,70 +89,38 @@ Without OpenSpec, your process is usually:
 - repeat,
 - hope it still matches intent.
 
-With OpenSpec, your process becomes:
+With OpenSpec, process becomes:
 
 - intent,
 - proposal/spec/design,
 - tasks,
 - implementation,
 - validation,
-- delta merge (`/opsx:sync` or `/opsx:archive`),
+- delta merge,
 - archive.
 
-OpenSpec is not about adding paperwork.
-
-It is about making decisions early so you waste fewer tokens and do fewer late rewrites.
-
-If you are shipping bigger changes with AI, this is a very practical reliability layer.
-
-Before we go deeper, it helps to know where OpenSpec files live in a project:
+Before command details, it helps to know where OpenSpec files live:
 
 - `openspec/config.yaml` for project defaults,
 - `openspec/specs/...` for source-of-truth specs,
 - `openspec/changes/<change-id>/...` for active change artifacts and deltas.
 
-In practice, most teams now implement with AI assistance in almost every change.
-So when you open a merge request, ship the OpenSpec artifacts with the code changes.
-Do not ship only code and keep intent in chat.
-
-### One Mental Model Before Command Details
+### One Mental Model Before Commands
 
 Think in two layers:
 
-- `openspec/changes/<change-id>/...` is your active workspace (new artifacts + delta specs for this change).
-- `openspec/specs/...` is your main source of truth used by future changes.
+- `openspec/changes/<change-id>/...` is your active workspace for this change.
+- `openspec/specs/...` is your long-term source of truth for future changes.
 
-`/opsx:sync` and `/opsx:archive` are the bridge between those two layers.
-
-So it goes like this:
-
-1. Start a change with `/opsx:propose` (quick path) or `/opsx:new` (step-by-step).
-2. OpenSpec generates planning artifacts in `openspec/changes/<change-id>/...`.
-3. Refine those artifacts until the plan is clear.
-4. Run `/opsx:apply` to execute tasks from the approved artifacts.
-5. When the change is done, run `/opsx:sync` and/or `/opsx:archive`.
-6. Approved specs are merged into `openspec/specs/...` for future changes.
-
-Result:
-
-- If a spec did not exist before, this creates the first version.
-- If it already existed, deltas (`ADDED`/`MODIFIED`/`REMOVED`) update that contract.
+`/opsx:sync` and `/opsx:archive` are the bridge between those layers.
 
 ## Schema First (Before Artifacts)
 
 > **TL;DR:** Schema decides which artifacts are generated and what global rules/context are applied across changes.
 
-Before we explain each file, one important point:
-this post uses the default OpenSpec schema, `spec-driven`.
+In most teams, you start with `spec-driven` as the default schema.
 
-Project-level schema defaults live in `openspec/config.yaml`.
-This is where you define global defaults and guidance for AI:
-
-- `schema`: default schema for new changes,
-- `context`: shared project context injected into all artifacts,
-- `rules`: artifact-specific global rules (for example proposal rules vs task rules).
-
-Example:
+Project defaults live in `openspec/config.yaml`:
 
 ```yaml title="openspec/config.yaml"
 schema: spec-driven
@@ -192,23 +133,29 @@ rules:
     - Include lint/build verification steps
 ```
 
-These defaults apply across the repo unless overridden at change/command level.
+These defaults apply across the repo unless overridden at change level.
 
-In default `spec-driven`, planning usually creates these artifacts:
+In default `spec-driven`, planning artifacts are usually:
 
 - `proposal.md`
 - `specs/<capability>/spec.md`
 - `design.md`
 - `tasks.md`
 
-That is the baseline flow most teams start with.
-Custom schemas are possible, but we will cover those in a separate post.
-
-## OpenSpec Artifacts, Explained Thoroughly
+## OpenSpec Artifacts: Clear, Practical Breakdown
 
 > **TL;DR:** `proposal.md` defines intent/scope, `spec.md` defines behavior, `design.md` captures technical decisions, and `tasks.md` drives execution.
 
-So what are these artifacts, exactly? Let me explain.
+Quick view:
+
+| Artifact                                | Main purpose                       | Key question it answers                        |
+| --------------------------------------- | ---------------------------------- | ---------------------------------------------- |
+| `proposal.md`                           | Scope and intent                   | "Why this change, and what is in/out?"         |
+| `spec.md` (under `specs/<capability>/`) | Behavior contract                  | "What must be true when done?"                 |
+| `design.md`                             | Technical decisions and trade-offs | "Why this approach and what are risks?"        |
+| `tasks.md`                              | Execution checklist                | "What exactly gets implemented and validated?" |
+
+If these four are clear, implementation quality improves immediately.
 
 ## `proposal.md` (Why + Scope)
 
@@ -222,33 +169,12 @@ A strong proposal answers:
 - What is intentionally excluded?
 - What does success look like?
 
-Why it matters:
-
 If proposal is weak, implementation gets pulled by whichever prompt sounds best in the moment.
 
-For example, imagine this is the change request we started from:
+Example start:
 
-> **Practical note:** You do not need to create a separate `.md` file for context.
-> In real usage, paste context directly after the command in chat.
-> The Markdown structure below is shown only for readability.
->
-> **Optional shortcut:** if your assistant can read Jira/YouTrack context, you can point to the ticket ID and ask it to use that as source context.
-
-Terminal command:
-
-```bash
+```text
 /opsx:propose build-todo-list-feature
-```
-
-Context (shown as Markdown for readability):
-
-```md title="prompt-for-build-todo-list-feature.md"
-## Context
-
-- Build todo feature for `/todos` with add/edit/delete/complete and active/completed filtering.
-- Persist tasks and selected filter so state survives refresh.
-- Require keyboard accessibility and visible focus states for form/actions/filters.
-- Out of scope: backend storage, real-time collaboration, reminders.
 ```
 
 Example `proposal.md`:
@@ -265,15 +191,11 @@ Task state and filter behavior are inconsistent across refresh flows and follow-
 - Define persistence behavior so tasks and filter state survive refresh.
 - Add explicit validation checks for behavior, accessibility, and build safety.
 
-## Capabilities
+## Out of Scope
 
-### New Capabilities
-
-- `todo-workflow`: Unified task lifecycle and filtering behavior.
-
-### Modified Capabilities
-
-- `tasks-module`: Update task state handling and filter requirements.
+- Backend storage and APIs
+- Real-time collaboration
+- Reminder/notification features
 
 ## Impact
 
@@ -281,30 +203,16 @@ Task state and filter behavior are inconsistent across refresh flows and follow-
 - No new runtime dependencies.
 ```
 
-So you see, this is rather lightweight and easy to scan.
-It is very useful when you review MRs from other developers and want to understand the intent quickly.
-Other artifacts usually contain more detailed behavior and implementation constraints.
-
 ## `spec.md` (Behavior Contract)
 
-This defines required behavior in a format that can be reviewed and validated.
-
-Depending on your schema/project conventions, this can live in `spec.md` or capability-specific files under `specs/`.
+This defines required behavior in a reviewable format.
 
 A strong spec focuses on outcomes and scenarios, not implementation details.
 
-For example, instead of saying:
-
-- "Use library X with hook Y"
-
-It says:
+Instead of saying "Use library X," it says what must be true:
 
 - "Todo state MUST persist across refresh."
-- "Task form and filter controls MUST remain keyboard-accessible and predictable."
-
-Why it matters:
-
-Specs become the source of truth for future changes. You do not renegotiate behavior every time someone opens a new PR.
+- "Task controls MUST remain keyboard-accessible and predictable."
 
 Example `spec.md`:
 
@@ -324,19 +232,13 @@ Todo items and selected filter MUST persist across refresh.
 ### Requirement: Todo accessibility
 
 Task input, action buttons, and filter controls MUST be keyboard-accessible with visible focus states.
-
-#### Scenario: Keyboard control flow
-
-- **WHEN** a user tabs through task input, action buttons, and filters
-- **THEN** each control is reachable in logical order
-- **AND** focused elements are visually distinguishable
 ```
 
 ## `design.md` (Technical Decisions + Trade-offs)
 
 Not every change needs a design doc, but complex ones do.
 
-Use `design.md` when decisions are non-trivial:
+Use `design.md` for non-trivial decisions:
 
 - architecture boundaries,
 - dependency choices,
@@ -344,17 +246,15 @@ Use `design.md` when decisions are non-trivial:
 - performance/a11y/security trade-offs,
 - integration constraints.
 
-Why it matters:
+It prevents hidden architecture where key decisions exist only in chat or someone’s head.
 
-It prevents "hidden architecture" where crucial decisions only exist in someone’s head or in old chat context.
-
-Minimal `design.md` example:
+Example `design.md`:
 
 ```md title="openspec/changes/build-todo-list-feature/design.md"
 ## Decisions
 
 - Use module-level service logic for task operations and persistence transforms.
-- Keep rendering in todo views/components, business logic in services.
+- Keep rendering in views/components, business logic in services.
 - Keep persisted-state shape explicit (`id`, `text`, `completed`, `filter`).
 
 ## Risks / Trade-offs
@@ -374,17 +274,13 @@ A strong tasks file includes:
 - verification steps,
 - progress checkboxes.
 
-Why it matters:
-
-Tasks make execution observable. You know what is done, what is blocked, and what remains.
-
 Example `tasks.md`:
 
 ```md title="openspec/changes/build-todo-list-feature/tasks.md"
 ## 1. Todo Feature Implementation
 
 - [ ] 1.1 Add/extend `src/modules/todo/services/*` for task operations and persistence logic
-- [ ] 1.2 Integrate todo input/list/filter controls in `src/pages/todos/index.astro` (or module view)
+- [ ] 1.2 Integrate todo input/list/filter controls in `src/pages/todos/index.astro`
 - [ ] 1.3 Ensure rendered list updates match service state transforms
 
 ## 2. Behavior + Accessibility
@@ -399,7 +295,7 @@ Example `tasks.md`:
 - [ ] 3.3 Perform manual checks on `/todos` for refresh and filter-state behavior
 ```
 
-## `implementation` + validation
+## Implementation + Validation
 
 After artifacts are ready, implementation is no longer a guessing game.
 
@@ -411,355 +307,151 @@ You generate code against explicit constraints, then validate:
 - accessibility checks,
 - any domain-specific verification.
 
-## Why this split matters in AI workflows
-
-This artifact split gives you alignment before generation.
-
-That means:
-
-- fewer wasted generations,
-- fewer rewrites,
-- less "almost correct" code,
-- and much better review context.
-
-In short: less token burn for better outcomes.
+This split gives alignment before generation and reduces wasted rewrites.
 
 ## Setup Once, Then Work with `/opsx` Commands
 
-> **TL;DR:** Run setup once, then use `/opsx:*` flow in chat for day-to-day work.
+Before daily use, do a one-time OpenSpec setup.
 
-Before daily use, do a one-time OpenSpec setup in your repo.
-
-Global install (quickest):
-
-```bash
-npm install -g @fission-ai/openspec@latest
-openspec init
-```
-
-Project dev dependency (team-friendly):
+Project dependency (recommended for teams):
 
 ```bash
 npm install -D @fission-ai/openspec
 npx openspec init
 ```
 
-`openspec update` is not required immediately after a fresh `init`.
-Use it when you change profile/tool integration settings or after later CLI upgrades so generated agent files stay in sync.
+If integrations or CLI version change, refresh generated instructions:
 
-Why this matters:
+```bash
+npx openspec update
+```
 
-- `openspec init` detects the AI tools you use (for example Cursor, Codex, Claude Code) and prepares integration files for them.
-- OpenSpec generates assistant-facing skill/slash-command files for your tool integration.
-- After setup, your day-to-day workflow is in chat with `/opsx:*` commands.
-- You do not need to keep dropping to raw CLI for normal feature flow.
-- In team repos, pinned dev dependency versions can reduce version drift across developers.
+In daily work, you usually operate through `/opsx:*` commands in your AI tool.
 
-We will now focus on the core command flow.
+## Command Flow (Practical)
 
-My preference in team projects: use the dev dependency path so everyone runs the same OpenSpec version.
+> **TL;DR:** Use quick path when needed, or step-by-step when you want tighter review checkpoints.
+> Command examples in this section were validated against OpenSpec `1.2.0` on March 4, 2026.
 
-If commands are missing in your tool, run `openspec update` (or `npx openspec update`) so generated command/skill files are refreshed.
-
-## OpenSpec Command Flow (`/opsx:` style)
-
-> **TL;DR:** In OpenSpec `1.2.x` core profile, use `/opsx:propose` as the default quick path.
-
-Default core flow:
+Quick path:
 
 ```text
 /opsx:propose <idea>
-/opsx:apply
-/opsx:archive
+/opsx:apply [change-name]
+/opsx:archive [change-name]
 ```
 
-If your project uses an expanded/custom workflow, you may also see:
-`/opsx:new`, `/opsx:continue`, `/opsx:ff`, `/opsx:verify`, `/opsx:sync`.
-
-## `/opsx:propose` vs `/opsx:new` vs `/opsx:ff`
-
-This is the practical split:
-
-- `/opsx:propose` (core profile): create change + generate planning artifacts in one pass.
-- `/opsx:new` (expanded/custom): create scaffold only.
-- `/opsx:ff` (expanded/custom): fast-forward planning artifacts for a change (new or existing).
-- `/opsx:new` + `/opsx:continue`: explicit review checkpoints between artifacts.
-
-Simple rule:
-
-- Use `/opsx:propose` when you want the default quick start for a new change.
-- Use `/opsx:ff` when you are in expanded/custom flow and want to generate the remaining artifacts, either at the start or in the middle of an existing change.
-
-Quick side-by-side:
-
-| Command         | Profile           | Creates new change id              | Generates planning artifacts | Best use                |
-| --------------- | ----------------- | ---------------------------------- | ---------------------------- | ----------------------- |
-| `/opsx:propose` | Core              | Yes                                | Yes                          | Default quick start     |
-| `/opsx:new`     | Expanded / custom | Yes                                | No                           | Step-by-step control    |
-| `/opsx:ff`      | Expanded / custom | Yes (or uses existing if provided) | Yes                          | Expanded-flow fast path |
-
-For this basics guide, use `/opsx:propose` as the default quick path.
-
-For the default `spec-driven` schema, the planning artifacts are:
-
-- `proposal.md`
-- `specs/<capability>/spec.md`
-- `design.md`
-- `tasks.md`
-
-So yes: in default schema, these four planning artifacts are generated by either `/opsx:propose` (core) or `/opsx:ff` (expanded/custom).
-
-### Quick mental model
-
-- `/opsx:propose` = default one-command start in core profile.
-- `/opsx:new` + `/opsx:continue` = step-by-step control with review between artifacts.
-- `/opsx:ff` = expanded/custom workflow fast start (or fast-forward on an existing scaffold).
-
-## What Each Command Generates
-
-> **TL;DR:** commands are useful because each one creates or advances concrete files you can review and commit.
-
-This is important because traceable output is the whole point.
-
-Profile note:
-
-- Core profile: `/opsx:propose`, `/opsx:explore`, `/opsx:apply`, `/opsx:archive`
-- Expanded/custom profile adds commands like `/opsx:new`, `/opsx:continue`, `/opsx:ff`, `/opsx:verify`, `/opsx:sync`
-
-### `/opsx:propose` (core profile)
-
-Creates a change and planning artifacts in one shot:
+Step-by-step path:
 
 ```text
-openspec/changes/<change-id>/
-  .openspec.yaml
-  proposal.md
-  specs/<capability>/spec.md
-  design.md
-  tasks.md
+/opsx:new <change-name>
+/opsx:continue [change-name]
+/opsx:continue [change-name]   # repeat as needed until planning artifacts are complete
+/opsx:ff [change-name]        # optional fast-forward for remaining planning artifacts
+/opsx:apply [change-name]
+/opsx:sync [change-name]      # optional before archive
+/opsx:archive [change-name]
 ```
 
-### `/opsx:new` (expanded/custom profile)
+Useful terminal check:
 
-Creates a new change scaffold:
-
-```text
-openspec/changes/<change-id>/
-  .openspec.yaml
+```bash
+npx openspec status --change <change-id>
 ```
 
-`.openspec.yaml` is change-level metadata.
-It tracks information specific to that change, typically the schema and created date.
+### `/opsx:propose` vs `/opsx:new` vs `/opsx:ff`
 
-Example:
+| Command         | Typical use                                 | Generates planning artifacts |
+| --------------- | ------------------------------------------- | ---------------------------- |
+| `/opsx:propose` | Default quick start for a new change        | Yes                          |
+| `/opsx:new`     | Create scaffold first, review incrementally | No                           |
+| `/opsx:ff`      | Fast-forward missing planning artifacts     | Yes                          |
 
-```yaml title="openspec/changes/<change-id>/.openspec.yaml"
-schema: spec-driven
-created: 2026-02-21
-```
+## What Each Command Produces
 
-> **Note:** `schema` can be something other than `spec-driven` when you use a custom schema.
-> We stay on `spec-driven` in this basics post and cover custom schemas in the advanced follow-up.
+- `/opsx:propose` usually creates `proposal.md`, `spec.md`, `design.md`, `tasks.md` under `openspec/changes/<change-id>/...`.
+- `/opsx:new` creates the change scaffold, including `.openspec.yaml`.
+- `/opsx:continue` advances the next ready artifact.
+- `/opsx:apply` implements tasks.
+- `/opsx:sync` merges approved deltas into `openspec/specs/...` without closing the change.
+- `/opsx:archive` closes the change and merges remaining deltas.
 
-Practical rule:
-
-- `openspec/config.yaml` controls repo defaults.
-- `openspec/changes/<change-id>/.openspec.yaml` controls this one change.
-
-### `/opsx:continue proposal|specs|design|tasks` (expanded/custom profile)
-
-Generates the selected artifact:
-
-```text
-openspec/changes/<change-id>/proposal.md
-openspec/changes/<change-id>/specs/<capability>/spec.md
-openspec/changes/<change-id>/design.md
-openspec/changes/<change-id>/tasks.md
-```
-
-Important workflow behavior:
-
-After each `/opsx:continue`, review the generated artifact before moving on.
-In practice, the AI should prompt you to confirm the artifact is good, then continue with the next `/opsx:continue` (or move to `/opsx:apply` once planning is approved).
-
-### `/opsx:ff` (expanded/custom profile)
-
-Fast-forwards planning artifacts in one pass (expanded workflow).
-
-Default `spec-driven` example output:
-
-```text
-openspec/changes/<change-id>/
-  .openspec.yaml
-  proposal.md
-  specs/<capability>/spec.md
-  design.md
-  tasks.md
-```
-
-In this basics flow, generated artifacts follow the default `spec-driven` schema.
-If the change already exists, `/opsx:ff` generates the remaining missing artifacts.
-
-Important:
-`/opsx:propose` is the default quick path in core profile.
-`/opsx:new` + `/opsx:continue` and `/opsx:ff` are expanded/custom profile paths.
-
-### `/opsx:apply`
-
-Implements tasks in code files (and typically updates task checkboxes).
-
-### `/opsx:verify`
-
-Runs verification checks against the implemented result (for example lint/build/tests/manual checklists, depending on your workflow).
-
-### `/opsx:sync`
-
-Merges approved delta specs into `openspec/specs/...` without archiving the change.
-
-Use this when:
-
-- you want the source-of-truth specs updated now,
-- but implementation or follow-up tasks for the same change are still ongoing.
-
-### `/opsx:archive`
-
-Archives the completed change and merges remaining delta specs into the main spec source of truth.
-
-Use this when:
-
-- implementation/verification is done,
-- and you want to close the change cleanly with specs fully merged.
-
-`/opsx:status` is read-only. It shows progress and blockers and does not create files.
+Practical rule: use quick path for smaller changes, and step-by-step path when you want explicit review checkpoints between artifacts.
 
 ## Commit the OpenSpec Artifacts
 
-This part is essential for team traceability: commit the OpenSpec artifacts, not just the final code.
+This part is essential for team traceability: commit OpenSpec artifacts, not only final code.
 
-At minimum, keep `proposal.md`, `spec.md`, `design.md` (when used), and `tasks.md` in git history so other developers can understand intent, decisions, and execution order without reconstructing context from chat.
+At minimum, keep `proposal.md`, `spec.md`, `design.md` (when used), and `tasks.md` in git history so reviewers can understand intent and decisions without reconstructing chat history.
 
-## Realistic Output Pattern (Default `spec-driven`)
+## Realistic Output Pattern
 
-> **TL;DR:** practical flow is `new` -> review early artifacts via `continue` -> optionally `ff` -> `apply`.
+A practical pattern for medium changes:
 
-You already saw what each artifact means. Now here is the clean flow output pattern in practice.
+1. Create change and review early artifacts carefully.
+2. Continue artifacts until scope and behavior are stable.
+3. Optionally fast-forward remaining planning artifacts.
+4. Apply implementation.
+5. Validate.
+6. Sync/archive.
 
-### 1) Create a feature change (default schema)
-
-```text
-/opsx:new demo-todo-list-flow
-✔ Created change 'demo-todo-list-flow' ...
-
-/opsx:status --change demo-todo-list-flow
-Change: demo-todo-list-flow
-Schema: spec-driven
-Progress: 0/4 artifacts complete
-
-[ ] proposal
-[-] design (blocked by: proposal)
-[-] specs (blocked by: proposal)
-[-] tasks (blocked by: design, specs)
-```
-
-### 2) Create artifacts with review checkpoints
-
-```text
-/opsx:continue proposal --change demo-todo-list-flow
-✓ Created proposal.md
-Review proposal and confirm to proceed.
-
-/opsx:continue specs --change demo-todo-list-flow
-✓ Created specs/<capability>/spec.md
-Review spec and confirm to proceed.
-```
-
-### 3) Fast-forward remaining planning artifacts (optional)
-
-```text
-/opsx:ff demo-todo-list-flow
-✓ Created design.md
-✓ Created tasks.md
-All planning artifacts complete.
-Ready for implementation. Run /opsx:apply.
-```
-
-This is usually the most practical pattern: review early artifacts carefully, then speed up once direction is stable.
+This keeps speed while preserving control.
 
 ## Complex Features: Split Across Multiple MRs
 
-For larger features, OpenSpec helps you split delivery cleanly across multiple merge requests while keeping one shared change context.
+For larger features, OpenSpec helps split work across multiple MRs while keeping one shared change context.
 
 Example strategy:
 
-1. MR 1: Proposal/spec/design/tasks only (no big implementation yet).
-2. MR 2: Core implementation against approved tasks.
-3. MR 3: Remaining tasks, validation fixes, final polish.
-4. Archive after all required work is complete.
+1. MR 1: Proposal/spec/design/tasks only.
+2. MR 2: Core implementation.
+3. MR 3: Remaining tasks, fixes, final polish.
+4. Archive after required work is complete.
 
-Each MR points to the same change id, so reviewers can follow intent and progress without guessing.
+Each MR points to the same change id, so reviewers can follow intent and progress.
 
 ## Why Archiving Matters
 
 Archiving is not just cleanup.
 
-It is how you close the loop:
+It keeps active vs completed work clear, preserves discoverable intent history, and prevents OpenSpec workspaces from becoming noisy.
 
-- active vs completed work stays clear,
-- completed intent/decisions remain discoverable,
-- future work can reference archived changes instead of re-creating context.
+## Why This Helps on Future Module Changes
 
-If you skip archiving, your OpenSpec workspace slowly becomes noisy and harder to navigate.
-
-## Why This Helps on Subsequent Component or Module Changes
-
-This is one of the most important points.
-
-Suppose two weeks later someone asks:
+Suppose later someone asks:
 
 - "Add due dates and overdue highlighting."
 - "Add bulk actions (complete all / clear completed)."
 - "Track todo completion metrics for analytics."
 
-Without specs, you start from prompt memory again.
+Without specs, you restart from prompt memory.
 
-With OpenSpec, you begin from existing contracts:
+With OpenSpec, you extend known contracts:
 
 - proposal history for context,
 - spec for behavior,
 - design decisions for architecture,
-- tasks history for what was done and how.
+- tasks history for execution details.
 
-So follow-up changes are faster and less error-prone because you are extending known intent, not improvising from scratch.
-
-This benefit becomes even stronger when the whole team works this way.
-
-When specs are committed and kept current, AI can scan and reuse existing contracts instead of guessing from fragmented chat context. That reduces discrepancies between developers, reviewers, and assistants.
-
-Over time, this compounds:
-
-- rules get stricter,
-- scope gets clearer,
-- and implementation quality gets more consistent across MRs.
+That makes follow-up changes faster and less error-prone.
 
 ## Spec Deltas: Updating Existing Behavior Safely
 
-> **TL;DR:** deltas (`ADDED`/`MODIFIED`/`REMOVED`) let you evolve existing specs safely, then merge via `/opsx:sync` or `/opsx:archive`.
+> **TL;DR:** deltas (`ADDED`/`MODIFIED`/`REMOVED`) let you evolve behavior safely, then merge via `/opsx:sync` or `/opsx:archive`.
 
-This is the part people usually miss at first.
-
-When you are changing existing behavior (not adding a brand new domain), you usually write a delta spec inside the active change:
+When changing existing behavior, write deltas in:
 
 ```text
 openspec/changes/<change-id>/specs/<capability>/spec.md
 ```
 
-Deltas are explicit change instructions to existing specs:
+Use:
 
 - `ADDED` for new requirements,
-- `MODIFIED` for changing current requirements,
-- `REMOVED` for deleting outdated requirements.
+- `MODIFIED` for changed requirements,
+- `REMOVED` for deleted requirements.
 
-Example delta snippet for a follow-up todo change:
+Example delta snippet:
 
 ```md title="openspec/changes/<change-id>/specs/todo-workflow/spec.md"
 ## MODIFIED Requirements
@@ -772,83 +464,48 @@ Todo items and selected filter MUST persist in local state storage.
 
 - **WHEN** user refreshes `/todos` after editing tasks and switching filters
 - **THEN** rendered tasks and selected filter match persisted state
-- **AND** UI controls match rendered results
 ```
-
-### How deltas get merged
-
-1. You review delta specs in your MR while the change is still active.
-2. You implement and verify against those deltas.
-3. You run `/opsx:sync` if you want to merge delta specs before archive.
-4. Or you run `/opsx:archive`, which archives the change and merges the remaining deltas automatically.
-
-So the source of truth in `openspec/specs/...` stays clean, while active work remains isolated in `openspec/changes/...` until it is ready.
 
 ## Token Economics: Why Planning First Saves Cost
 
-> **TL;DR:** planning first usually reduces re-prompting and rewrites, so total token cost is often lower on non-trivial work.
-
-When engineers say that OpenSpec sounds like extra overhead, they usually compare it to one prompt and one output.
+When people say OpenSpec is overhead, they usually compare it with one prompt and one output.
 
 That is not the real comparison.
 
-The real comparison is:
+Real comparison:
 
 - no structure + multiple rewrites + direction drift + review confusion,
 - versus explicit artifacts + constrained generation + predictable validation.
 
-In practice, non-trivial changes often cost fewer tokens when intent is explicit early.
-
-You stop paying for accidental exploration and start paying for aligned execution.
+For non-trivial work, planning first often reduces overall token waste.
 
 ## Practical Adoption Plan
 
-> **TL;DR:** start small, require core artifacts, keep validation mandatory, and archive completed changes.
-
-If your team is new to OpenSpec, do this:
+If your team is new to OpenSpec:
 
 1. Start with one component/module change, not everything.
 2. Require proposal + spec + tasks at minimum.
 3. Add design docs only when trade-offs are real.
-4. Commit artifacts before and during implementation so intent stays visible to the team.
+4. Commit artifacts before and during implementation.
 5. Keep validation mandatory.
 6. Archive completed changes and reference them in future work.
 
-After a few cycles, you will naturally see which schema and skill customizations are worth codifying.
-
-Team-level note:
-
-The more consistently your team uses specs, the better AI assistance gets in that repo. Existing specs become reusable context, which means less drift and less re-explaining intent on every change.
-
 ## Common Mistakes to Avoid
 
-1. Writing vague proposals with no explicit out-of-scope boundaries.
-2. Treating spec as a rough note instead of a behavior contract.
+1. Vague proposals with no out-of-scope boundaries.
+2. Treating spec as rough notes instead of a behavior contract.
 3. Skipping design decisions in complex changes.
 4. Running validation only when something visibly breaks.
 5. Keeping key decisions in chat, not in artifacts.
 
-Avoid these, and OpenSpec becomes a force multiplier instead of "extra docs."
-
 ## Final Take
 
-> **TL;DR:** OpenSpec gives you speed with control by making intent explicit before generation and traceable after delivery.
+OpenSpec gives you speed with control by making intent explicit before generation and traceable after delivery.
 
-AI has never been more capable.
-
-The win now is not just model quality. It is workflow quality.
-
-<a href="https://github.com/Fission-AI/OpenSpec" target="_blank" rel="noopener noreferrer">OpenSpec</a> gives you a way to make intent explicit before code generation, keep decisions traceable, and reduce wasted output cycles.
+AI has never been more capable, but the win now is not only model quality. It is workflow quality.
 
 For component/module work especially, this is the difference between fast chaos and fast reliability.
 
-One honest note:
-in simple examples, the full benefit is not always obvious.
-The real payoff appears on larger modules and longer-lived features, where specs effectively become self-documentation for both AI and humans.
+In the next post, I will cover advanced examples where OpenSpec shines even more: custom schemas, stricter verification, and larger team flows.
 
-You also have flexibility to shape the flow for your team and product.
-With profile/schema choices and verification layers, you can make the process as strict or lightweight as needed.
-
-As modules grow, specs evolve with deltas and stay aligned through `/opsx:sync` and `/opsx:archive`, so future changes start from current contracts instead of chat memory.
-
-In the next post, I will cover more complex, real-world examples where OpenSpec really shines (custom schemas, stricter verification, and larger team flows), so stay tuned!
+Learn more about OpenSpec: <a href="https://github.com/Fission-AI/OpenSpec" target="_blank" rel="noopener noreferrer">https://github.com/Fission-AI/OpenSpec</a>
