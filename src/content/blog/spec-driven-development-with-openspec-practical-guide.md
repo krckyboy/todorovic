@@ -1,7 +1,7 @@
 ---
 title: 'Spec-Driven Development with OpenSpec: A Practical Guide'
 description: 'A practical, in-depth OpenSpec guide for developers using Codex or Claude Code, from first principles to component-level spec-driven delivery.'
-pubDate: 2026-02-28
+pubDate: 2026-03-04
 author: 'Dušan Todorović'
 tags:
   ['openspec', 'engineering-workflow', 'ai-assisted-engineering', 'delivery']
